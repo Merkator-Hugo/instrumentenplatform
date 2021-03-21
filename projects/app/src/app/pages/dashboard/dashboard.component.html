@@ -1,0 +1,13 @@
+<mat-toolbar color="primary">
+    <span>
+        <button mat-button (click)="toggleMenu()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        {{title}}
+    </span>
+</mat-toolbar>
+<div class="content">
+    <div fxLayout="row wrap" fxLayoutAlign="space-around center">
+        <app-temperature-widget *ngFor="let card of cards" [data]="card.data"></app-temperature-widget>
+    </div>
+</div>
