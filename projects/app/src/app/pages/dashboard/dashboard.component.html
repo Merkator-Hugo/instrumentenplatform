@@ -8,6 +8,10 @@
 </mat-toolbar>
 <div class="content">
     <div fxLayout="row wrap" fxLayoutAlign="space-around center">
-        <app-temperature-widget *ngFor="let card of cards" [data]="card.data"></app-temperature-widget>
+        <div *ngFor="let card of cards">
+            <app-widget *ngIf="card.type=='WIDGET'" [data]="card.data"></app-widget>
+            <app-time-widget *ngIf="card.type=='TIME'" [data]="card.data"></app-time-widget>
+            <app-temperature-widget *ngIf="card.type=='TEMPERATURE'" [data]="card.data"></app-temperature-widget>
+        </div>
     </div>
 </div>

@@ -1,0 +1,17 @@
+table {
+    width: 100%;
+    border: 0;
+}
+
+th {
+    text-align: left;
+    padding-right: 25px;
+}
+
+td {
+    text-align: right;
+}
+
+td:empty::after{
+    content: "\00a0";
+  }

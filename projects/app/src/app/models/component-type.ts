@@ -1,3 +1,5 @@
 export enum ComponentType {
-    'WIDGET',
+    WIDGET = 'WIDGET',
+    TEMPERATURE = 'TEMPERATURE',
+    TIME = 'TIME',
 }

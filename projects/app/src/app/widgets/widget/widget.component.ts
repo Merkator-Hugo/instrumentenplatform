@@ -1,14 +1,14 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { CardData } from '../../models/card-data';
 import { CardItem } from '../../models/card-item';
 
 @Component({
-  selector: 'app-temperature-widget',
-  templateUrl: './temperature-widget.component.html',
-  styleUrls: ['./temperature-widget.component.scss']
+  selector: 'app-widget',
+  templateUrl: './widget.component.html',
+  styleUrls: ['./widget.component.scss']
 })
-export class TemperatureWidgetComponent implements OnInit {
+export class WidgetComponent implements OnInit, OnChanges {
 
   @Input() data: CardData;
   items: CardItem[];

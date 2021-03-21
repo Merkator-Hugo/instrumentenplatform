@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TimeWidgetComponent } from './time-widget.component';
+import { TemperatureWidgetComponent } from './temperature-widget.component';
 
-describe('TimeWidgetComponent', () => {
-  let component: TimeWidgetComponent;
-  let fixture: ComponentFixture<TimeWidgetComponent>;
+describe('TemperatureWidgetComponent', () => {
+  let component: TemperatureWidgetComponent;
+  let fixture: ComponentFixture<TemperatureWidgetComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TimeWidgetComponent ]
+      declarations: [ TemperatureWidgetComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TimeWidgetComponent);
+    fixture = TestBed.createComponent(TemperatureWidgetComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

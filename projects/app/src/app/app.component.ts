@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MockdataService } from './services/mockdata.service';
+import { DataService } from './services/data.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +9,6 @@ import { MockdataService } from './services/mockdata.service';
 export class AppComponent {
   title = 'app';
 
-  constructor(private dataService: MockdataService) {
-    this.dataService.loadData();
-  }
+  constructor(private dataService: DataService) {}
+
 }

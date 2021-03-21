@@ -7,19 +7,21 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
 import { MaterialModule } from './material.module';
-// import { WidgetComponent } from './components/widget/widget.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-// import { DynamicComponent } from './components/dynamic-component/dynamic.component';
 
+import { TimeWidgetComponent } from './widgets/time-widget/time-widget.component';
 import { TemperatureWidgetComponent } from './widgets/temperature-widget/temperature-widget.component';
+import { WidgetComponent } from './widgets/widget/widget.component';
+import { ItemlistComponent } from './components/itemlist/itemlist.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    // WidgetComponent,
     DashboardComponent,
+    WidgetComponent,
+    TimeWidgetComponent,
     TemperatureWidgetComponent,
-    // DynamicComponent,
+    ItemlistComponent,
   ],
   imports: [
     MaterialModule,
@@ -28,10 +30,7 @@ import { TemperatureWidgetComponent } from './widgets/temperature-widget/tempera
     AppRoutingModule,
     BrowserAnimationsModule
   ],
-  entryComponents: [
-    // DynamicComponent,
-    // WidgetComponent,
-  ],
+  entryComponents: [],
   providers: [],
   bootstrap: [AppComponent]
 })
