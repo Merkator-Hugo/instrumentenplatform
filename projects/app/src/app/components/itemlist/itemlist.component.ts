@@ -33,9 +33,8 @@ export class ItemlistComponent implements OnInit {
           this.itemlist.unshift({ empty: true, key: '', value: ''});
         }
       }
-    }
-    if (items.length > 6) {
-      this.itemlist = items.splice(6);
+    } else if (items.length > 6) {
+      this.itemlist = items.slice(0,6);
     }
   }
 

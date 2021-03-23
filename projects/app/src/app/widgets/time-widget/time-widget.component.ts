@@ -33,7 +33,7 @@ export class TimeWidgetComponent implements OnInit {
 
   private createDateTime(now: string): void {
     const dt = new Date(now);
-    const DD = (dt.getDay() > 9) ? dt.getDay().toString() : '0' + dt.getDay().toString();
+    const DD = (dt.getDate() > 9) ? dt.getDate().toString() : '0' + dt.getDate().toString();
     const MM = (dt.getMonth() > 8) ? (dt.getMonth()+ 1).toString() : '0' + (dt.getMonth()+ 1).toString();
     const YY = dt.getFullYear().toString().substring(2,4);
     this.date = (DD + '-' + MM + '-' + YY);

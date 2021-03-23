@@ -8,23 +8,30 @@ import { MockdataService } from './mockdata.service';
 })
 export class DataService {
 
-  private rawData;
-
-  public time: Date;
-
   constructor(private settings: SettingsService,
               private mockdata: MockdataService,
               private http: HttpClient) {
-    if(settings.demo) {
-      this.time = this.mockdata.getTime();
-      this.mockdata.load();
+  }
+
+  getTime(speed?: number) {
+    if(this.settings.demo) {
+      let sp = (speed) ? speed : 1;
+      return this.mockdata.getTime(sp);
     } else {
-      this.time = this.getTime();
+      return Date();
     }
   }
 
-  private getTime() {
-    return new Date();
+  getNow() {
+    if(this.settings.demo) {
+      if (this.mockdata.ready) {
+        return this.mockdata.getNow();
+      } else { 
+        return null;
+      }
+    } else {
+      return null;
+    }
   }
 
 }

@@ -13,6 +13,8 @@ import { TimeWidgetComponent } from './widgets/time-widget/time-widget.component
 import { TemperatureWidgetComponent } from './widgets/temperature-widget/temperature-widget.component';
 import { WidgetComponent } from './widgets/widget/widget.component';
 import { ItemlistComponent } from './components/itemlist/itemlist.component';
+import { InfoDialogComponent } from './components/info-dialog/info-dialog.component';
+import { LineGraphDialogComponent } from './components/line-graph-dialog/line-graph-dialog.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { ItemlistComponent } from './components/itemlist/itemlist.component';
     TimeWidgetComponent,
     TemperatureWidgetComponent,
     ItemlistComponent,
+    InfoDialogComponent,
+    LineGraphDialogComponent,
   ],
   imports: [
     MaterialModule,

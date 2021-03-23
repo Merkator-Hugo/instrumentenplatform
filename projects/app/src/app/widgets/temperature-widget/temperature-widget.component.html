@@ -1,6 +1,6 @@
 <mat-card class="mat-elevation-z4">
     <div fxLayout="row">
-        <div class="card-left" fxLayout="column" fxLayoutAlign="space-between center">
+        <div class="card-left" fxLayout="column" fxLayoutAlign="space-between center" (click)="openInfoDialog()">
             <mat-icon mat-card-avatar fontIcon="{{data.icon}}" aria-hidden="true"></mat-icon>
             <div class="now">{{data.now}}</div>
         </div>
