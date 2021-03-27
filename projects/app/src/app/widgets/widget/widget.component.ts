@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { CardItem } from '../../barrels/interfaces';
-import { IconType } from '../../barrels/enums';
+import { ComponentType, IconType } from '../../barrels/enums';
 
 @Component({
   selector: 'app-widget',
@@ -14,6 +14,8 @@ export class WidgetComponent implements OnInit {
   iconType: string = IconType.SOLID;
   @Input() title: string = '';
   items: CardItem[] = [];
+  info: string = '';
+  chart: ComponentType = ComponentType.WIDGET;
 
   constructor(private matIconRegistry: MatIconRegistry) {
     this.matIconRegistry.setDefaultFontSetClass(this.iconType);

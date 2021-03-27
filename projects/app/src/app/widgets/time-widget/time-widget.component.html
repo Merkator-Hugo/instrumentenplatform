@@ -1,9 +1,10 @@
 <mat-card class="mat-elevation-z4">
     <div fxLayout="row">
         <div class="card-left" fxLayout="column" fxLayoutAlign="space-between center">
-            <mat-icon mat-card-avatar fontIcon="{{icon}}" aria-hidden="true"></mat-icon>
+            <mat-icon class="logo" mat-card-avatar fontIcon="{{icon}}" aria-hidden="true"></mat-icon>
             <!-- <app-analog-clock [time]="now"></app-analog-clock> -->
             <div>
+                <div class="weekday">{{weekday}}</div>
                 <div class="date">{{date}}</div>
                 <div class="time">{{time}}</div>
             </div>
@@ -12,6 +13,7 @@
             <mat-card-title>
                 {{title}}
             </mat-card-title>
+            <app-actions [info]="info" [chart]="chart"></app-actions>
             <mat-card-content>
                 <app-itemlist [items]="items"></app-itemlist>
             </mat-card-content>

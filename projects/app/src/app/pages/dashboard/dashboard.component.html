@@ -4,6 +4,7 @@
             <app-widget *ngIf="card.type=='WIDGET'" [icon]="card.icon" [title]="card.title"></app-widget>
             <app-time-widget *ngIf="card.type=='TIME'"></app-time-widget>
             <app-temperature-widget *ngIf="card.type=='TEMPERATURE'"></app-temperature-widget>
+            <app-moon-widget *ngIf="card.type=='MOON'"></app-moon-widget>
         </div>
     </div>
 </div>

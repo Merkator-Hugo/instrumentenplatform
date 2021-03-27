@@ -6,7 +6,7 @@ mat-card {
     margin: 10px;
 }
 
-mat-icon {
+mat-icon.logo {
     font-size: 35px;
     margin-bottom: 10px;
 }
@@ -15,4 +15,5 @@ mat-icon {
     font-size: 25px;
     font-weight: bolder;
     margin-bottom: 0;
+    text-align: center;
 }

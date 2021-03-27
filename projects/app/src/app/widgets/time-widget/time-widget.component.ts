@@ -1,8 +1,12 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { CardItem } from '../../barrels/interfaces';
-import { IconType } from '../../barrels/enums';
-import { DataService, TimeService } from '../../barrels/services';
+import { ComponentType, IconType } from '../../barrels/enums';
+import { DataService, SettingsService, TimeService } from '../../barrels/services';
+import { createTimeOfInterest } from 'astronomy-bundle/time';
+import { createMoon } from 'astronomy-bundle/moon';
+import {createLocation} from 'astronomy-bundle/earth';
+import {angleCalc} from 'astronomy-bundle/utils';
 
 @Component({
   selector: 'app-time-widget',
@@ -12,28 +16,31 @@ import { DataService, TimeService } from '../../barrels/services';
 export class TimeWidgetComponent implements OnInit {
 
   icon: string = 'fa-clock';
-  iconType: string = IconType.REGULAR;
+  iconType: string = IconType.SOLID;
   title: string = 'Datum en Tijd';
   now: Date;
+  weekday: string = '';
   date: string = '';
   time: string = '';
   items: CardItem[] = [];
+  info: string = '';
+  chart: ComponentType = ComponentType.TIME;
 
   constructor(
     private matIconRegistry: MatIconRegistry,
     private dataService: DataService,
-    private timeService: TimeService) {
+    private timeService: TimeService,
+    private settings: SettingsService) {
       this.matIconRegistry.setDefaultFontSetClass(this.iconType);
     }
 
   ngOnInit(): void {
     this.items = [
-        // { key: 'buiten', value: '7 C'},
-        // { key: 'dauwpunt', value: '4 C' },
-        // { key: 'gevoel', value: '6 C'},
-        // { key: 'binnen', value: '18 C' }
+        { key: 'juliaans', value: '-' },
+        { key: 'sideraal', value: '-'},
     ];
     this.timeService.tick.subscribe((now) => {
+      this.createItems(now);
       this.createDateTime(now);
     });
     this.dataService.currentDataChanged.subscribe((currentData) => {
@@ -41,7 +48,23 @@ export class TimeWidgetComponent implements OnInit {
     });
   }
 
+  private createItems(date: Date) {
+    const toi = createTimeOfInterest.fromDate(date);
+    const moon = createMoon(toi);
+    const here = this.settings.getLocation();
+    const location = createLocation(here[0], here[1]);
+    Promise.all([moon.getIlluminatedFraction(), moon.isWaxing()])
+      .then((res) => {
+        this.items = [
+          { key: 'juliaans', value: toi.getJulianDay().toFixed(2) },
+          { key: 'sideraal', value: angleCalc.deg2time(toi.getLocalMeanSiderealTime(location))},
+      ];
+        });
+}
+
   private createDateTime(now: Date): void {
+    const weekdays = ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'];
+    this.weekday = weekdays[(now.getDay())];
     const DD = (now.getDate() > 9) ? now.getDate().toString() : '0' + now.getDate().toString();
     const MM = (now.getMonth() > 8) ? (now.getMonth()+ 1).toString() : '0' + (now.getMonth()+ 1).toString();
     const YY = now.getFullYear().toString().substring(2,4);

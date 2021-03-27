@@ -24,6 +24,7 @@ export class DashboardComponent implements OnInit {
     private timeService: TimeService) { }
 
   ngOnInit(): void {
+    this.state.setTitle(this.title);
     this.currentData = new WeatherData(new TemperatureWeatherData(0, 0));
     this.loadCards();
     this.timeService.tick.subscribe((now) => {
@@ -36,7 +37,7 @@ export class DashboardComponent implements OnInit {
     this.cards = [];
     this.cards.push({ type: ComponentType.TEMPERATURE });
     this.cards.push({ type: ComponentType.TIME });
-    this.cards.push({ type: ComponentType.WIDGET, title: 'Maan', icon: 'fa-moon' });
+    this.cards.push({ type: ComponentType.MOON });
     this.cards.push({ type: ComponentType.WIDGET, title: 'Wind', icon: 'fa-wind' });
     this.cards.push({ type: ComponentType.WIDGET, title: 'Regen', icon: 'fa-umbrella' });
     this.cards.push({ type: ComponentType.WIDGET, title: 'Zicht', icon: 'fa-smog' });
