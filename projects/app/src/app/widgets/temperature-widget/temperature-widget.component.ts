@@ -2,12 +2,10 @@ import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { ApexAxisChartSeries, ApexNonAxisChartSeries } from 'ng-apexcharts';
-import { InfoDialogComponent } from '../../components/info-dialog/info-dialog.component';
-import { ChartDialogComponent } from '../../components/chart-dialog/chart-dialog.component';
-import { CardItem } from '../../models/card-item';
-import { DataService } from '../../services/data.service';
-import { LoadingService } from '../../services/loading.service';
-import { IconType } from '../../models/icon-type';
+import { InfoDialogComponent, ChartDialogComponent } from '../../barrels/components';
+import { CardItem } from '../../barrels/interfaces';
+import { IconType } from '../../barrels/enums';
+import { DataService, LoadingService } from '../../barrels/services';
 
 @Component({
   selector: 'app-temperature-widget',
@@ -16,9 +14,9 @@ import { IconType } from '../../models/icon-type';
 })
 export class TemperatureWidgetComponent implements OnInit {
 
-  icon: string;
-  now: string;
-  title: string;
+  icon: string = 'fa-thermometer-half';
+  title: string = 'Temperatuur';
+  now: string = '39.9 °C';;
   items: CardItem[];
 
   constructor(
@@ -30,9 +28,6 @@ export class TemperatureWidgetComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.icon = 'fa-thermometer-half';
-    this.title = 'Temperatuur',
-    this.now = '- °C';
     this.items = [
         { key: 'buiten', value: '- °C'},
         { key: 'dauwpunt', value: '- °C' },
@@ -40,14 +35,20 @@ export class TemperatureWidgetComponent implements OnInit {
         { key: 'binnen', value: '- °C' }
     ];
     this.dataService.currentDataChanged.subscribe((currentData) => {
-      this.now = currentData.temperature.temperature + ' °C';
-      this.items = [
-        { key: 'buiten', value: currentData.temperature.temperature + ' °C' },
-        { key: 'dauwpunt', value: currentData.temperature.dewpoint + ' °C' },
-        { key: 'gevoel', value: (currentData.temperature.feeling != null) ? currentData.temperature.feeling + ' °C' : '- °C'},
-        { key: 'binnen', value: (currentData.temperature.inside != null) ? currentData.temperature.inside + ' °C' : '- °C'},
-      ];
+      if (currentData != null) {
+        this.now = this.createTempString(currentData.temperature.temperature);
+        this.items = [
+          { key: 'buiten', value: this.createTempString(currentData.temperature.temperature) },
+          { key: 'dauwpunt', value: this.createTempString(currentData.temperature.dewpoint) },
+          { key: 'gevoel', value: this.createTempString(currentData.temperature.feeling)},
+          { key: 'binnen', value: this.createTempString(currentData.temperature.inside)},
+        ];
+      }
     });
+  }
+
+  private createTempString(value: number) {
+    return (value != null) ? value + ' °C' : '- °C'
   }
 
   openInfoDialog() {

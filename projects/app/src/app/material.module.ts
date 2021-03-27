@@ -8,6 +8,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   imports: [
@@ -19,6 +23,10 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatDialogModule,
     MatButtonToggleModule,
     MatProgressBarModule,
+    MatMenuModule,
+    MatSidenavModule,
+    MatSlideToggleModule,
+    MatListModule,
   ],
   exports: [
     MatButtonModule,
@@ -29,6 +37,10 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatDialogModule,
     MatButtonToggleModule,
     MatProgressBarModule,
+    MatMenuModule,
+    MatSidenavModule,
+    MatSlideToggleModule,
+    MatListModule,
   ]
 })
 export class MaterialModule { }

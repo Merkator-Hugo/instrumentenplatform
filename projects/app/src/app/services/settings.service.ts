@@ -5,18 +5,14 @@ import { Injectable } from '@angular/core';
 })
 export class SettingsService {
 
-  public demo: boolean = true;
-  public speed: number = 1;
-  public margin: {top: number, right: number, bottom: number, left: number} 
-    = {top: 100, right: 200, bottom: 100, left: 200};
+  private margins: {top: number, right: number, bottom: number, left: number};
 
-  constructor() {}
-
-  setSpeed(speed: number) {
-    this.speed = speed;
+  constructor() {
+    this.margins = {top: 100, right: 200, bottom: 100, left: 200};
   }
 
-  toggleDemo() {
-    this.demo = !this.demo;
+  getMargins(): {top: number, right: number, bottom: number, left: number} {
+    return this.margins;
   }
+
 }

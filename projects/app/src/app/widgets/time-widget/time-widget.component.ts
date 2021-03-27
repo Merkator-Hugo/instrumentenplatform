@@ -1,10 +1,8 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
-import { CardData } from '../../models/card-data';
-import { CardItem } from '../../models/card-item';
-import { IconType } from '../../models/icon-type';
-import { DataService } from '../../services/data.service';
-import { TimeService } from '../../services/time.service';
+import { CardItem } from '../../barrels/interfaces';
+import { IconType } from '../../barrels/enums';
+import { DataService, TimeService } from '../../barrels/services';
 
 @Component({
   selector: 'app-time-widget',
@@ -13,23 +11,22 @@ import { TimeService } from '../../services/time.service';
 })
 export class TimeWidgetComponent implements OnInit {
 
-  icon: string;
-  title: string;
+  icon: string = 'fa-clock';
+  iconType: string = IconType.REGULAR;
+  title: string = 'Datum en Tijd';
   now: Date;
-  date: string;
-  time: string;
-  items: CardItem[];
+  date: string = '';
+  time: string = '';
+  items: CardItem[] = [];
 
   constructor(
     private matIconRegistry: MatIconRegistry,
     private dataService: DataService,
     private timeService: TimeService) {
-      this.matIconRegistry.setDefaultFontSetClass(IconType.REGULAR);
+      this.matIconRegistry.setDefaultFontSetClass(this.iconType);
     }
 
   ngOnInit(): void {
-    this.icon = 'fa-clock';
-    this.title = 'Datum en Tijd';
     this.items = [
         // { key: 'buiten', value: '7 C'},
         // { key: 'dauwpunt', value: '4 C' },

@@ -4,3 +4,15 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+mat-toolbar {
+    justify-content: space-between;
+}
+
+.mat-drawer-container {
+    background-color: rgba(0,0,0,0);
+}
+
+.sidenav {
+    width: 400px;
+}

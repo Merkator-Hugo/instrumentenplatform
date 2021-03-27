@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { ChartData } from '../../models/chart-data';
-import { TimeSpan } from '../../models/time-span';
+import { ChartData } from '../../barrels/interfaces';
+import { TimeSpan } from '../../barrels/enums';
 
 import {
   ChartComponent,

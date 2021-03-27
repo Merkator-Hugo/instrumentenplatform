@@ -1,9 +1,9 @@
 import { Platform } from '@angular/cdk/platform';
 import { Component, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ChartData } from '../../models/chart-data';
-import { TimeSpan } from '../../models/time-span';
-import { SettingsService } from '../../services/settings.service';
+import { ChartData } from '../../barrels/interfaces';
+import { TimeSpan } from '../../barrels/enums';
+import { SettingsService } from '../../barrels/services';
 
 @Component({
   selector: 'app-chart-dialog',
@@ -37,13 +37,10 @@ export class ChartDialogComponent implements OnInit {
     ];
     this.selectedTimespan = TimeSpan.MONTH;
     this.data.chart = {
-      width: this.screen.width - (this.settings.margin.left + this.settings.margin.right),
-      height: this.screen.height - (this.settings.margin.top + this.settings.margin.bottom),
+      width: this.screen.width - (this.settings.getMargins().left + this.settings.getMargins().right),
+      height: this.screen.height - (this.settings.getMargins().top + this.settings.getMargins().bottom),
       type: null,
     }
   }
-
-
-
 
 }

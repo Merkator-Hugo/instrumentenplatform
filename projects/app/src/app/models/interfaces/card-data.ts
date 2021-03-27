@@ -1,4 +1,4 @@
-import { IconType } from './icon-type';
+import { IconType } from '../enums/icon-type';
 import { CardItem } from './card-item';
 
 export interface CardData {

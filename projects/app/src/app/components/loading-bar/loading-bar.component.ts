@@ -1,7 +1,7 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressBarMode } from '@angular/material/progress-bar';
-import { LoadingService } from '../../services/loading.service';
+import { LoadingService } from '../../barrels/services';
 
 @Component({
   selector: 'app-loading-bar',

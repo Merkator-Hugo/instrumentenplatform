@@ -1,26 +1,35 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { SettingsService } from './settings.service';
+import { StateService } from './state.service';
 import { MockdataService } from './mockdata.service';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { WeatherData } from '../models/weather-data';
+import { WeatherData } from '../barrels/classes';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
+  private stateData: any;
   currentDataChanged: EventEmitter<WeatherData> = new EventEmitter();
 
-  constructor(private settings: SettingsService,
+  constructor(private state: StateService,
               private mockdata: MockdataService,
               private http: HttpClient) {
+    this.stateData = {
+      demo: false,
+      title: '',
+      speed: 1,
+    };
+    this.state.changed.subscribe((data) => {
+      this.stateData = data;
+    });
   }
 
   refreshCurrentData(now: Date) {
     let cd: WeatherData;
-    if(this.settings.demo) {
+    if(this.stateData.demo) {
       if (this.mockdata.ready) {
         cd = this.mockdata.getCurrentData(now);
         let x = 1;
@@ -34,7 +43,7 @@ export class DataService {
   }
 
   getCurrentData(now: Date) {
-    if(this.settings.demo) {
+    if(this.stateData.demo) {
       if (this.mockdata.ready) {
         return this.mockdata.getCurrentData(now);
       } else { 
@@ -46,7 +55,7 @@ export class DataService {
   }
 
   getTemperature(from: Date, to: Date): Observable<any> {
-    if(this.settings.demo) {
+    if(this.stateData.demo) {
       if (this.mockdata.ready) {
         return this.mockdata.getTemperature(from, to).pipe(
           map((t) => t)

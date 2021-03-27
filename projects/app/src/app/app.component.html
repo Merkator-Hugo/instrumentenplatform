@@ -1,3 +1,43 @@
 <div class="background">
-  <router-outlet></router-outlet>
+  <mat-sidenav-container (backdropClick)="close()">
+
+    <mat-sidenav #sidenav class="sidenav" (keydown.escape)="close()" [fixedInViewport]="true" disableClose>
+      <mat-toolbar color="primary">
+        <span>MENU</span>
+        <span><button mat-button (click)="close()">Sluiten</button></span>
+      </mat-toolbar>
+      <mat-list role="list">
+        <mat-list-item role="listitem">
+          <mat-slide-toggle [checked]="demo" (change)="setDemo($event)">Demo</mat-slide-toggle>
+        </mat-list-item>
+      </mat-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <mat-toolbar color="primary">
+        <span>
+          <button mat-button (click)="sidenav.open()">
+            <mat-icon>menu</mat-icon>
+          </button>
+          {{title}}
+        </span>
+        <span *ngIf="demo">
+          DEMO
+        </span>
+        <span *ngIf="demo">
+          kloksnelheid:
+          <mat-button-toggle-group name="speed" aria-label="clockspeed" (change)="onSpeedChange($event.value)">
+            <mat-button-toggle value="1">1 sec</mat-button-toggle>
+            <mat-button-toggle value="60">1 min</mat-button-toggle>
+            <mat-button-toggle value="600">10 min</mat-button-toggle>
+            <mat-button-toggle value="1800">30 min</mat-button-toggle>
+            <mat-button-toggle value="3600">1 uur</mat-button-toggle>
+          </mat-button-toggle-group>
+        </span>
+      </mat-toolbar>
+      <app-loading-bar></app-loading-bar>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+
+  </mat-sidenav-container>
 </div>

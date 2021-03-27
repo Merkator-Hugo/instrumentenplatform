@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { WeatherData } from '../models/weather-data';
-import { TemperatureWeatherData } from '../models/temperature-weather-data';
-import { TemperatureGraphData } from '../models/temperature-graph-data';
 import { Observable } from 'rxjs';
+import { WeatherData, TemperatureWeatherData, TemperatureChartData } from '../barrels/classes';
 
 @Injectable({
   providedIn: 'root'
@@ -38,8 +36,8 @@ export class MockdataService {
       let t = this.rawData.filter((d) => { 
         return ((d.YYYYMMDD >= stampF) && (d.YYYYMMDD <= stampT));
       });
-      let data = t.map<TemperatureGraphData>((nn) => 
-          new TemperatureGraphData(nn.TIMESTAMP, Number(nn.T)/10, Number(nn.TD)/10)
+      let data = t.map<TemperatureChartData>((nn) => 
+          new TemperatureChartData(nn.TIMESTAMP, Number(nn.T)/10, Number(nn.TD)/10)
       );
       observer.next(data);
     });
@@ -47,7 +45,6 @@ export class MockdataService {
   }
 
   private getHour(d: Date): string {
-    // return (d.getHours() > 9) ? d.getHours().toString() : '0' + d.getHours().toString();
     return d.getHours().toString();
   }
 
@@ -89,5 +86,29 @@ export class MockdataService {
           }
       );
   }
+
+  // return <WeatherData> {
+  //   date: nn.YYYYMMDD,
+  //   hour: nn.HH,
+  //   airpressure: Number(nn.P),
+  //   cloudcover_height: null,
+  //   dewpoint: Number(nn.TD),
+  //   humidity: Number(nn.U),
+  //   magnetometer_x: null,
+  //   magnetometer_y: null,
+  //   magnetometer_z: null,
+  //   magnetometer_total: null,
+  //   meteor_count: null,
+  //   particulatematter: null,
+  //   precipitation: Number(nn.RH),
+  //   solar_brightness: Number(nn.Q),
+  //   solar_intentsity: null,
+  //   sqm: Number(nn.N),
+  //   temperature: Number(nn.T),
+  //   windchill: null,
+  //   wind_direction: Number(nn.DD),
+  //   wind_speed: Number(nn.FF),
+  // }
+
 
 }

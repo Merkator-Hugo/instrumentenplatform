@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
-import { CardData } from '../../models/card-data';
-import { CardItem } from '../../models/card-item';
+import { CardItem } from '../../barrels/interfaces';
+import { IconType } from '../../barrels/enums';
 
 @Component({
   selector: 'app-widget',
@@ -10,15 +10,15 @@ import { CardItem } from '../../models/card-item';
 })
 export class WidgetComponent implements OnInit {
 
-  @Input() data: CardData;
-  items: CardItem[];
+  @Input() icon: string = '';
+  iconType: string = IconType.SOLID;
+  @Input() title: string = '';
+  items: CardItem[] = [];
 
-  constructor(private matIconRegistry: MatIconRegistry) {}
-
-  ngOnInit(): void {
-    const icontype = this.data.icontype || 'fas';
-    this.matIconRegistry.setDefaultFontSetClass(icontype);
-    this.items = this.data.items;
+  constructor(private matIconRegistry: MatIconRegistry) {
+    this.matIconRegistry.setDefaultFontSetClass(this.iconType);
   }
+
+  ngOnInit(): void {}
 
 }
