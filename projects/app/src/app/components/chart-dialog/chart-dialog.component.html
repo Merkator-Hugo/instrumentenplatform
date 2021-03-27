@@ -1,0 +1,7 @@
+<mat-button-toggle-group name="speed" aria-label="clockspeed">
+  <mat-button-toggle value="selectedTimespan" *ngFor="let timespan of timespans">{{timespan}}</mat-button-toggle>
+</mat-button-toggle-group>
+<app-line-chart
+  [data]="data"
+  [selection]="selectedTimespan"
+></app-line-chart>

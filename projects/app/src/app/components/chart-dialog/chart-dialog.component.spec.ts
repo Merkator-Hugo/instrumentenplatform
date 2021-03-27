@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LineGraphDialogComponent } from './line-graph-dialog.component';
+import { ChartDialogComponent } from './chart-dialog.component';
 
-describe('LineGraphDialogComponent', () => {
-  let component: LineGraphDialogComponent;
-  let fixture: ComponentFixture<LineGraphDialogComponent>;
+describe('ChartDialogComponent', () => {
+  let component: ChartDialogComponent;
+  let fixture: ComponentFixture<ChartDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LineGraphDialogComponent ]
+      declarations: [ ChartDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LineGraphDialogComponent);
+    fixture = TestBed.createComponent(ChartDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

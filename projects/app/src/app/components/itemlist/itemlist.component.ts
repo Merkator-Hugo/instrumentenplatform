@@ -19,22 +19,29 @@ export class ItemlistComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if(changes.data) {
-      let d = changes.data.currentValue;
-      this.createItemlist(d.items);
-    }
-  }
-
-  private createItemlist(items: CardItem[]) {
-    if (items.length <= 6) {
-      this.itemlist = items;
-      if (items.length < 6) {
-        for (let i = items.length; i < 6; i++) {
-          this.itemlist.unshift({ empty: true, key: '', value: ''});
+    for (const propName in changes) {
+      if (changes.hasOwnProperty(propName)) {
+        switch (propName) {
+          case 'items': {
+            this.createItemlist(changes.items.currentValue);
+          }
         }
       }
-    } else if (items.length > 6) {
-      this.itemlist = items.slice(0,6);
+    }
+  }
+  
+  private createItemlist(items: CardItem[]) {
+    if ((items != undefined) || (items != null)) {
+      if (items.length <= 6) {
+        this.itemlist = items;
+        if (items.length < 6) {
+          for (let i = items.length; i < 6; i++) {
+            this.itemlist.unshift({ empty: true, key: '', value: ''});
+          }
+        }
+      } else if (items.length > 6) {
+        this.itemlist = items.slice(0,6);
+      }
     }
   }
 

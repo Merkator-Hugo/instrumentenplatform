@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { NodeWithI18n } from '@angular/compiler';
-import * as d3 from "d3";
 import { WeatherData } from '../models/weather-data';
 import { TemperatureWeatherData } from '../models/temperature-weather-data';
+import { TemperatureGraphData } from '../models/temperature-graph-data';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,35 +12,50 @@ export class MockdataService {
 
   public ready: boolean = false;
   private rawData: any[] = [];
-  private time: number;
 
   constructor(private http: HttpClient) {
-    let d = new Date(Date());
-    d.setFullYear(2015);
-    this.time = d.valueOf();
     this.loadFile();
   }
 
-  getTime(speed: number) {
-    this.time += (speed * 1000);
-    return new Date(this.time);
-  }
-
-  getNow(): WeatherData {
-    let d = new Date(this.time);
-    let YYYY = d.getFullYear().toString();
-    let MM = (d.getMonth() > 8) ? (d.getMonth()+1).toString() : '0' + (d.getMonth()+1).toString();
-    let DD = (d.getDate() > 9) ? d.getDate().toString() : '0' + d.getDate().toString();
-    let stamp = YYYY + MM + DD;
-    let hh = (d.getHours() > 9) ? d.getHours().toString() : '0' + d.getHours().toString();
+  getCurrentData(now: Date): WeatherData {
+    now.setFullYear(2015);
+    let stamp = this.getStamp(now);
+    let hour = this.getHour(now); 
     let n = this.rawData.filter((d) => { 
-      return ((d.YYYYMMDD == stamp) && (d.HH == hh));
+      return ((d.YYYYMMDD == stamp) && (d.HH == hour));
     });
     return n.map<WeatherData>((nn) => 
       new WeatherData(
         new TemperatureWeatherData(Number(nn.T)/10, Number(nn.TD)/10)
       )
     )[0];
+  }
+
+  getTemperature(from: Date, to: Date): Observable<any> {
+    const obs = new Observable((observer) => {
+      let stampF = this.getStamp(from);
+      let stampT = this.getStamp(to);
+      let t = this.rawData.filter((d) => { 
+        return ((d.YYYYMMDD >= stampF) && (d.YYYYMMDD <= stampT));
+      });
+      let data = t.map<TemperatureGraphData>((nn) => 
+          new TemperatureGraphData(nn.TIMESTAMP, Number(nn.T)/10, Number(nn.TD)/10)
+      );
+      observer.next(data);
+    });
+    return obs;
+  }
+
+  private getHour(d: Date): string {
+    // return (d.getHours() > 9) ? d.getHours().toString() : '0' + d.getHours().toString();
+    return d.getHours().toString();
+  }
+
+  private getStamp(d: Date): string {
+    let YYYY = d.getFullYear().toString();
+    let MM = (d.getMonth() > 8) ? (d.getMonth()+1).toString() : '0' + (d.getMonth()+1).toString();
+    let DD = (d.getDate() > 9) ? d.getDate().toString() : '0' + d.getDate().toString();
+    return (YYYY + MM + DD);
   }
 
   private loadFile() {
@@ -75,24 +90,4 @@ export class MockdataService {
       );
   }
 
-  private loadD3() {
-    d3.dsv(";", "assets/weerdata_Volkel_Uur_2010-2020.csv", function(data) {
-      for (var i = 0; i < data.length; i++) {
-          console.log(data[i].Name);
-          console.log(data[i].Age);
-      }
-  });
-  }
-
-  private load() {
-    this.http.get('assets/weerdata_Volkel_Uur_2010-2020.csv', {responseType: 'text'})
-      .subscribe(
-          data => {
-              this.rawData = Array.from(data);
-          },
-          error => {
-              console.log(error);
-          }
-      );
-  }
 }

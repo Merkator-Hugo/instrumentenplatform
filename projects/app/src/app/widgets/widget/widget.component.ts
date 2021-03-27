@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { CardData } from '../../models/card-data';
 import { CardItem } from '../../models/card-item';
@@ -8,7 +8,7 @@ import { CardItem } from '../../models/card-item';
   templateUrl: './widget.component.html',
   styleUrls: ['./widget.component.scss']
 })
-export class WidgetComponent implements OnInit, OnChanges {
+export class WidgetComponent implements OnInit {
 
   @Input() data: CardData;
   items: CardItem[];
@@ -21,9 +21,4 @@ export class WidgetComponent implements OnInit, OnChanges {
     this.items = this.data.items;
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if(changes.data) {
-      this.items = changes.data.currentValue.items;
-    }
-  }
 }

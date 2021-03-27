@@ -10,6 +10,8 @@ import { SettingsService } from '../../services/settings.service';
 import { IconType } from '../../models/icon-type';
 import { WeatherData } from '../../models/weather-data';
 import { TemperatureWeatherData } from '../../models/temperature-weather-data';
+import { LoadingService } from '../../services/loading.service';
+import { TimeService } from '../../services/time.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,68 +23,74 @@ export class DashboardComponent implements OnInit {
   title = 'Dashboard Halley Instrumenten Platform';
   gridColumns = 3;
   cards: Card[] = [];
-  now: WeatherData;
+  currentData: WeatherData;
+  now: Date;
 
-  constructor(private dataService: DataService,
-              public settings: SettingsService) { }
+  constructor(
+    private dataService: DataService,
+    public settings: SettingsService,
+    public loading: LoadingService,
+    private timeService: TimeService) { }
 
   ngOnInit(): void {
-    this.now = new WeatherData(new TemperatureWeatherData(0, 0));
-    setInterval(() => {this.getNow();this.loadCards();}, 1000);
+    this.currentData = new WeatherData(new TemperatureWeatherData(0, 0));
+    this.loadCards();
+    this.timeService.tick.subscribe((now) => {
+      this.now = now;
+      this.dataService.refreshCurrentData(now);
+    });
   }
 
   private loadCards() {
     this.cards = [];
-    let card0 = this.getCardData(ComponentType.WIDGET, 'TODO');
-    let card1 = this.getCardData(ComponentType.TEMPERATURE);
-    let card2 = this.getCardData(ComponentType.TIME);
-    this.cards.push(card0);
-    this.cards.push(card2);
-    this.cards.push(card1);
-    this.cards.push(card2);
-    this.cards.push(card1);
-    this.cards.push(card1);
-    this.cards.push(card2);
+    // this.cards.push(this.getCardData(ComponentType.WIDGET, 'TODO'));
+    this.cards.push(this.getCardData(ComponentType.TEMPERATURE));
+    this.cards.push(this.getCardData(ComponentType.TIME));
+    this.cards.push(this.getCardData(ComponentType.WIDGET, 'Maan', 'fa-moon'));
+    this.cards.push(this.getCardData(ComponentType.WIDGET, 'Wind', 'fa-wind'));
+    this.cards.push(this.getCardData(ComponentType.WIDGET, 'Regen', 'fa-umbrella'));
+    this.cards.push(this.getCardData(ComponentType.WIDGET, 'Zicht', 'fa-smog'));
+    this.cards.push(this.getCardData(ComponentType.WIDGET, 'Webcam', 'fa-camera'));
   }
 
-  private getNow() {
-    this.now = this.dataService.getNow();
-  }
+  // private getCurrentData(now: Date) {
+  //   this.currentData = this.dataService.getCurrentData(now);
+  // }
 
   toggleMenu() {}
 
+  onSpeedChange(e) {
+    this.settings.setSpeed(e);
+  }
 
-  private getCardData(type: ComponentType, title?: string): Card {
+
+  private getCardData(type: ComponentType, title?: string, icon?: string, regular?: boolean): Card {
     let d: CardData;
     switch (type) {
       case ComponentType.WIDGET:
         d = {
-          icon: 'fa-times-circle',
-          icontype: IconType.REGULAR,
+          icon: (icon != undefined) ? icon : 'fa-times-circle',
+          icontype: ((regular != undefined) || (regular == true)) ? IconType.REGULAR : IconType.SOLID,
           now: '',
           title: title || 'LEEG',
-          items: [
-            { key: 'knoppen voor Speed', value: ''},
-            { key: 'speed in settings', value: ''},
-            { key: 'gevoelstemp uitrekenen', value: ''},
-            { key: 'tijden uitrekenen en tonen', value: ''},
-            { key: 'klok tonen', value: ''},
-            { key: 'Juiste widgets maken', value: ''},
-            { key: 'Info popup maken', value: ''},
-            { key: 'lijn grafiek', value: ''},
-            { key: 'bar grafiek maken', value: ''},
-            { key: 'wind grafiek maken', value: ''},
-            { key: 'meer data aansluiten', value: ''},
-            { key: 'harmonica-layout mobiel', value: ''},
-            { key: 'menu: settings', value: ''},
-            { key: 'menu: cards verplaatsen', value: ''},
-            { key: '', value: ''},
-            { key: '', value: ''},
-            { key: '', value: ''},
-            { key: '', value: ''},
-            { key: '', value: ''},
-            { key: '', value: ''}
-          ]
+          items: [],
+          //   { key: 'gevoelstemp uitrekenen', value: ''},
+          //   { key: 'tijden uitrekenen en tonen', value: ''},
+          //   { key: 'klok tonen', value: ''},
+          //   { key: 'Juiste widgets maken', value: ''},
+          //   { key: 'bar grafiek maken', value: ''},
+          //   { key: 'wind grafiek maken', value: ''},
+          //   { key: 'meer data aansluiten', value: ''},
+          //   { key: 'harmonica-layout mobiel', value: ''},
+          //   { key: 'menu: settings', value: ''},
+          //   { key: 'menu: cards verplaatsen', value: ''},
+          //   { key: '', value: ''},
+          //   { key: '', value: ''},
+          //   { key: '', value: ''},
+          //   { key: '', value: ''},
+          //   { key: '', value: ''},
+          //   { key: '', value: ''}
+          // ]
         };
         return {
           data: d,
@@ -92,11 +100,11 @@ export class DashboardComponent implements OnInit {
       case ComponentType.TEMPERATURE:
         d = {
           icon: 'fa-thermometer-half',
-          now: this.now.temperature.temperature + ' °C',
+          now: this.currentData.temperature.temperature + ' °C',
           title: 'Temperatuur',
           items: [
-            { key: 'buiten', value: this.now.temperature.temperature + ' °C'},
-            { key: 'dauwpunt', value: this.now.temperature.dewpoint + ' °C' },
+            { key: 'buiten', value: this.currentData.temperature.temperature + ' °C'},
+            { key: 'dauwpunt', value: this.currentData.temperature.dewpoint + ' °C' },
             { key: 'gevoel', value: '6 °C'},
             { key: 'binnen', value: '18 °C' }
           ]
@@ -110,7 +118,7 @@ export class DashboardComponent implements OnInit {
         d = {
           icon: 'fa-clock',
           icontype: IconType.REGULAR,
-          now: this.dataService.getTime(60).toString(),
+          now: this.now,
           title: 'Datum en Tijd',
           items: [
             { key: 'buiten', value: '7 C'},

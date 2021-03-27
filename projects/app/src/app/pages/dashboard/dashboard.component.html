@@ -8,13 +8,24 @@
     <span *ngIf="settings.demo">
         DEMO
     </span>
+    <span *ngIf="settings.demo">
+        kloksnelheid: 
+        <mat-button-toggle-group name="speed" aria-label="clockspeed" (change)="onSpeedChange($event.value)">
+            <mat-button-toggle value="1">1 sec</mat-button-toggle>
+            <mat-button-toggle value="60">1 min</mat-button-toggle>
+            <mat-button-toggle value="600">10 min</mat-button-toggle>
+            <mat-button-toggle value="1800">30 min</mat-button-toggle>
+            <mat-button-toggle value="3600">1 uur</mat-button-toggle>
+          </mat-button-toggle-group>
+    </span>
 </mat-toolbar>
+<app-loading-bar></app-loading-bar>
 <div class="content">
     <div fxLayout="row wrap" fxLayoutAlign="space-around center">
         <div *ngFor="let card of cards">
             <app-widget *ngIf="card.type=='WIDGET'" [data]="card.data"></app-widget>
-            <app-time-widget *ngIf="card.type=='TIME'" [data]="card.data"></app-time-widget>
-            <app-temperature-widget *ngIf="card.type=='TEMPERATURE'" [data]="card.data"></app-temperature-widget>
+            <app-time-widget *ngIf="card.type=='TIME'"></app-time-widget>
+            <app-temperature-widget *ngIf="card.type=='TEMPERATURE'"></app-temperature-widget>
         </div>
     </div>
 </div>
