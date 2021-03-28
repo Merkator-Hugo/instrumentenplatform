@@ -1,9 +1,9 @@
 import { Platform } from '@angular/cdk/platform';
 import { Component, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ChartData } from '../../barrels/interfaces';
-import { TimeSpan } from '../../barrels/enums';
-import { SettingsService } from '../../barrels/services';
+import { ChartData } from '../../models/interfaces';
+import { TimeSpan } from '../../models/enums';
+import { SettingsService } from '../../services/services';
 
 @Component({
   selector: 'app-chart-dialog',

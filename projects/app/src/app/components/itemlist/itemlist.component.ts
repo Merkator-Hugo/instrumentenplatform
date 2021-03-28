@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
-import { CardItem } from '../../barrels/interfaces';
+import { CardItem } from '../../models/interfaces';
 
 @Component({
   selector: 'app-itemlist',

@@ -7,13 +7,13 @@
                 <div class="weekday">{{weekday}}</div>
                 <div class="date">{{date}}</div>
                 <div class="time">{{time}}</div>
+                <app-actions [info]="info" [chart]="chart"></app-actions>
             </div>
         </div>
         <div class="card-right">
             <mat-card-title>
                 {{title}}
             </mat-card-title>
-            <app-actions [info]="info" [chart]="chart"></app-actions>
             <mat-card-content>
                 <app-itemlist [items]="items"></app-itemlist>
             </mat-card-content>

@@ -2,12 +2,12 @@
     <div fxLayout="row">
         <div class="card-left" fxLayout="column" fxLayoutAlign="space-between center">
             <mat-icon mat-card-avatar fontIcon="{{icon}}" aria-hidden="true"></mat-icon>
+            <app-actions [info]="info" [chart]="chart"></app-actions>
         </div>
         <div class="card-right">
             <mat-card-title>
                 {{title}}
             </mat-card-title>
-            <app-actions [info]="info" [chart]="chart"></app-actions>
             <mat-card-content>
                 <app-itemlist [items]="items"></app-itemlist>
             </mat-card-content>

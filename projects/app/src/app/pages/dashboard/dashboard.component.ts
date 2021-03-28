@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Card } from '../../barrels/interfaces';
-import { WeatherData, TemperatureWeatherData } from '../../barrels/classes';
-import { ComponentType } from '../../barrels/enums';
-import { DataService, StateService, LoadingService, TimeService } from '../../barrels/services';
+import { Card } from '../../models/interfaces';
+import { WeatherData, TemperatureData, AirData, AllskyCameraData, MagnetometerData, MeteorData, PrecipitationData, SatelliteImageData, SunData, WeatherForcastData } from '../../models/classes';
+import { ComponentType } from '../../models/enums';
+import { DataService, StateService, LoadingService, TimeService } from '../../services/services';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +11,7 @@ import { DataService, StateService, LoadingService, TimeService } from '../../ba
 })
 export class DashboardComponent implements OnInit {
 
-  title = 'Dashboard Halley Instrumenten Platform';
+  title = 'Dashboard';
   gridColumns = 3;
   cards: Card[] = [];
   currentData: WeatherData;
@@ -21,11 +21,12 @@ export class DashboardComponent implements OnInit {
     private dataService: DataService,
     public state: StateService,
     public loading: LoadingService,
-    private timeService: TimeService) { }
+    private timeService: TimeService) {
+      this.state.setTitle(this.title);
+    }
 
   ngOnInit(): void {
-    this.state.setTitle(this.title);
-    this.currentData = new WeatherData(new TemperatureWeatherData(0, 0));
+    this.currentData = new WeatherData();
     this.loadCards();
     this.timeService.tick.subscribe((now) => {
       this.now = now;

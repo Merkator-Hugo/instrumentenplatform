@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { StateService } from './state.service';
 import { MockdataService } from './mockdata.service';
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { WeatherData } from '../barrels/classes';
+import { Observable, from } from 'rxjs';
+import { TemperatureChartData, TemperatureData, WeatherData } from '../models/classes';
 
 @Injectable({
   providedIn: 'root'
@@ -28,43 +28,31 @@ export class DataService {
   }
 
   refreshCurrentData(now: Date) {
-    let cd: WeatherData;
+    let wd: WeatherData;
     if(this.stateData.demo) {
       if (this.mockdata.ready) {
-        cd = this.mockdata.getCurrentData(now);
+        wd = this.mockdata.getCurrentData(now);
         let x = 1;
       } else { 
-        cd = null;
+        wd = new WeatherData();
       }
     } else {
-      cd = null;
+      wd = new WeatherData();
     }
-    this.currentDataChanged.emit(cd);
+    this.currentDataChanged.emit(wd);
   }
 
-  getCurrentData(now: Date) {
+  getTemperature(fromDate: Date, toDate: Date): Observable<TemperatureData[]> {
     if(this.stateData.demo) {
       if (this.mockdata.ready) {
-        return this.mockdata.getCurrentData(now);
-      } else { 
-        return null;
-      }
-    } else {
-      return null;
-    }
-  }
-
-  getTemperature(from: Date, to: Date): Observable<any> {
-    if(this.stateData.demo) {
-      if (this.mockdata.ready) {
-        return this.mockdata.getTemperature(from, to).pipe(
+        return this.mockdata.getTemperature(fromDate, toDate).pipe(
           map((t) => t)
         )
-      } else { 
-        return null;
+      } else {
+        return from([]);
       }
     } else {
-      return null;
+      return from([]);
     }
   }
 

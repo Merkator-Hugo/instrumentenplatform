@@ -1,11 +1,10 @@
 import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
-import { ApexAxisChartSeries, ApexNonAxisChartSeries } from 'ng-apexcharts';
-import { InfoDialogComponent, ChartDialogComponent } from '../../barrels/components';
-import { CardItem } from '../../barrels/interfaces';
-import { ComponentType, IconType } from '../../barrels/enums';
-import { DataService, LoadingService } from '../../barrels/services';
+import { CardItem } from '../../models/interfaces';
+import { ComponentType, IconType } from '../../models/enums';
+import { DataService, LoadingService } from '../../services/services';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-temperature-widget',
@@ -15,8 +14,8 @@ import { DataService, LoadingService } from '../../barrels/services';
 export class TemperatureWidgetComponent implements OnInit {
 
   icon: string = 'fa-thermometer-half';
-  title: string = 'Temperatuur';
-  now: string = '39.9 °C';;
+  title: string = '';
+  now: string = '- °C';;
   items: CardItem[];
   info: string = '';
   chart: ComponentType = ComponentType.TEMPERATURE;
@@ -25,11 +24,14 @@ export class TemperatureWidgetComponent implements OnInit {
     private matIconRegistry: MatIconRegistry,
     public dialog: MatDialog,
     private dataService: DataService,
-    private loadingService: LoadingService) {
+    private translate: TranslateService) {
       this.matIconRegistry.setDefaultFontSetClass(IconType.SOLID);
     }
 
   ngOnInit(): void {
+    this.translate.get('TEMPERATURE').subscribe((res) => {
+      this.title = res.TITLE;
+    })
     this.info = this.getInfo();
     this.items = [
         { key: 'buiten', value: '- °C'},
@@ -38,7 +40,7 @@ export class TemperatureWidgetComponent implements OnInit {
         { key: 'binnen', value: '- °C' }
     ];
     this.dataService.currentDataChanged.subscribe((currentData) => {
-      if (currentData != null) {
+      // if (currentData != null) {
         this.now = this.createTempString(currentData.temperature.temperature);
         this.items = [
           { key: 'buiten', value: this.createTempString(currentData.temperature.temperature) },
@@ -46,7 +48,7 @@ export class TemperatureWidgetComponent implements OnInit {
           { key: 'gevoel', value: this.createTempString(currentData.temperature.feeling)},
           { key: 'binnen', value: this.createTempString(currentData.temperature.inside)},
         ];
-      }
+      // }
     });
   }
 

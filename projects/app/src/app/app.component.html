@@ -10,31 +10,32 @@
         <mat-list-item role="listitem">
           <mat-slide-toggle [checked]="demo" (change)="setDemo($event)">Demo</mat-slide-toggle>
         </mat-list-item>
+        <mat-list-item>
+        </mat-list-item>
       </mat-list>
     </mat-sidenav>
 
     <mat-sidenav-content>
-      <mat-toolbar color="primary">
-        <span>
-          <button mat-button (click)="sidenav.open()">
-            <mat-icon>menu</mat-icon>
-          </button>
-          {{title}}
-        </span>
-        <span *ngIf="demo">
-          DEMO
-        </span>
-        <span *ngIf="demo">
-          kloksnelheid:
-          <mat-button-toggle-group name="speed" aria-label="clockspeed" (change)="onSpeedChange($event.value)">
-            <mat-button-toggle value="1">1 sec</mat-button-toggle>
-            <mat-button-toggle value="60">1 min</mat-button-toggle>
-            <mat-button-toggle value="600">10 min</mat-button-toggle>
-            <mat-button-toggle value="1800">30 min</mat-button-toggle>
-            <mat-button-toggle value="3600">1 uur</mat-button-toggle>
-          </mat-button-toggle-group>
-        </span>
-      </mat-toolbar>
+      <mat-toolbar  color="primary">
+        <mat-toolbar-row>
+          <span>
+            <button mat-button (click)="sidenav.open()">
+              <mat-icon mat-card-avatar fontIcon="{{icons.menu}}" aria-hidden="true"></mat-icon>
+            </button>
+            {{title}}
+          </span>
+        </mat-toolbar-row>
+        <mat-toolbar-row class="secondrow" *ngIf="demo">
+          <span>DEMO</span>
+          <span [matMenuTriggerFor]="clockmenu">
+            <mat-icon class="secondrow" fontIcon="{{icons.clock}}" aria-hidden="true"></mat-icon>
+            x {{speed}}
+          </span>
+        </mat-toolbar-row>
+        <mat-menu #clockmenu="matMenu">
+          <button mat-menu-item *ngFor="let sp of settings.getSpeeds()" (click)="setSpeed(sp.value)">{{sp.label}}</button>
+        </mat-menu>
+    </mat-toolbar>
       <app-loading-bar></app-loading-bar>
       <router-outlet></router-outlet>
     </mat-sidenav-content>

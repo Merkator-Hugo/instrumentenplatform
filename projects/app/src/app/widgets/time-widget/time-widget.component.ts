@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
-import { CardItem } from '../../barrels/interfaces';
-import { ComponentType, IconType } from '../../barrels/enums';
-import { DataService, SettingsService, TimeService } from '../../barrels/services';
+import { CardItem } from '../../models/interfaces';
+import { ComponentType, IconType } from '../../models/enums';
+import { DataService, SettingsService, TimeService } from '../../services/services';
 import { createTimeOfInterest } from 'astronomy-bundle/time';
 import { createMoon } from 'astronomy-bundle/moon';
 import {createLocation} from 'astronomy-bundle/earth';

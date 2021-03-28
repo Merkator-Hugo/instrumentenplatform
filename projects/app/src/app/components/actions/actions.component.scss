@@ -4,6 +4,15 @@ mat-icon.action {
     color: grey;
 }
 
-.offset {
-    margin-left: 10px;
+button {
+    width: 30px !important;
+    height: 40px !important;
+}
+
+.error {
+    background-color: red;
+}
+
+.warn {
+    background-color: orange;
 }

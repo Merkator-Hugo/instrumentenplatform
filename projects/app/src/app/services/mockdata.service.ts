@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { WeatherData, TemperatureWeatherData, TemperatureChartData } from '../barrels/classes';
+import { WeatherData, TemperatureData, TemperatureChartData, AirData, PrecipitationData, SunData, AllskyCameraData, MagnetometerData, MeteorData, SatelliteImageData, WeatherForcastData } from '../models/classes';
 
 @Injectable({
   providedIn: 'root'
@@ -23,21 +23,24 @@ export class MockdataService {
       return ((d.YYYYMMDD == stamp) && (d.HH == hour));
     });
     return n.map<WeatherData>((nn) => 
-      new WeatherData(
-        new TemperatureWeatherData(Number(nn.T)/10, Number(nn.TD)/10)
+      new WeatherData().fromMockData(
+        new AirData().fromMockData(nn.YYYYMMDD, nn.HH, Number(nn.DD), Number(nn.FF)/10, Number(nn.P)/10, Number(nn.U)),
+        new PrecipitationData().fromMockData(nn.YYYYMMDD, nn.HH, Number(nn.RH)/10),
+        new SunData().fromMockData(nn.YYYYMMDD, nn.HH, Number(nn.SQ)/10),
+        new TemperatureData().fromMockData(nn.YYYYMMDD, nn.HH, Number(nn.T)/10, Number(nn.TD)/10)
       )
     )[0];
   }
 
-  getTemperature(from: Date, to: Date): Observable<any> {
-    const obs = new Observable((observer) => {
+  getTemperature(from: Date, to: Date): Observable<TemperatureData[]> {
+    const obs: Observable<TemperatureData[]> = new Observable((observer) => {
       let stampF = this.getStamp(from);
       let stampT = this.getStamp(to);
       let t = this.rawData.filter((d) => { 
         return ((d.YYYYMMDD >= stampF) && (d.YYYYMMDD <= stampT));
       });
-      let data = t.map<TemperatureChartData>((nn) => 
-          new TemperatureChartData(nn.TIMESTAMP, Number(nn.T)/10, Number(nn.TD)/10)
+      let data = t.map<TemperatureData>((nn) => 
+          new TemperatureData().fromMockData(nn.YYYYMMDD, nn.HH, Number(nn.T)/10, Number(nn.TD)/10)
       );
       observer.next(data);
     });

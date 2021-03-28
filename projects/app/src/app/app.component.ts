@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { StateService } from './barrels/services';
+import { SettingsService, StateService } from './services/services';
+import { TranslateService } from '@ngx-translate/core';
+import { MatIconRegistry } from '@angular/material/icon';
+import { IconType } from './models/enums';
 
 @Component({
   selector: 'app-root',
@@ -10,14 +13,25 @@ import { StateService } from './barrels/services';
 export class AppComponent implements OnInit {
   title: string = '';
   demo: boolean = false;
+  speed: number;
+  icons: { clock: string; menu: string; } = { clock: 'fa-clock', menu: 'fa-bars'};
 
   @ViewChild('sidenav') sidenav: MatSidenav;
 
-  constructor(public state: StateService) {}
+  constructor(
+    private matIconRegistry: MatIconRegistry,
+    public state: StateService,
+    private translate: TranslateService,
+    public settings: SettingsService) {
+      this.matIconRegistry.setDefaultFontSetClass(IconType.SOLID);
+    }
 
   ngOnInit() {
+    this.translate.setDefaultLang('nl');
     this.state.changed.subscribe((data) => {
       this.title = data.title;
+      this.translate.use(data.language);
+      this.speed = data.speed;
     })
   }
 
@@ -30,8 +44,8 @@ export class AppComponent implements OnInit {
     this.state.setDemo(this.demo);
   }
 
-  onSpeedChange(e) {
-    this.state.setSpeed(e);
+  setSpeed(speed) {
+    this.state.setSpeed(speed);
   }
 
 }

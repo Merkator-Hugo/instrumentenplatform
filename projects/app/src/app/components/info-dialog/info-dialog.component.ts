@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { InfoDialogData } from '../../barrels/interfaces';
+import { InfoDialogData } from '../../models/interfaces';
 
 @Component({
   selector: 'app-info-dialog',

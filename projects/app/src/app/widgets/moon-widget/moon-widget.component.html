@@ -1,17 +1,17 @@
 <mat-card class="mat-elevation-z4">
     <div fxLayout="row">
-        <div class="card-left" fxLayout="column" fxLayoutAlign="space-between center" (click)="openInfoDialog()">
+        <div class="card-left" fxLayout="column" fxLayoutAlign="space-between center">
             <mat-icon mat-card-avatar fontIcon="{{icon}}" aria-hidden="true"></mat-icon>
             <div>
                 <div class="fraction">{{fraction}}</div>
                 <div class="waxing">{{waxing}}</div>
+                <app-actions [info]="info" [chart]="chart"></app-actions>
             </div>
         </div>
-        <div class="card-right" (click)="openGraphDialog()">
+        <div class="card-right">
             <mat-card-title>
                 {{title}}
             </mat-card-title>
-            <app-actions [info]="info" [chart]="chart"></app-actions>
             <mat-card-content>
                 <app-itemlist [items]="items"></app-itemlist>
             </mat-card-content>

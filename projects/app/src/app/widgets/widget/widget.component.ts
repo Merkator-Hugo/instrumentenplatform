@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
-import { CardItem } from '../../barrels/interfaces';
-import { ComponentType, IconType } from '../../barrels/enums';
+import { CardItem } from '../../models/interfaces';
+import { ComponentType, IconType } from '../../models/enums';
 
 @Component({
   selector: 'app-widget',

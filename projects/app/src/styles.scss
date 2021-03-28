@@ -17,3 +17,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     width: 200px;
 }
 
+.error {
+    background-color: rgba(255,0,0,0.8);
+    color: black;
+    font-weight: bold;
+}
+
+.warn {
+    background-color:  rgba(255,0,0,0.8);
+    color: black;
+    font-weight: bold;
+}

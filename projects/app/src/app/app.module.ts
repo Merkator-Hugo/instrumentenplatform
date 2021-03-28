@@ -1,8 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +21,11 @@ import { LineChartComponent } from './components/line-chart/line-chart.component
 import { LoadingBarComponent } from './components/loading-bar/loading-bar.component';
 import { AnalogClockComponent } from './components/analog-clock/analog-clock.component';
 import { ActionsComponent } from './components/actions/actions.component';
+
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 @NgModule({
   declarations: [
@@ -43,6 +50,14 @@ import { ActionsComponent } from './components/actions/actions.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     NgApexchartsModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'nl',
+      loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+      }
+  }),
   ],
   entryComponents: [],
   providers: [],

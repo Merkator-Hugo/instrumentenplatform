@@ -4,11 +4,10 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { createTimeOfInterest } from 'astronomy-bundle/time';
 import { createMoon } from 'astronomy-bundle/moon';
 import { ApexAxisChartSeries, ApexNonAxisChartSeries } from 'ng-apexcharts';
-import { InfoDialogComponent, ChartDialogComponent } from '../../barrels/components';
-import { CardItem } from '../../barrels/interfaces';
-import { ComponentType, IconType } from '../../barrels/enums';
-import { DataService, LoadingService, TimeService } from '../../barrels/services';
-import { getAttrsForDirectiveMatching } from '@angular/compiler/src/render3/view/util';
+import { InfoDialogComponent, ChartDialogComponent } from '../../components/components';
+import { CardItem } from '../../models/interfaces';
+import { ComponentType, IconType } from '../../models/enums';
+import { DataService, LoadingService, TimeService } from '../../services/services';
 
 @Component({
   selector: 'app-moon-widget',
@@ -81,52 +80,6 @@ export class MoonWidgetComponent implements OnInit {
 
   private createTempString(value: number) {
     return (value != null) ? value + ' °C' : '- °C'
-  }
-
-  openInfoDialog() {
-    this.dialog.open(InfoDialogComponent, {
-      data: {
-        content: `
-          <h3>Werkelijke temperatuur</h3>
-          <p>De werkelijke temperatuur is de temperatuur zoals gemeten inhet weerstation</p>
-          <h3>Gevoelstemperatuur</h3>
-          <p>De gevoelstemperatuur wordt berekend door ....</p>
-          <h3>Dauwpunt</h3>
-          <p>Het dauwpunt wordt berekend door ....</p>
-        `
-      }
-    });
-  }
-
-  openGraphDialog() {
-    this.loadingService.setLoadingStatus(true);
-    let from = new Date(2013, 0, 1);
-    let to = new Date(2013, 11, 31);
-    this.dataService.getTemperature(from, to).subscribe((ts) => {
-      let s0 = [];
-      let s1 = [];
-      for (let t of ts) {
-        const time: number = Number(t.timestamp + '000');
-        const temp: number = t.temperature;
-        const dauw: number = t.dewpoint;
-        s0.push([time, temp]);
-        s1.push([time, dauw]);
-      }
-      let series: ApexAxisChartSeries | ApexNonAxisChartSeries = [
-        {
-          name: 'werkelijk',
-          data: s0
-        }
-      ];
-      this.loadingService.setLoadingStatus(false);
-      this.dialog.open(ChartDialogComponent,
-        {
-          data: {
-            series: series
-          }
-        }
-      );
-    });
   }
 
 }
