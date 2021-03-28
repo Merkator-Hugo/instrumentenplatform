@@ -1,3 +1,4 @@
+import { ComponentType } from '../enums/component-type';;
 import {
     ChartComponent,
     ApexAxisChartSeries,
@@ -20,6 +21,7 @@ import {
   } from "ng-apexcharts";
   
   export interface ChartData {
-    series: ApexAxisChartSeries | ApexNonAxisChartSeries;
-    chart: ApexChart;
+    series?: ApexAxisChartSeries | ApexNonAxisChartSeries;
+    chart?: ApexChart;
+    component: ComponentType;
 }

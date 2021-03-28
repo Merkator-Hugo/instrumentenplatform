@@ -1,5 +1,14 @@
 {
+    "AIR": {
+        "TITLE": "Lucht"
+    },
+    "PRECIPITATION": {
+        "TITLE": "Neerslag"
+    },
     "TEMPERATURE": {
         "TITLE": "Temperatuur"
+    },
+    "WIND": {
+        "TITLE": "Wind"
     }
 }

@@ -39,9 +39,9 @@ export class DashboardComponent implements OnInit {
     this.cards.push({ type: ComponentType.TEMPERATURE });
     this.cards.push({ type: ComponentType.TIME });
     this.cards.push({ type: ComponentType.MOON });
-    this.cards.push({ type: ComponentType.WIDGET, title: 'Wind', icon: 'fa-wind' });
-    this.cards.push({ type: ComponentType.WIDGET, title: 'Regen', icon: 'fa-umbrella' });
-    this.cards.push({ type: ComponentType.WIDGET, title: 'Zicht', icon: 'fa-smog' });
+    this.cards.push({ type: ComponentType.WIND });
+    this.cards.push({ type: ComponentType.PRECIPITATION });
+    this.cards.push({ type: ComponentType.AIR });
     this.cards.push({ type: ComponentType.WIDGET, title: 'Webcam', icon: 'fa-camera' });
   }
 

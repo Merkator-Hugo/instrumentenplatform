@@ -11,17 +11,24 @@ export class TimeService {
   private stateData: any;
 
   constructor(private state: StateService) {
-    let d = new Date(Date());
-    this.timestamp = d.valueOf();
-    setInterval(() => { this.setTick(); }, 1000);
     this.stateData = {
       demo: false,
       title: '',
       speed: 1,
     };
+    this.resetTime();
+    setInterval(() => { this.setTick(); }, 1000);
     this.state.changed.subscribe((data) => {
       this.stateData = data;
     })
+  }
+
+  resetTime() {
+    let d = new Date(Date());
+    if (this.stateData.demo) {
+      d.setFullYear(2015);
+    }
+    this.timestamp = d.valueOf();
   }
 
   setTick() {
@@ -33,4 +40,10 @@ export class TimeService {
     const date = new Date(this.timestamp);
     this.tick.emit(date);
   }
+
+  getNow(): Date {
+    const now = new Date(this.timestamp);
+    return now;
+  }
+
 }

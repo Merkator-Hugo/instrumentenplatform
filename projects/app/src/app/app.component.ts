@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { SettingsService, StateService } from './services/services';
+import { SettingsService, StateService, TimeService } from './services/services';
 import { TranslateService } from '@ngx-translate/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { IconType } from './models/enums';
@@ -22,7 +22,8 @@ export class AppComponent implements OnInit {
     private matIconRegistry: MatIconRegistry,
     public state: StateService,
     private translate: TranslateService,
-    public settings: SettingsService) {
+    public settings: SettingsService,
+    private time: TimeService) {
       this.matIconRegistry.setDefaultFontSetClass(IconType.SOLID);
     }
 
@@ -42,6 +43,10 @@ export class AppComponent implements OnInit {
   setDemo(e) {
     this.demo = e.checked;
     this.state.setDemo(this.demo);
+    // if (!this.demo) {
+      this.time.resetTime();
+    // }
+    this.sidenav.close();
   }
 
   setSpeed(speed) {

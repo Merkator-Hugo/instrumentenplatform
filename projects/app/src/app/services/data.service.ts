@@ -27,7 +27,7 @@ export class DataService {
     });
   }
 
-  refreshCurrentData(now: Date) {
+  refreshCurrentData(now: Date): void {
     let wd: WeatherData;
     if(this.stateData.demo) {
       if (this.mockdata.ready) {

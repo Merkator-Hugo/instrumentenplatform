@@ -5,20 +5,21 @@ import { CardItem } from '../../models/interfaces';
 import { ComponentType, IconType } from '../../models/enums';
 import { DataService, LoadingService } from '../../services/services';
 import { TranslateService } from '@ngx-translate/core';
+import { WeatherData } from '../../models/classes';
 
 @Component({
-  selector: 'app-temperature-widget',
-  templateUrl: './temperature-widget.component.html',
-  styleUrls: ['./temperature-widget.component.scss']
+  selector: 'app-precipitation-widget',
+  templateUrl: './precipitation-widget.component.html',
+  styleUrls: ['./precipitation-widget.component.scss']
 })
-export class TemperatureWidgetComponent implements OnInit {
+export class PrecipitationWidgetComponent implements OnInit {
 
-  icon: string = 'fa-thermometer-half';
+  icon: string = 'fa-umbrella';
   title: string = '';
-  now: string = '- °C';;
+  now: string = '- mm';;
   items: CardItem[];
   info: string = '';
-  chart: ComponentType = ComponentType.TEMPERATURE;
+  chart: ComponentType = ComponentType.PRECIPITATION;
 
   constructor(
     private matIconRegistry: MatIconRegistry,
@@ -29,23 +30,17 @@ export class TemperatureWidgetComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.translate.get('TEMPERATURE').subscribe((res) => {
+    this.translate.get('PRECIPITATION').subscribe((res) => {
       this.title = res.TITLE;
     })
     this.info = this.getInfo();
     this.items = [
-        { key: 'buiten', value: '- °C'},
-        { key: 'dauwpunt', value: '- °C' },
-        { key: 'gevoel', value: '- °C'},
-        { key: 'binnen', value: '- °C' }
+      { key: 'hoeveelheid', value: '- mm/u'},
     ];
-    this.dataService.currentDataChanged.subscribe((currentData) => {
-        this.now = this.createString(currentData.temperature.temperature, '°C');
+    this.dataService.currentDataChanged.subscribe((currentData: WeatherData) => {
+        this.now = this.createString(currentData.precipitation.value, 'mm/u');
         this.items = [
-          { key: 'buiten', value: this.createString(currentData.temperature.temperature, '°C') },
-          { key: 'dauwpunt', value: this.createString(currentData.temperature.dewpoint, '°C') },
-          { key: 'gevoel', value: this.createString(currentData.temperature.feeling, '°C')},
-          { key: 'binnen', value: this.createString(currentData.temperature.inside, '°C')},
+          { key: 'hoeveelheid', value: this.createString(currentData.precipitation.value, 'mm/u')},
         ];
     });
   }

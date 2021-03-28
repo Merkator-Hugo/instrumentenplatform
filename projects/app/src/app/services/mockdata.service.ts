@@ -16,7 +16,6 @@ export class MockdataService {
   }
 
   getCurrentData(now: Date): WeatherData {
-    now.setFullYear(2015);
     let stamp = this.getStamp(now);
     let hour = this.getHour(now); 
     let n = this.rawData.filter((d) => { 
@@ -34,10 +33,10 @@ export class MockdataService {
 
   getTemperature(from: Date, to: Date): Observable<TemperatureData[]> {
     const obs: Observable<TemperatureData[]> = new Observable((observer) => {
-      let stampF = this.getStamp(from);
-      let stampT = this.getStamp(to);
+      let stampF = Number(this.getStamp(from));
+      let stampT = Number(this.getStamp(to));
       let t = this.rawData.filter((d) => { 
-        return ((d.YYYYMMDD >= stampF) && (d.YYYYMMDD <= stampT));
+        return ((Number(d.YYYYMMDD) >= stampF) && (Number(d.YYYYMMDD) <= stampT));
       });
       let data = t.map<TemperatureData>((nn) => 
           new TemperatureData().fromMockData(nn.YYYYMMDD, nn.HH, Number(nn.T)/10, Number(nn.TD)/10)

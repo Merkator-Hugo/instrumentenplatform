@@ -21,6 +21,9 @@ import { LineChartComponent } from './components/line-chart/line-chart.component
 import { LoadingBarComponent } from './components/loading-bar/loading-bar.component';
 import { AnalogClockComponent } from './components/analog-clock/analog-clock.component';
 import { ActionsComponent } from './components/actions/actions.component';
+import { AirWidgetComponent } from './widgets/air-widget/air-widget.component';
+import { WindWidgetComponent } from './widgets/wind-widget/wind-widget.component';
+import { PrecipitationWidgetComponent } from './widgets/precipitation-widget/precipitation-widget.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -42,6 +45,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     AnalogClockComponent,
     MoonWidgetComponent,
     ActionsComponent,
+    AirWidgetComponent,
+    WindWidgetComponent,
+    PrecipitationWidgetComponent,
   ],
   imports: [
     MaterialModule,

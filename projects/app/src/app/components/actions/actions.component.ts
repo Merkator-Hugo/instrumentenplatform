@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ApexAxisChartSeries, ApexNonAxisChartSeries } from 'ng-apexcharts';
 import { InfoDialogComponent, ChartDialogComponent } from '../components';
 import { ComponentType } from '../../models/enums';
-import { DataService, LoadingService } from '../../services/services';
+import { DataService, LoadingService, TimeService } from '../../services/services';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -22,11 +22,13 @@ export class ActionsComponent implements OnInit {
 
   @Input() info: string;
   @Input() chart: ComponentType;
+  @Input() now: Date;
 
   constructor(
     public dialog: MatDialog,
     private dataService: DataService,
     private loadingService: LoadingService,
+    private time: TimeService,
     private snackbar: MatSnackBar) { }
 
   ngOnInit(): void {}
@@ -40,48 +42,13 @@ export class ActionsComponent implements OnInit {
   }
 
   openGraphDialog() {
-    this.loadingService.setLoadingStatus(true);
-    let from = new Date(2013,0,1);
-    let to = new Date(2013,11,31);
-    switch(this.chart) {
-      case ComponentType.TEMPERATURE:
-            this.dataService.getTemperature(from, to).subscribe(
-              (ts) => {
-                let s0 = [];
-                let s1 = [];
-                for(let t of ts) {
-                  const time: number = Number(t.datetime.getTime());
-                  const temp: number = t.temperature;
-                  const dauw: number = t.dewpoint;
-                  s0.push([time, temp]);
-                  s1.push([time, dauw]);
-                }
-                let series: ApexAxisChartSeries | ApexNonAxisChartSeries = [
-                  {
-                    name: 'werkelijk',
-                    data: s0
-                  }
-                ];
-                this.loadingService.setLoadingStatus(false);
-                this.dialog.open(ChartDialogComponent, 
-                  {
-                    data: {
-                      series: series
-                    }
-                  }
-                );
-              },
-              (error) => {
-                this.loadingService.setLoadingStatus(false);
-                this.snackbar.open(this.ERROR, '', {duration: 3000, panelClass: 'error'});           
-              }, 
-              () => {
-                this.loadingService.setLoadingStatus(false);
-                this.snackbar.open(this.NODATA, '', {duration: 3000, panelClass: 'warn'});           
-              }
-          );
-          break;
+    this.dialog.open(ChartDialogComponent, 
+      {
+        data: {
+          component: this.chart
+        }
       }
+    );
   }
 
 }
