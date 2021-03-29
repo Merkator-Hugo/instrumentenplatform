@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ChartData } from '../../models/interfaces';
 import { TimeSpan } from '../../models/enums';
 
@@ -63,8 +63,8 @@ export class LineChartComponent implements OnInit {
     this.chartOptions = {
       series: this.data.series,
       chart: {
-        id: 'area-datetime',
-        type: 'area',
+        id: 'line-datetime',
+        type: 'line',
         width: this.data.chart.width,
         height: this.data.chart.height,
         zoom: {
@@ -96,8 +96,21 @@ export class LineChartComponent implements OnInit {
     };
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    for (const propName in changes) {
+      if (changes.hasOwnProperty(propName)) {
+        switch (propName) {
+          case 'data': {
+              this.chart.updateSeries(changes.data.currentValue.series);   
+          }
+        }
+      }
+    }
+  }
+
+
   toggleSerie(serie) {
-    this.chart.toggleSeries(serie);
+    this.chart.toggleSeries(serie.name);
   };
 
   updateData(selection: TimeSpan) {

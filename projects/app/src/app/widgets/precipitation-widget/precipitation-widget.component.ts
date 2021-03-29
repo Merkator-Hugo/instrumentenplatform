@@ -1,7 +1,7 @@
 import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
-import { CardItem } from '../../models/interfaces';
+import { CardItem, ChartTypeData } from '../../models/interfaces';
 import { ComponentType, IconType } from '../../models/enums';
 import { DataService, LoadingService } from '../../services/services';
 import { TranslateService } from '@ngx-translate/core';
@@ -19,7 +19,10 @@ export class PrecipitationWidgetComponent implements OnInit {
   now: string = '- mm';;
   items: CardItem[];
   info: string = '';
-  chart: ComponentType = ComponentType.PRECIPITATION;
+  chartType: ChartTypeData = {
+    type: 'line',
+    component: ComponentType.PRECIPITATION,
+  };
 
   constructor(
     private matIconRegistry: MatIconRegistry,

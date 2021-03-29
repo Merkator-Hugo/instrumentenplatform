@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
-import { CardItem } from '../../models/interfaces';
+import { CardItem, ChartTypeData } from '../../models/interfaces';
 import { ComponentType, IconType } from '../../models/enums';
 import { DataService, SettingsService, TimeService } from '../../services/services';
 import { createTimeOfInterest } from 'astronomy-bundle/time';
@@ -24,7 +24,10 @@ export class TimeWidgetComponent implements OnInit {
   time: string = '';
   items: CardItem[] = [];
   info: string = '';
-  chart: ComponentType = ComponentType.TIME;
+  chartType: ChartTypeData = {
+    type: 'line',
+    component: ComponentType.TIME,
+  };
 
   constructor(
     private matIconRegistry: MatIconRegistry,

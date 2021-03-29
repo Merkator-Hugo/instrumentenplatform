@@ -1,5 +1,8 @@
+<div>
+  <span *ngFor="let serie of data.series" (click)="toggleSerie(serie)">{{serie.name}}</span>
+</div>
 <div style="text-align:center">
-    <apx-chart
+    <apx-chart #chart
       [series]="chartOptions.series"
       [chart]="chartOptions.chart"
       [xaxis]="chartOptions.xaxis"

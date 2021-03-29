@@ -1,11 +1,19 @@
 .background {
     height: 100%;
     background-image: url("/assets/HalleyAchtergrond.jpg");
-    background-repeat: no-repeat;
+    background-repeat: repeat-y;
     background-size: cover;
+    background-attachment: fixed;
 }
 
-mat-toolbar,
+mat-toolbar {
+    justify-content: space-between;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
 mat-toolbar-row {
     justify-content: space-between;
 }
@@ -21,6 +29,7 @@ mat-toolbar-row.secondrow {
 .sidenav {
     width: 400px;
     max-width: 100%;
+    z-index: 100;
 }
 
 mat-icon {

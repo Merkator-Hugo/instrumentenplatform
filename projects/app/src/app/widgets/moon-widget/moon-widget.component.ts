@@ -5,7 +5,7 @@ import { createTimeOfInterest } from 'astronomy-bundle/time';
 import { createMoon } from 'astronomy-bundle/moon';
 import { ApexAxisChartSeries, ApexNonAxisChartSeries } from 'ng-apexcharts';
 import { InfoDialogComponent, ChartDialogComponent } from '../../components/components';
-import { CardItem } from '../../models/interfaces';
+import { CardItem, ChartTypeData } from '../../models/interfaces';
 import { ComponentType, IconType } from '../../models/enums';
 import { DataService, LoadingService, TimeService } from '../../services/services';
 
@@ -22,7 +22,10 @@ export class MoonWidgetComponent implements OnInit {
   waxing: string = '';
   items: CardItem[];
   info: string = '';
-  chart: ComponentType = ComponentType.MOON;
+  chartType: ChartTypeData = {
+    type: 'line',
+    component: ComponentType.MOON,
+  };
 
   constructor(
     private matIconRegistry: MatIconRegistry,

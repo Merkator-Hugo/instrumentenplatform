@@ -5,6 +5,7 @@ import { InfoDialogComponent, ChartDialogComponent } from '../components';
 import { ComponentType } from '../../models/enums';
 import { DataService, LoadingService, TimeService } from '../../services/services';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ChartTypeData } from '../../models/interfaces';
 
 @Component({
   selector: 'app-actions',
@@ -21,7 +22,7 @@ export class ActionsComponent implements OnInit {
   ERROR = 'Fout bij ophalen data';
 
   @Input() info: string;
-  @Input() chart: ComponentType;
+  @Input() chartType: ChartTypeData;
   @Input() now: Date;
 
   constructor(
@@ -44,9 +45,7 @@ export class ActionsComponent implements OnInit {
   openGraphDialog() {
     this.dialog.open(ChartDialogComponent, 
       {
-        data: {
-          component: this.chart
-        }
+        data: this.chartType
       }
     );
   }

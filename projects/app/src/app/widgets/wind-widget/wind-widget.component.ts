@@ -1,7 +1,7 @@
 import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
-import { CardItem } from '../../models/interfaces';
+import { CardItem, ChartTypeData } from '../../models/interfaces';
 import { ComponentType, IconType } from '../../models/enums';
 import { DataService, LoadingService } from '../../services/services';
 import { TranslateService } from '@ngx-translate/core';
@@ -19,7 +19,10 @@ export class WindWidgetComponent implements OnInit {
   now: string = '- m/s';;
   items: CardItem[];
   info: string = '';
-  chart: ComponentType = ComponentType.WIND;
+  chartType: ChartTypeData = {
+    type: 'line',
+    component: ComponentType.WIND,
+  };
 
   constructor(
     private matIconRegistry: MatIconRegistry,

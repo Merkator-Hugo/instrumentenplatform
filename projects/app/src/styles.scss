@@ -8,13 +8,33 @@ $fa-fort-path: "~@fontawesome/fontawesome-free/webfonts";
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-.card-left {
-    width: 100px;
-    border-right: solid 1px grey;
-    margin-right: 8px;
+@media screen and (max-width: 400px) {
+    .card-left {
+        width: 110px;
+        border-right: solid 1px grey;
+        margin-right: 8px;
+    }
+    .card-right {
+        width: 220px;
+    }
+    mat-card {
+        margin: 5px 0px 0px 0px !important;
+        padding: 5px !important;
+    }
+    .content {
+        padding: 0px !important;
+    }
 }
-.card-right {
-    width: 200px;
+
+@media screen and (min-width: 401px) {
+    .card-left {
+        width: 110px;
+        border-right: solid 1px grey;
+        margin-right: 8px;
+    }
+    .card-right {
+        width: 230px;
+    }
 }
 
 .error {
