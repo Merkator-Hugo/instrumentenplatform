@@ -3,6 +3,7 @@ export enum ComponentType {
   TEMPERATURE = 'TEMPERATURE',
   TIME = 'TIME',
   MOON = 'MOON',
+  SUN = 'SUN',
   AIR = 'AIR',
   WIND = 'WIND',
   PRECIPITATION = 'PRECIPITATION',

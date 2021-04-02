@@ -4,7 +4,7 @@ import { StateService } from './state.service';
 import { MockdataService } from './mockdata.service';
 import { map } from 'rxjs/operators';
 import { Observable, from } from 'rxjs';
-import { TemperatureChartData, TemperatureData, WeatherData } from '../models/classes';
+import { AirData, PrecipitationData, SunData, TemperatureChartData, TemperatureData, WeatherData } from '../models/classes';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +42,48 @@ export class DataService {
     this.currentDataChanged.emit(wd);
   }
 
+  getAir(fromDate: Date, toDate: Date): Observable<AirData[]> {
+    if(this.stateData.demo) {
+      if (this.mockdata.ready) {
+        return this.mockdata.getAir(fromDate, toDate).pipe(
+          map((t) => t)
+        )
+      } else {
+        return from([]);
+      }
+    } else {
+      return from([]);
+    }
+  }
+
+  getPrecipitation(fromDate: Date, toDate: Date): Observable<PrecipitationData[]> {
+    if(this.stateData.demo) {
+      if (this.mockdata.ready) {
+        return this.mockdata.getPrecipitation(fromDate, toDate).pipe(
+          map((t) => t)
+        )
+      } else {
+        return from([]);
+      }
+    } else {
+      return from([]);
+    }
+  }
+
+  getSun(fromDate: Date, toDate: Date): Observable<SunData[]> {
+    if(this.stateData.demo) {
+      if (this.mockdata.ready) {
+        return this.mockdata.getSun(fromDate, toDate).pipe(
+          map((t) => t)
+        )
+      } else {
+        return from([]);
+      }
+    } else {
+      return from([]);
+    }
+  }
+
   getTemperature(fromDate: Date, toDate: Date): Observable<TemperatureData[]> {
     if(this.stateData.demo) {
       if (this.mockdata.ready) {
@@ -55,6 +97,5 @@ export class DataService {
       return from([]);
     }
   }
-
 
 }

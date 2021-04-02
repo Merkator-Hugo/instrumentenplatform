@@ -20,7 +20,7 @@ export class PrecipitationWidgetComponent implements OnInit {
   items: CardItem[];
   info: string = '';
   chartType: ChartTypeData = {
-    type: 'line',
+    type: 'bar',
     component: ComponentType.PRECIPITATION,
   };
 

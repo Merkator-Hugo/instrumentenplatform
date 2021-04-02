@@ -31,6 +31,51 @@ export class MockdataService {
     )[0];
   }
 
+  getAir(from: Date, to: Date): Observable<AirData[]> {
+    const obs: Observable<AirData[]> = new Observable((observer) => {
+      let stampF = Number(this.getStamp(from));
+      let stampT = Number(this.getStamp(to));
+      let t = this.rawData.filter((d) => { 
+        return ((Number(d.YYYYMMDD) >= stampF) && (Number(d.YYYYMMDD) <= stampT));
+      });
+      let data = t.map<AirData>((nn) => 
+        new AirData().fromMockData(nn.YYYYMMDD, nn.HH, Number(nn.DD), Number(nn.FF)/10, Number(nn.P)/10, Number(nn.U)),
+      );
+      observer.next(data);
+    });
+    return obs;
+  }
+
+  getPrecipitation(from: Date, to: Date): Observable<PrecipitationData[]> {
+    const obs: Observable<PrecipitationData[]> = new Observable((observer) => {
+      let stampF = Number(this.getStamp(from));
+      let stampT = Number(this.getStamp(to));
+      let t = this.rawData.filter((d) => { 
+        return ((Number(d.YYYYMMDD) >= stampF) && (Number(d.YYYYMMDD) <= stampT));
+      });
+      let data = t.map<PrecipitationData>((nn) => 
+        new PrecipitationData().fromMockData(nn.YYYYMMDD, nn.HH, Number(nn.RH)/10),
+      );
+      observer.next(data);
+    });
+    return obs;
+  }
+
+  getSun(from: Date, to: Date): Observable<SunData[]> {
+    const obs: Observable<SunData[]> = new Observable((observer) => {
+      let stampF = Number(this.getStamp(from));
+      let stampT = Number(this.getStamp(to));
+      let t = this.rawData.filter((d) => { 
+        return ((Number(d.YYYYMMDD) >= stampF) && (Number(d.YYYYMMDD) <= stampT));
+      });
+      let data = t.map<SunData>((nn) => 
+        new SunData().fromMockData(nn.YYYYMMDD, nn.HH, Number(nn.SQ)/10),
+      );
+      observer.next(data);
+    });
+    return obs;
+  }
+
   getTemperature(from: Date, to: Date): Observable<TemperatureData[]> {
     const obs: Observable<TemperatureData[]> = new Observable((observer) => {
       let stampF = Number(this.getStamp(from));

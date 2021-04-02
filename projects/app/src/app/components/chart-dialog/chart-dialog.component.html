@@ -8,3 +8,9 @@
   [data]="data"
   [selection]="selectedTimespan">
 </app-line-chart>
+
+<app-bar-chart 
+  *ngIf="chartTypeData.type == 'bar'"
+  [data]="data"
+  [selection]="selectedTimespan">
+</app-bar-chart>

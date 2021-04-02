@@ -18,6 +18,7 @@ import { ItemlistComponent } from './components/itemlist/itemlist.component';
 import { InfoDialogComponent } from './components/info-dialog/info-dialog.component';
 import { ChartDialogComponent } from './components/chart-dialog/chart-dialog.component';
 import { LineChartComponent } from './components/line-chart/line-chart.component';
+import { BarChartComponent } from './components/bar-chart/bar-chart.component';
 import { LoadingBarComponent } from './components/loading-bar/loading-bar.component';
 import { AnalogClockComponent } from './components/analog-clock/analog-clock.component';
 import { ActionsComponent } from './components/actions/actions.component';
@@ -41,6 +42,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     InfoDialogComponent,
     ChartDialogComponent,
     LineChartComponent,
+    BarChartComponent,
     LoadingBarComponent,
     AnalogClockComponent,
     MoonWidgetComponent,

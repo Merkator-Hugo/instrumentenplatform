@@ -23,4 +23,5 @@ import {
   export interface ChartData {
     series?: ApexAxisChartSeries | ApexNonAxisChartSeries;
     chart?: ApexChart;
+    yaxis?: ApexYAxis | ApexYAxis[];
 }

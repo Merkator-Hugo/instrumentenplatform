@@ -52,7 +52,7 @@ export type ChartOptions = {
 })
 export class LineChartComponent implements OnInit {
 
-  @ViewChild("chart") chart: ChartComponent;
+  @ViewChild("linechart") chart: ChartComponent;
   @Input() data: ChartData;
   @Input() selection: TimeSpan;
   public chartOptions: ChartOptions;
@@ -76,7 +76,6 @@ export class LineChartComponent implements OnInit {
       },
       xaxis: {
         type: 'datetime',
-        // min: new Date('01 Mar 2012').getTime(),
         tickAmount: 6,
       },
       tooltip: {
@@ -94,6 +93,9 @@ export class LineChartComponent implements OnInit {
         },
       },
     };
+    if(this.data.yaxis) {
+      this.chartOptions.yaxis = this.data.yaxis;
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -101,7 +103,9 @@ export class LineChartComponent implements OnInit {
       if (changes.hasOwnProperty(propName)) {
         switch (propName) {
           case 'data': {
+            if (this.chart != undefined) {
               this.chart.updateSeries(changes.data.currentValue.series);   
+            }
           }
         }
       }
