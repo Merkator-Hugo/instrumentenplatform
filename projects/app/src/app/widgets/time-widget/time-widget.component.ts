@@ -7,6 +7,7 @@ import { createTimeOfInterest } from 'astronomy-bundle/time';
 import { createMoon } from 'astronomy-bundle/moon';
 import {createLocation} from 'astronomy-bundle/earth';
 import {angleCalc} from 'astronomy-bundle/utils';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-time-widget',
@@ -17,7 +18,7 @@ export class TimeWidgetComponent implements OnInit {
 
   icon: string = 'fa-clock';
   iconType: string = IconType.SOLID;
-  title: string = 'Datum en Tijd';
+  title: string = '';
   now: Date;
   weekday: string = '';
   date: string = '';
@@ -33,16 +34,21 @@ export class TimeWidgetComponent implements OnInit {
     private matIconRegistry: MatIconRegistry,
     private dataService: DataService,
     private timeService: TimeService,
-    private settings: SettingsService) {
+    private settings: SettingsService,
+    private translate: TranslateService) {
       this.matIconRegistry.setDefaultFontSetClass(this.iconType);
     }
 
   ngOnInit(): void {
+    this.translate.get('DATEANDTIME').subscribe((res) => {
+      this.title = res.TITLE;
+    })
     this.items = [
         { key: 'juliaans', value: '-' },
         { key: 'sideraal', value: '-'},
     ];
     this.timeService.tick.subscribe((now) => {
+      this.now = now;
       this.createItems(now);
       this.createDateTime(now);
     });
@@ -76,6 +82,5 @@ export class TimeWidgetComponent implements OnInit {
     const mm = (now.getMinutes() > 9) ? now.getMinutes().toString() : '0' + now.getMinutes().toString();
     const ss = (now.getSeconds() > 9) ? now.getSeconds().toString() : '0' + now.getSeconds().toString();
     this.time = (hh + ':' + mm + ':' + ss);
-
   }
 }

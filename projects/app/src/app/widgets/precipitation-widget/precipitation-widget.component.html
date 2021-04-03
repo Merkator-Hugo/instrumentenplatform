@@ -1,7 +1,8 @@
 <mat-card class="mat-elevation-z4">
     <div fxLayout="row">
         <div class="card-left" fxLayout="column" fxLayoutAlign="space-between center">
-            <mat-icon class="logo" mat-card-avatar fontIcon="{{icon}}" aria-hidden="true"></mat-icon>
+            <!-- <mat-icon class="logo" mat-card-avatar fontIcon="{{icon}}" aria-hidden="true"></mat-icon> -->
+            <mat-icon svgIcon="precipitation0" aria-hidden="false"></mat-icon>
             <div>
                 <div class="now">{{now}}</div>
                 <app-actions [info]="info" [chartType]="chartType"></app-actions>

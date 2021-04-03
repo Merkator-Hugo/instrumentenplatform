@@ -6,6 +6,7 @@ import { ComponentType, IconType } from '../../models/enums';
 import { DataService, LoadingService } from '../../services/services';
 import { TranslateService } from '@ngx-translate/core';
 import { WeatherData } from '../../models/classes';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-air-widget',
@@ -26,10 +27,12 @@ export class AirWidgetComponent implements OnInit {
 
   constructor(
     private matIconRegistry: MatIconRegistry,
+    private sanitizer: DomSanitizer,
     public dialog: MatDialog,
     private dataService: DataService,
     private translate: TranslateService) {
-      this.matIconRegistry.setDefaultFontSetClass(IconType.SOLID);
+      // this.matIconRegistry.setDefaultFontSetClass(IconType.SOLID);
+      this.registerAirIcons();
     }
 
   ngOnInit(): void {
@@ -69,6 +72,10 @@ export class AirWidgetComponent implements OnInit {
       <h3>Luchtvervuiling</h3>
       <p></p>
     `
+  }
+
+  private registerAirIcons() {
+    this.matIconRegistry.addSvgIcon('air0', this.sanitizer.bypassSecurityTrustResourceUrl('assets/weather-icons/svg/wi-barometer.svg'));
   }
 
 }

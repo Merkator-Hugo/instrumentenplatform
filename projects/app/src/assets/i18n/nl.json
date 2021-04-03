@@ -10,5 +10,20 @@
     },
     "WIND": {
         "TITLE": "Wind"
+    },
+    "DATEANDTIME": {
+        "TITLE": "Datum en Tijd"
+    },
+    "MOON": {
+        "TITLE": "Maan"
+    },
+    "SUN": {
+        "TITLE": "Zon"
+    },
+    "FORECAST": {
+        "TITLE": "Weersverwachtin"
+    },
+    "CAMERA": {
+        "TITLE": "Webcam"
     }
 }

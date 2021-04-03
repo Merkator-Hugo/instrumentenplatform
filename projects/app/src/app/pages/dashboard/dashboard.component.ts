@@ -31,6 +31,7 @@ export class DashboardComponent implements OnInit {
     this.timeService.tick.subscribe((now) => {
       this.now = now;
       this.dataService.refreshCurrentData(now);
+      this.dataService.refreshCurrentImage(now)
     });
   }
 
@@ -42,6 +43,9 @@ export class DashboardComponent implements OnInit {
     this.cards.push({ type: ComponentType.WIND });
     this.cards.push({ type: ComponentType.PRECIPITATION });
     this.cards.push({ type: ComponentType.AIR });
+    this.cards.push({ type: ComponentType.SUN });
+    this.cards.push({ type: ComponentType.CAMERA });
+    this.cards.push({ type: ComponentType.FORECAST });
     this.cards.push({ type: ComponentType.WIDGET, title: 'Webcam', icon: 'fa-camera' });
   }
 

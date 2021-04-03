@@ -7,5 +7,6 @@ export enum ComponentType {
   AIR = 'AIR',
   WIND = 'WIND',
   PRECIPITATION = 'PRECIPITATION',
-  component = "component"
+  CAMERA = 'CAMERA',
+  FORECAST = 'FORECAST',
 }

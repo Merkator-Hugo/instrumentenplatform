@@ -25,6 +25,9 @@ import { ActionsComponent } from './components/actions/actions.component';
 import { AirWidgetComponent } from './widgets/air-widget/air-widget.component';
 import { WindWidgetComponent } from './widgets/wind-widget/wind-widget.component';
 import { PrecipitationWidgetComponent } from './widgets/precipitation-widget/precipitation-widget.component';
+import { CameraWidgetComponent } from './widgets/camera/camera-widget.component';
+import { SunWidgetComponent } from './widgets/sun/sun-widget.component';
+import { ForecastWidgetComponent } from './widgets/forecast/forecast-widget.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -50,6 +53,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     AirWidgetComponent,
     WindWidgetComponent,
     PrecipitationWidgetComponent,
+    MoonWidgetComponent,
+    CameraWidgetComponent,
+    SunWidgetComponent,
+    ForecastWidgetComponent,
   ],
   imports: [
     MaterialModule,

@@ -13,6 +13,8 @@ export class DataService {
 
   private stateData: any;
   currentDataChanged: EventEmitter<WeatherData> = new EventEmitter();
+  cameraDataChanged: EventEmitter<string> = new EventEmitter();  
+
 
   constructor(private state: StateService,
               private mockdata: MockdataService,
@@ -30,27 +32,28 @@ export class DataService {
   refreshCurrentData(now: Date): void {
     let wd: WeatherData;
     if(this.stateData.demo) {
-      if (this.mockdata.ready) {
-        wd = this.mockdata.getCurrentData(now);
-        let x = 1;
-      } else { 
-        wd = new WeatherData();
-      }
+      wd = this.mockdata.getCurrentData(now);
     } else {
       wd = new WeatherData();
     }
     this.currentDataChanged.emit(wd);
   }
 
+  refreshCurrentImage(now: Date): void {
+    let img = '';
+    if (this.stateData.demo) {
+      img = this.mockdata.getCurrentImage(now);
+    } else {
+      img = '';
+    }
+    this.cameraDataChanged.emit(img);
+  }
+
   getAir(fromDate: Date, toDate: Date): Observable<AirData[]> {
     if(this.stateData.demo) {
-      if (this.mockdata.ready) {
-        return this.mockdata.getAir(fromDate, toDate).pipe(
-          map((t) => t)
-        )
-      } else {
-        return from([]);
-      }
+      return this.mockdata.getAir(fromDate, toDate).pipe(
+        map((t) => t)
+      )
     } else {
       return from([]);
     }
@@ -58,13 +61,9 @@ export class DataService {
 
   getPrecipitation(fromDate: Date, toDate: Date): Observable<PrecipitationData[]> {
     if(this.stateData.demo) {
-      if (this.mockdata.ready) {
-        return this.mockdata.getPrecipitation(fromDate, toDate).pipe(
-          map((t) => t)
-        )
-      } else {
-        return from([]);
-      }
+      return this.mockdata.getPrecipitation(fromDate, toDate).pipe(
+        map((t) => t)
+      )
     } else {
       return from([]);
     }
@@ -72,13 +71,9 @@ export class DataService {
 
   getSun(fromDate: Date, toDate: Date): Observable<SunData[]> {
     if(this.stateData.demo) {
-      if (this.mockdata.ready) {
-        return this.mockdata.getSun(fromDate, toDate).pipe(
-          map((t) => t)
-        )
-      } else {
-        return from([]);
-      }
+      return this.mockdata.getSun(fromDate, toDate).pipe(
+        map((t) => t)
+      )
     } else {
       return from([]);
     }
@@ -86,13 +81,9 @@ export class DataService {
 
   getTemperature(fromDate: Date, toDate: Date): Observable<TemperatureData[]> {
     if(this.stateData.demo) {
-      if (this.mockdata.ready) {
-        return this.mockdata.getTemperature(fromDate, toDate).pipe(
-          map((t) => t)
-        )
-      } else {
-        return from([]);
-      }
+      return this.mockdata.getTemperature(fromDate, toDate).pipe(
+        map((t) => t)
+      )
     } else {
       return from([]);
     }

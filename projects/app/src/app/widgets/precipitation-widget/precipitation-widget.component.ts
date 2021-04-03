@@ -6,6 +6,7 @@ import { ComponentType, IconType } from '../../models/enums';
 import { DataService, LoadingService } from '../../services/services';
 import { TranslateService } from '@ngx-translate/core';
 import { WeatherData } from '../../models/classes';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-precipitation-widget',
@@ -26,10 +27,12 @@ export class PrecipitationWidgetComponent implements OnInit {
 
   constructor(
     private matIconRegistry: MatIconRegistry,
+    private sanitizer: DomSanitizer,
     public dialog: MatDialog,
     private dataService: DataService,
     private translate: TranslateService) {
-      this.matIconRegistry.setDefaultFontSetClass(IconType.SOLID);
+      // this.matIconRegistry.setDefaultFontSetClass(IconType.SOLID);
+      this.registerPrecipitationIcons()
     }
 
   ngOnInit(): void {
@@ -61,6 +64,10 @@ export class PrecipitationWidgetComponent implements OnInit {
       <h3>Dauwpunt</h3>
       <p>Het dauwpunt wordt berekend door ....</p>
     `
+  }
+
+  private registerPrecipitationIcons() {
+    this.matIconRegistry.addSvgIcon('precipitation0', this.sanitizer.bypassSecurityTrustResourceUrl('assets/weather-icons/svg/wi-umbrella.svg'));
   }
 
 }

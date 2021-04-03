@@ -1,8 +1,8 @@
 <mat-card class="mat-elevation-z4">
     <div fxLayout="row">
         <div class="card-left" fxLayout="column" fxLayoutAlign="space-between center">
-            <mat-icon class="logo" mat-card-avatar fontIcon="{{icon}}" aria-hidden="true"></mat-icon>
-            <!-- <app-analog-clock [time]="now"></app-analog-clock> -->
+            <!-- <mat-icon class="logo" mat-card-avatar fontIcon="{{icon}}" aria-hidden="true"></mat-icon> -->
+            <app-analog-clock [time]="now" [diameter]="45"></app-analog-clock>
             <div>
                 <div class="weekday">{{weekday}}</div>
                 <div class="date">{{date}}</div>
