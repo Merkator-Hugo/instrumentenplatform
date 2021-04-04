@@ -14,4 +14,9 @@ td {
 
 td:empty::after{
     content: "\00a0";
-  }
+}
+
+mat-icon {
+    height: 13px;
+    width: 13px;
+}

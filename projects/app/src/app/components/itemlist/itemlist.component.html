@@ -1,7 +1,8 @@
 <table>
     <tr *ngFor="let item of itemlist">
         <th>{{item.key}}</th>
-        <td>{{item.value}}</td>
+        <td *ngIf="!item.html">{{item.value}}</td>
+        <td *ngIf="item.html"><mat-icon svgIcon="{{item.value}}"></mat-icon></td>
     </tr>
 </table>
 

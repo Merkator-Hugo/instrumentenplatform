@@ -20,7 +20,6 @@
       <mat-toolbar-row>
         <span>
           <button mat-button>
-            <!-- <mat-icon class="logo" svgIcon="logo" aria-hidden="false" (click)="sidenav.open()"></mat-icon> -->
             <mat-icon class="logo" svgIcon="logo" aria-hidden="false"></mat-icon>
           </button>
           {{title}}
@@ -32,7 +31,7 @@
           </mat-slide-toggle>
           <span *ngIf="demo">
             <span [matMenuTriggerFor]="clockmenu">
-              <mat-icon class="secondrow" fontIcon="{{icons.clock}}" aria-hidden="true"></mat-icon>
+              <mat-icon fontIcon="{{icons.clock}}" aria-hidden="true"></mat-icon>
               x {{speed}}
             </span>
           </span>

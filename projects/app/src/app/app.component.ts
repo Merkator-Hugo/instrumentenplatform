@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { SettingsService, StateService, TimeService } from './services/services';
+import { SettingsService, StateService, TimeService, TameteoService } from './services/services';
 import { TranslateService } from '@ngx-translate/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { IconType } from './models/enums';
@@ -25,7 +25,8 @@ export class AppComponent implements OnInit {
     public state: StateService,
     private translate: TranslateService,
     public settings: SettingsService,
-    private time: TimeService) {
+    private time: TimeService,
+    private tameteo: TameteoService) {
       this.matIconRegistry.setDefaultFontSetClass(IconType.SOLID);
       this.registerIcons();
     }
@@ -60,8 +61,13 @@ export class AppComponent implements OnInit {
     window.scrollTo(0, 0);
   }
 
+  getWeer() {
+    this.tameteo.getData();
+  }
+
   private registerIcons() {
     this.matIconRegistry.addSvgIcon('logo', this.sanitizer.bypassSecurityTrustResourceUrl('assets/logoHalley_metNaam.svg'));
+    this.matIconRegistry.addSvgIcon('weer', this.sanitizer.bypassSecurityTrustResourceUrl('assets/weather-icons/svg/wi-day-showers.svg'));
     this.matIconRegistry.addSvgIcon('up', this.sanitizer.bypassSecurityTrustResourceUrl('assets/weather-icons/svg/wi-wind-deg.svg'));
   }
 

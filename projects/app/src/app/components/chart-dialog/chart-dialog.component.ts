@@ -121,6 +121,21 @@ export class ChartDialogComponent implements OnInit {
             height: this.screen.height - (this.settings.getMargins().top + this.settings.getMargins().bottom),
             type: null,
           },
+          yaxis: [
+            {
+              min: 800,
+              max: 1200,
+              title: {
+                text: "luchtdruk (hPa)"
+              },
+            },
+            {
+              opposite: true,
+              title: {
+                text: "luchtvochtigheid (%)"
+              }
+            }
+          ],
           series: [
             {
               name: 'luchtdruk',
