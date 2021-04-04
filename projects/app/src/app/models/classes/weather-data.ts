@@ -9,6 +9,7 @@ import { TemperatureData } from './temperature-data';
 import { WeatherForcastData } from './weather-forcast-data';
 
 export class WeatherData {
+    datetime: Date;
     air: AirData;
     camera: AllskyCameraData;
     magnetometer: MagnetometerData;
@@ -20,6 +21,7 @@ export class WeatherData {
     weatherforcast: WeatherForcastData;
 
     constructor() {
+        this.datetime = new Date();
         this.air = new AirData();
         this.camera = new AllskyCameraData();
         this.magnetometer = new MagnetometerData();
@@ -31,11 +33,18 @@ export class WeatherData {
         this.weatherforcast = new WeatherForcastData();
     }
 
-    fromMockData(air: AirData, precipitation: PrecipitationData, sun: SunData, temperature: TemperatureData) {
+    fromMockData(datetime: Date, air: AirData, precipitation: PrecipitationData, sun: SunData, temperature: TemperatureData, camera: AllskyCameraData) {
+        this.datetime = datetime;
         this.air = air;
+        this.camera = camera;
         this.precipitation = precipitation;
         this.sun = sun;
         this.temperature = temperature;
+        return this;
+    }
+
+    setTime(datetime: Date) {
+        this.datetime = datetime;
         return this;
     }
 }

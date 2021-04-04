@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { ChartInfo } from '../../models/interfaces';
-import { DataType } from '../../models/enums';
 import { DataService } from '../../services/services';
 import { TranslateService } from '@ngx-translate/core';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -37,10 +36,16 @@ export class CameraWidgetComponent implements OnInit {
       this.title = res.TITLE;
     })
     this.info = this.getInfo();
-    this.dataService.cameraDataChanged.subscribe((img) => {
-      this.src = (img.url != '') ? 'assets/camera/' + img.url : 'assets/HalleyAchtergrond.jpg';
-      this.now = img.hour.substring(0,2) + ':' + img.hour.substring(2);
+    this.dataService.currentDataChanged.subscribe((data) => {
+      this.src = ((data.camera.url != undefined) && (data.camera.url != '')) ? 'assets/camera/' + data.camera.url : 'assets/HalleyAchtergrond.jpg';
+      this.now = (data.camera.datetime != undefined) ? this.getTime(data.camera.datetime) : '';
     })
+  }
+
+  getTime(d: Date) {
+    const hh = (d.getHours() > 9) ? d.getHours() : '0' + d.getHours();
+    const mm = (d.getMinutes() > 9) ? d.getMinutes() : '0' + d.getMinutes();
+    return hh + ':' + mm;
   }
 
   getInfo(): string {

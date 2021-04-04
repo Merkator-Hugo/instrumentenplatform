@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, from } from 'rxjs';
-import { WeatherData, TemperatureData, AirData, PrecipitationData, SunData, AllskyCameraData, MagnetometerData, MeteorData, SatelliteImageData, WeatherForcastData, CameraImage } from '../models/classes';
+import { WeatherData, TemperatureData, AirData, PrecipitationData, SunData, AllskyCameraData } from '../models/classes';
 
 @Injectable({
   providedIn: 'root'
@@ -20,18 +20,21 @@ export class MockdataService {
 
   getCurrentData(now: Date): WeatherData {
     if (this.dataReady) {
-      now.setMinutes(0);
-      now.setSeconds(0);
-      now.setMilliseconds(0);
+      let nowToHour = new Date(now.valueOf());
+      nowToHour.setMinutes(0);
+      nowToHour.setSeconds(0);
+      nowToHour.setMilliseconds(0);
       let n = this.rawData.filter((d) => {
-        return (d.Date.getTime() == now.getTime());
+        return (d.Date.getTime() == nowToHour.getTime());
       });
       return n.map<WeatherData>((nn) =>
         new WeatherData().fromMockData(
+          now,
           new AirData().fromMockData(nn.Date, Number(nn.DD), Number(nn.FF) / 10, Number(nn.P) / 10, Number(nn.U)),
           new PrecipitationData().fromMockData(nn.Date, Number(nn.RH) / 10),
           new SunData().fromMockData(nn.Date, Number(nn.SQ) / 10),
-          new TemperatureData().fromMockData(nn.Date, Number(nn.T) / 10, Number(nn.TD) / 10)
+          new TemperatureData().fromMockData(nn.Date, Number(nn.T) / 10, Number(nn.TD) / 10),
+          this.getCameraData(now)
         )
       )[0];
     } else {
@@ -39,9 +42,9 @@ export class MockdataService {
     }
   }
 
-  getCurrentImage(now: Date): CameraImage {
+  getCameraData(now: Date): AllskyCameraData {
     if (this.cameraReady) {
-      const stampD = 20210212; // Number(this.getStamp(now));
+      const stampD = 20210212;
       const stampH = (now.getHours() * 100) + now.getMinutes();
       const stampH1 = stampH - 10;
       const stampH2 = stampH + 10;
@@ -53,16 +56,16 @@ export class MockdataService {
         t1 = t.reduce(function(prev, curr) {
           return (Math.abs(Number(curr.hour) - stampH) < Math.abs(Number(prev.hour) - stampH) ? curr : prev);
         });
-        return t1;
+        return new AllskyCameraData().fromMockData(t1.date, t1.url);
       } else {
         if (t.length == 1) {
-          return t[0];
+          return new AllskyCameraData().fromMockData(t[0].date, t[0].url);
         } else {
-          return new CameraImage();
+          return new AllskyCameraData();
         }
       }
     } else {
-      return this.cameraData[0].url;
+      return new AllskyCameraData().fromMockData(this.cameraData[0].date, this.cameraData[0].url);
     }
   }
 
@@ -92,11 +95,6 @@ export class MockdataService {
   getPrecipitation(fromDate: Date, toDate: Date): Observable<PrecipitationData[]> {
     if (this.dataReady) {
       const obs: Observable<PrecipitationData[]> = new Observable((observer) => {
-        // let stampF = Number(this.getStamp(fromDate));
-        // let stampT = Number(this.getStamp(toDate));
-        // let t = this.rawData.filter((d) => {
-        //   return ((Number(d.YYYYMMDD) >= stampF) && (Number(d.YYYYMMDD) <= stampT));
-        // });
         fromDate.setMinutes(0);
         fromDate.setSeconds(0);
         fromDate.setMilliseconds(0);
@@ -120,11 +118,6 @@ export class MockdataService {
   getSun(fromDate: Date, toDate: Date): Observable<SunData[]> {
     if (this.dataReady) {
       const obs: Observable<SunData[]> = new Observable((observer) => {
-        // let stampF = Number(this.getStamp(fromDate));
-        // let stampT = Number(this.getStamp(toDate));
-        // let t = this.rawData.filter((d) => {
-        //   return ((Number(d.YYYYMMDD) >= stampF) && (Number(d.YYYYMMDD) <= stampT));
-        // });
         fromDate.setMinutes(0);
         fromDate.setSeconds(0);
         fromDate.setMilliseconds(0);
@@ -148,11 +141,6 @@ export class MockdataService {
   getTemperature(fromDate: Date, toDate: Date): Observable<TemperatureData[]> {
     if (this.dataReady) {
       const obs: Observable<TemperatureData[]> = new Observable((observer) => {
-        // let stampF = Number(this.getStamp(fromDate));
-        // let stampT = Number(this.getStamp(toDate));
-        // let t = this.rawData.filter((d) => {
-        //   return ((Number(d.YYYYMMDD) >= stampF) && (Number(d.YYYYMMDD) <= stampT));
-        // });
         fromDate.setMinutes(0);
         fromDate.setSeconds(0);
         fromDate.setMilliseconds(0);
@@ -173,17 +161,6 @@ export class MockdataService {
     }
   }
 
-  // private getHour(d: Date): string {
-  //   return d.getHours().toString();
-  // }
-
-  // private getStamp(d: Date): string {
-  //   let YYYY = d.getFullYear().toString();
-  //   let MM = (d.getMonth() > 8) ? (d.getMonth() + 1).toString() : '0' + (d.getMonth() + 1).toString();
-  //   let DD = (d.getDate() > 9) ? d.getDate().toString() : '0' + d.getDate().toString();
-  //   return (YYYY + MM + DD);
-  // }
-
   private loadWeatherDataFromFile() {
     this.http.get('assets/weerdata/weerdata_Volkel_Uur_2010-2020.csv', { responseType: 'text' })
       .subscribe(
@@ -199,12 +176,10 @@ export class MockdataService {
               for (let p in parts) {
                 l[keys[p]] = parts[p];
               }
-              let x = 1;
               const year = Number(l['YYYYMMDD'].substring(0,4));
               const month = Number(l['YYYYMMDD'].substring(4,6))-1;
               const day = Number(l['YYYYMMDD'].substring(6,8));
               const hour = Number(l['HH']);
-              // console.log(year.toString() + ',' + month.toString() + ',' + day.toString() + ',' + hour.toString());
               l['Date'] = new Date(year, month, day, hour, 0, 0);
               this.rawData.push(l);
             } else {
@@ -238,12 +213,19 @@ export class MockdataService {
               for (let p in parts) {
                 l[keys[p]] = parts[p];
               }
+              const year = Number(l['day'].substring(0,4));
+              const month = Number(l['day'].substring(4,6))-1;
+              const day = Number(l['day'].substring(6,8));
+              const hour = Number(l['hour'].substring(0,2));
+              const minutes = Number(l['hour'].substring(2,4));
+              l['date'] = new Date(year, month, day, hour, minutes, 0);
               this.cameraData.push(l);
             } else {
               parts = line.split(";");
               for (let p in parts) {
                 keys[p] = parts[p].trim();
               }
+              keys.push('date');
             }
             l++;
           }

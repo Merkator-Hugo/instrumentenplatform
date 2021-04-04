@@ -1,25 +1,3 @@
-<mat-toolbar color="primary">
-  <mat-toolbar-row>
-    <span>
-      <button mat-button (click)="sidenav.open()">
-        <mat-icon mat-card-avatar fontIcon="{{icons.menu}}" aria-hidden="true"></mat-icon>
-      </button>
-      {{title}}
-    </span>
-    <span *ngIf="demo">
-      <span>DEMO</span>
-    </span>
-    <span *ngIf="demo">
-      <span [matMenuTriggerFor]="clockmenu">
-        <mat-icon class="secondrow" fontIcon="{{icons.clock}}" aria-hidden="true"></mat-icon>
-        x {{speed}}
-      </span>
-    </span>
-  </mat-toolbar-row>
-  <mat-menu #clockmenu="matMenu">
-    <button mat-menu-item *ngFor="let sp of settings.getSpeeds()" (click)="setSpeed(sp.value)">{{sp.label}}</button>
-  </mat-menu>
-</mat-toolbar>
 <mat-sidenav-container (backdropClick)="close()">
 
   <mat-sidenav #sidenav class="sidenav" (keydown.escape)="close()" [fixedInViewport]="true" [fixedTopGap]="64"
@@ -38,8 +16,35 @@
   </mat-sidenav>
 
   <mat-sidenav-content class="background">
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <span>
+          <button mat-button>
+            <!-- <mat-icon class="logo" svgIcon="logo" aria-hidden="false" (click)="sidenav.open()"></mat-icon> -->
+            <mat-icon class="logo" svgIcon="logo" aria-hidden="false"></mat-icon>
+          </button>
+          {{title}}
+        </span>
+        <span>
+          <mat-slide-toggle [checked]="demo" (change)="setDemo($event)">
+            Demo
+            <span *ngIf="demo" style="margin-right:5px;">:</span>
+          </mat-slide-toggle>
+          <span *ngIf="demo">
+            <span [matMenuTriggerFor]="clockmenu">
+              <mat-icon class="secondrow" fontIcon="{{icons.clock}}" aria-hidden="true"></mat-icon>
+              x {{speed}}
+            </span>
+          </span>
+        </span>
+      </mat-toolbar-row>
+      <mat-menu #clockmenu="matMenu">
+        <button mat-menu-item *ngFor="let sp of settings.getSpeeds()" (click)="setSpeed(sp.value)">{{sp.label}}</button>
+      </mat-menu>
+    </mat-toolbar>
     <app-loading-bar></app-loading-bar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 
 </mat-sidenav-container>
+<ngx-scrolltop mode="classic"></ngx-scrolltop>

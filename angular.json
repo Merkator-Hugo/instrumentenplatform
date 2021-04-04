@@ -29,7 +29,8 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "projects/app/src/styles.scss"
+              "projects/app/src/styles.scss",
+              "projects/app/src/assets/weather-icons/css/weather-icons-wind.css"
             ],
             "scripts": [
               "node_modules/apexcharts/dist/apexcharts.min.js"

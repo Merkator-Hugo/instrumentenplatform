@@ -1,5 +1,5 @@
 .background {
-    height: 100%;
+    min-height: 100vh;
     background-image: url("/assets/HalleyAchtergrond.jpg");
     background-size: cover;
     background-attachment: fixed;
@@ -35,7 +35,8 @@ mat-icon {
     font-size: 30px;
     margin: 5px;
 }
-mat-icon.secondrow {
-    font-size: 20px;
-    margin: 0px;
+mat-icon.logo {
+    width: 54px;
+    height: 54px;
+    color: white;
 }

@@ -4,6 +4,7 @@ import { SettingsService, StateService, TimeService } from './services/services'
 import { TranslateService } from '@ngx-translate/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { IconType } from './models/enums';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -20,11 +21,13 @@ export class AppComponent implements OnInit {
 
   constructor(
     private matIconRegistry: MatIconRegistry,
+    private sanitizer: DomSanitizer,
     public state: StateService,
     private translate: TranslateService,
     public settings: SettingsService,
     private time: TimeService) {
       this.matIconRegistry.setDefaultFontSetClass(IconType.SOLID);
+      this.registerIcons();
     }
 
   ngOnInit() {
@@ -51,6 +54,15 @@ export class AppComponent implements OnInit {
 
   setSpeed(speed) {
     this.state.setSpeed(speed);
+  }
+
+  toTop() {
+    window.scrollTo(0, 0);
+  }
+
+  private registerIcons() {
+    this.matIconRegistry.addSvgIcon('logo', this.sanitizer.bypassSecurityTrustResourceUrl('assets/logoHalley_metNaam.svg'));
+    this.matIconRegistry.addSvgIcon('up', this.sanitizer.bypassSecurityTrustResourceUrl('assets/weather-icons/svg/wi-wind-deg.svg'));
   }
 
 }

@@ -29,6 +29,7 @@
     "astronomy-bundle": "^6.0.4",
     "d3": "^6.6.0",
     "ng-apexcharts": "^1.5.9",
+    "ngx-scrolltop": "^2.3.1",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"

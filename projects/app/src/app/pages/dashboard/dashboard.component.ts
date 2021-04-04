@@ -31,7 +31,6 @@ export class DashboardComponent implements OnInit {
     this.timeService.tick.subscribe((now) => {
       this.now = now;
       this.dataService.refreshCurrentData(now);
-      this.dataService.refreshCurrentImage(now)
     });
   }
 

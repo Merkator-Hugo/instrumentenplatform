@@ -45,13 +45,15 @@ export class TimeWidgetComponent implements OnInit {
         { key: 'juliaans', value: '-' },
         { key: 'sideraal', value: '-'},
     ];
-    this.timeService.tick.subscribe((now) => {
-      this.now = now;
-      this.createItems(now);
-      this.createDateTime(now);
-    });
+    // this.timeService.tick.subscribe((now) => {
+    //   this.now = now;
+    //   this.createItems(now);
+    //   this.createDateTime(now);
+    // });
     this.dataService.currentDataChanged.subscribe((currentData) => {
-      // this.items = currentData.items;
+      this.now = currentData.datetime;
+      this.createItems(currentData.datetime);
+      this.createDateTime(currentData.datetime);
     });
   }
 
