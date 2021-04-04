@@ -279,43 +279,92 @@ export class ChartDialogComponent implements OnInit {
         }
         let s0 = [];
         let s1 = [];
-        for (let a of as) {
-          const time: number = Number(a.datetime.getTime());
-          const direction: number = a.wind_direction;
-          const speed: number = a.wind_speed;
-          s0.push([time, direction]);
-          s1.push([time, speed]);
-        }
-        this.data = {
-          chart: {
-            width: this.screen.width - (this.settings.getMargins().left + this.settings.getMargins().right),
-            height: this.screen.height - (this.settings.getMargins().top + this.settings.getMargins().bottom),
-            type: null,
-          },
-          yaxis: [
-            {
-              title: {
-                text: "windrichting"
-              },
+        if (this.selectedChart.charttype == 'line') {
+          for (let a of as) {
+            const time: number = Number(a.datetime.getTime());
+            const direction: number = a.wind_direction;
+            const speed: number = a.wind_speed;
+            s0.push([time, direction]);
+            s1.push([time, speed]);
+          }
+          this.data = {
+            chart: {
+              width: this.screen.width - (this.settings.getMargins().left + this.settings.getMargins().right),
+              height: this.screen.height - (this.settings.getMargins().top + this.settings.getMargins().bottom),
+              type: null,
             },
-            {
-              opposite: true,
-              title: {
-                text: "windsnelheid"
+            yaxis: [
+              {
+                title: {
+                  text: "windrichting"
+                },
+              },
+              {
+                opposite: true,
+                title: {
+                  text: "windsnelheid"
+                }
+              }
+            ],
+            series: [
+              {
+                name: 'windrichting',
+                data: s0
+              },
+              {
+                name: 'windsnelheid',
+                data: s1
+              }
+            ]
+          };
+        } else if (this.selectedChart.charttype == 'heatmap') {
+          let sAll = [];
+          for (let a of as) {
+            const date: Date = a.datetime;
+            const direction: number = a.wind_direction;
+            const speed: number = a.wind_speed;
+            if (!sAll[speed]) {
+              // sAll[speed] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+              sAll[speed] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+            }
+            // sAll[speed][Math.floor(direction/10)] += 1;
+            sAll[speed][Math.floor(direction/22.5)] += 1;
+          }
+          const windrichtingen = ['N','NNO', 'NO', 'ONO','O','OZO', 'ZO', 'ZZO','Z','ZZW', 'ZW', 'WZW','W','WNW', 'NW', 'NNW'];
+          let series = [];
+          const keys = [...sAll.keys()];
+          for (let key of keys) {
+            let s = [];
+            let row = sAll[key];
+            for (let i=0; i<row.length; i++) {
+              if ((!isNaN(row[i])) && (row[i] != undefined)) {
+                // s.push({x: i*10, y: row[i]})
+                s.push({x: windrichtingen[i], y: row[i]})
               }
             }
-          ],
-          series: [
-            {
-              name: 'windrichting',
-              data: s0
+            series.push(
+              {
+                name: key.toString(),
+                data: s
+              }
+            );
+          }
+          this.data = {
+            chart: {
+              width: this.screen.width - (this.settings.getMargins().left + this.settings.getMargins().right),
+              height: this.screen.height - (this.settings.getMargins().top + this.settings.getMargins().bottom),
+              type: null,
             },
-            {
-              name: 'windsnelheid',
-              data: s1
-            }
-          ]
-        };
+            yaxis: [
+              {
+                title: {
+                  text: "windsnelheid"
+                },
+              }
+            ],
+            series: series
+          };
+        }
         this.loading.setLoadingStatus(false);
       },
       (error) => {

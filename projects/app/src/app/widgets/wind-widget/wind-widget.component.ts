@@ -26,6 +26,11 @@ export class WindWidgetComponent implements OnInit {
       charttype: 'line',
       datatype: DataType.WIND,
       label: 'Lijn',
+    },
+    {
+      charttype: 'heatmap',
+      datatype: DataType.WIND,
+      label: 'Heatmap',
     }
   ];
 
