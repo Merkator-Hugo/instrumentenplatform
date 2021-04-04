@@ -1,9 +1,9 @@
-import { Component, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
-import { CardItem, ChartTypeData } from '../../models/interfaces';
-import { ComponentType, IconType } from '../../models/enums';
-import { DataService, LoadingService } from '../../services/services';
+import { CardItem, ChartInfo } from '../../models/interfaces';
+import { DataType } from '../../models/enums';
+import { DataService } from '../../services/services';
 import { TranslateService } from '@ngx-translate/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -20,10 +20,8 @@ export class ForecastWidgetComponent implements OnInit {
   categorie: number = 0;
   items: CardItem[];
   info: string = '';
-  chartType: ChartTypeData = {
-    type: 'line',
-    component: ComponentType.FORECAST,
-  };
+  more: boolean = true;
+  chartsInfo: ChartInfo[] = [];
 
   constructor(
     private matIconRegistry: MatIconRegistry,

@@ -1,10 +1,10 @@
 import { CardData } from './card-data';
-import { ComponentType } from '../enums/component-type';
+import { DataType } from '../enums/data-type';
 
 export interface Card {
     data?: CardData;
     component?: any;
-    type: ComponentType;
+    type: DataType;
     title?: string;
     icon?: string;
 }

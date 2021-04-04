@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Card } from '../../models/interfaces';
 import { WeatherData, TemperatureData, AirData, AllskyCameraData, MagnetometerData, MeteorData, PrecipitationData, SatelliteImageData, SunData, WeatherForcastData } from '../../models/classes';
-import { ComponentType } from '../../models/enums';
+import { DataType } from '../../models/enums';
 import { DataService, StateService, LoadingService, TimeService } from '../../services/services';
 
 @Component({
@@ -37,16 +37,16 @@ export class DashboardComponent implements OnInit {
 
   private loadCards() {
     this.cards = [];
-    this.cards.push({ type: ComponentType.TEMPERATURE });
-    this.cards.push({ type: ComponentType.TIME });
-    this.cards.push({ type: ComponentType.MOON });
-    this.cards.push({ type: ComponentType.WIND });
-    this.cards.push({ type: ComponentType.PRECIPITATION });
-    this.cards.push({ type: ComponentType.AIR });
-    this.cards.push({ type: ComponentType.SUN });
-    this.cards.push({ type: ComponentType.CAMERA });
-    this.cards.push({ type: ComponentType.FORECAST });
-    this.cards.push({ type: ComponentType.WIDGET, title: 'Webcam', icon: 'fa-camera' });
+    this.cards.push({ type: DataType.TEMPERATURE });
+    this.cards.push({ type: DataType.TIME });
+    this.cards.push({ type: DataType.MOON });
+    this.cards.push({ type: DataType.WIND });
+    this.cards.push({ type: DataType.PRECIPITATION });
+    this.cards.push({ type: DataType.AIR });
+    this.cards.push({ type: DataType.SUN });
+    this.cards.push({ type: DataType.CAMERA });
+    this.cards.push({ type: DataType.FORECAST });
+    // this.cards.push({ type: DataType.WIDGET, title: 'Webcam', icon: 'fa-camera' });
   }
 
 }

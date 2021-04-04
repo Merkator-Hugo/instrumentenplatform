@@ -1,4 +1,3 @@
-import { ComponentType } from '../enums/component-type';;
 import {
     ChartComponent,
     ApexAxisChartSeries,

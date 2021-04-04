@@ -1,13 +1,11 @@
-import { Component, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { createTimeOfInterest } from 'astronomy-bundle/time';
 import { createMoon } from 'astronomy-bundle/moon';
-import { ApexAxisChartSeries, ApexNonAxisChartSeries } from 'ng-apexcharts';
-import { InfoDialogComponent, ChartDialogComponent } from '../../components/components';
-import { CardItem, ChartTypeData } from '../../models/interfaces';
-import { ComponentType, IconType } from '../../models/enums';
-import { DataService, LoadingService, TimeService } from '../../services/services';
+import { CardItem, ChartInfo } from '../../models/interfaces';
+import { DataType } from '../../models/enums';
+import { TimeService } from '../../services/services';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -25,10 +23,8 @@ export class MoonWidgetComponent implements OnInit {
   waxing: string = '';
   items: CardItem[];
   info: string = '';
-  chartType: ChartTypeData = {
-    type: 'line',
-    component: ComponentType.MOON,
-  };
+  more: boolean = true;
+  chartsInfo: ChartInfo[] = [];
 
   constructor(
     private matIconRegistry: MatIconRegistry,
@@ -55,7 +51,7 @@ export class MoonWidgetComponent implements OnInit {
     const moon = createMoon(toi);
     Promise.all([moon.getIlluminatedFraction(), moon.isWaxing()])
       .then((res) => {
-        this.phase = Math.floor((res[0] * 28));
+        this.phase = this.getPhase(res[0], res[1]);
         this.fraction = (res[0] * 100).toFixed(0) + ' %';
         this.waxing = (res[1]) ? 'wassend' : 'afnemend';
         let phases = [
@@ -80,6 +76,14 @@ export class MoonWidgetComponent implements OnInit {
         this.items = [];
         phases.forEach((p) => { this.items.push(p.object) });
       });
+  }
+
+  private getPhase(fraction: number, waxing: boolean): number {
+    if (waxing) {
+      return (Math.floor((fraction * 14)));
+    } else {
+      return (Math.floor( (1-fraction) * 14) + 14);
+    }
   }
 
   private showDate(date: Date): string {

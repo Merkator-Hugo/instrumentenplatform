@@ -1,0 +1,22 @@
+# Based on the official Node 10 image
+FROM node:10
+
+# Create and cd into a new directory
+# This is where the app will be placed
+# Commands will run inside this new directory
+RUN mkdir -p /app
+WORKDIR /app
+
+# Copy en install dependency definitions
+COPY package*.json /app/
+RUN npm install
+
+# Get all the code needed to run the app
+# .gitignore prevents files/folders from copying
+COPY . /app/
+
+# Expose the port the app runs in
+EXPOSE 4200
+
+# Serve the app
+CMD ["npm", "start"]

@@ -1,9 +1,9 @@
-import { Component, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
-import { CardItem, ChartTypeData } from '../../models/interfaces';
-import { ComponentType, IconType } from '../../models/enums';
-import { DataService, LoadingService } from '../../services/services';
+import { CardItem, ChartInfo } from '../../models/interfaces';
+import { DataType } from '../../models/enums';
+import { DataService } from '../../services/services';
 import { TranslateService } from '@ngx-translate/core';
 import { WeatherData } from '../../models/classes';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -20,10 +20,14 @@ export class AirWidgetComponent implements OnInit {
   now: string = '- hPa';;
   items: CardItem[];
   info: string = '';
-  chartType: ChartTypeData = {
-    type: 'line',
-    component: ComponentType.AIR,
-  };
+  more: boolean = true;
+  chartsInfo: ChartInfo[] = [
+    {
+      charttype: 'line',
+      datatype: DataType.AIR,
+      label: 'Lijn',
+    }
+  ];
 
   constructor(
     private matIconRegistry: MatIconRegistry,

@@ -4,7 +4,7 @@ import { StateService } from './state.service';
 import { MockdataService } from './mockdata.service';
 import { map } from 'rxjs/operators';
 import { Observable, from } from 'rxjs';
-import { AirData, PrecipitationData, SunData, TemperatureChartData, TemperatureData, WeatherData } from '../models/classes';
+import { AirData, CameraImage, PrecipitationData, SunData, TemperatureChartData, TemperatureData, WeatherData } from '../models/classes';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class DataService {
 
   private stateData: any;
   currentDataChanged: EventEmitter<WeatherData> = new EventEmitter();
-  cameraDataChanged: EventEmitter<string> = new EventEmitter();  
+  cameraDataChanged: EventEmitter<CameraImage> = new EventEmitter();  
 
 
   constructor(private state: StateService,
@@ -40,11 +40,11 @@ export class DataService {
   }
 
   refreshCurrentImage(now: Date): void {
-    let img = '';
+    let img = new CameraImage();
     if (this.stateData.demo) {
       img = this.mockdata.getCurrentImage(now);
     } else {
-      img = '';
+      img = new CameraImage();
     }
     this.cameraDataChanged.emit(img);
   }

@@ -10,4 +10,5 @@ export { SatelliteImageData } from './classes/satellite-image-data';
 export { SunData } from './classes/sun-data';
 export { TemperatureData } from './classes/temperature-data';
 export { WeatherForcastData } from './classes/weather-forcast-data';
+export { CameraImage } from './classes/camera-image'
  

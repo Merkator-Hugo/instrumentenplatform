@@ -6,8 +6,8 @@ export class TemperatureData  extends BaseData {
     feeling: number = null;
     inside: number = null;
 
-    fromMockData(YYYYMMDD: string, HH: string, T: number, TD: number): TemperatureData {
-        this.datetime = this.getDate(YYYYMMDD, HH);
+    fromMockData(date: Date, T: number, TD: number): TemperatureData {
+        this.datetime = date;
         this.temperature = T;
         this.dewpoint = TD;
         return this;

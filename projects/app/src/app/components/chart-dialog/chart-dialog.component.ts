@@ -1,11 +1,9 @@
-import { Platform } from '@angular/cdk/platform';
-import { Component, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ChartData, ChartTypeData } from '../../models/interfaces';
-import { ComponentType, TimeSpan } from '../../models/enums';
+import { ChartData, ChartInfo } from '../../models/interfaces';
+import { DataType, TimeSpan } from '../../models/enums';
 import { DataService, LoadingService, SettingsService, TimeService } from '../../services/services';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ApexAxisChartSeries, ApexNonAxisChartSeries } from 'ng-apexcharts';
 
 @Component({
   selector: 'app-chart-dialog',
@@ -23,12 +21,13 @@ export class ChartDialogComponent implements OnInit {
   };
   public timespans: TimeSpan[] = [];
   public selectedTimespan: TimeSpan;
+  public selectedChart: ChartInfo;
   public data: ChartData = {};
   NODATA = 'Geen data beschikbaar';
   ERROR = 'Fout bij ophalen data';
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public chartTypeData: ChartTypeData,
+    @Inject(MAT_DIALOG_DATA) public chartsInfo: ChartInfo[],
     private settings: SettingsService,
     public loading: LoadingService,
     private snackbar: MatSnackBar,
@@ -47,16 +46,17 @@ export class ChartDialogComponent implements OnInit {
       TimeSpan.YEAR,
     ];
     this.selectedTimespan = TimeSpan.WEEK;
-    // this.data.chart = {
-    //   width: this.screen.width - (this.settings.getMargins().left + this.settings.getMargins().right),
-    //   height: this.screen.height - (this.settings.getMargins().top + this.settings.getMargins().bottom),
-    //   type: null,
-    // }
+    this.selectedChart = this.chartsInfo[0];
     this.getData();
   }
 
   selectTimespan(timespan: TimeSpan): void {
     this.selectedTimespan = timespan;
+    this.getData();
+  }
+
+  selectChart(chart: ChartInfo) {
+    this.selectedChart = chart;
     this.getData();
   }
 
@@ -79,20 +79,20 @@ export class ChartDialogComponent implements OnInit {
         from = new Date(to.getFullYear(), to.getMonth(), to.getDate() - 1, to.getHours(), to.getMinutes(), to.getSeconds());
         break;
     }
-    switch (this.chartTypeData.component) {
-      case ComponentType.AIR:
+    switch (this.selectedChart.datatype) {
+      case DataType.AIR:
         this.processAir(from, to);
         break;
-      case ComponentType.PRECIPITATION:
+      case DataType.PRECIPITATION:
         this.processPrecipitation(from, to);
         break;
-      case ComponentType.SUN:
+      case DataType.SUN:
         this.processSun(from, to);
         break;
-      case ComponentType.TEMPERATURE:
+      case DataType.TEMPERATURE:
         this.processTemperature(from, to);
         break;
-      case ComponentType.WIND:
+      case DataType.WIND:
         this.processWind(from, to);
         break;
       }

@@ -1,7 +1,7 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
-import { CardItem, ChartTypeData } from '../../models/interfaces';
-import { ComponentType, IconType } from '../../models/enums';
+import { CardItem, ChartInfo } from '../../models/interfaces';
+import { DataType, IconType } from '../../models/enums';
 import { DataService, SettingsService, TimeService } from '../../services/services';
 import { createTimeOfInterest } from 'astronomy-bundle/time';
 import { createMoon } from 'astronomy-bundle/moon';
@@ -25,11 +25,9 @@ export class TimeWidgetComponent implements OnInit {
   time: string = '';
   items: CardItem[] = [];
   info: string = '';
-  chartType: ChartTypeData = {
-    type: 'line',
-    component: ComponentType.TIME,
-  };
-
+  more: boolean = true;
+  chartsInfo: ChartInfo[] = [];
+  
   constructor(
     private matIconRegistry: MatIconRegistry,
     private dataService: DataService,

@@ -1,0 +1,12 @@
+export enum DataType {
+  WIDGET = 'WIDGET',
+  TEMPERATURE = 'TEMPERATURE',
+  TIME = 'TIME',
+  MOON = 'MOON',
+  SUN = 'SUN',
+  AIR = 'AIR',
+  WIND = 'WIND',
+  PRECIPITATION = 'PRECIPITATION',
+  CAMERA = 'CAMERA',
+  FORECAST = 'FORECAST',
+}

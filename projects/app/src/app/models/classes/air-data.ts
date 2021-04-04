@@ -8,8 +8,8 @@ export class AirData extends BaseData {
     wind_direction: number = null;
     wind_speed: number
 
-    fromMockData(YYYYMMDD: string, HH: string, DD: number, FF: number, P: number, U: number): AirData {
-        this.datetime = this.getDate(YYYYMMDD, HH);
+    fromMockData(date: Date, DD: number, FF: number, P: number, U: number): AirData {
+        this.datetime = date;
         this.airpressure = P;
         this.humidity = U;
         this.wind_direction = DD;
