@@ -43,6 +43,12 @@ export class WeatherData {
         return this;
     }
 
+    fromHalleyData(air: AirData, temperature: TemperatureData) {
+        this.air = air;
+        this.temperature = temperature;
+        return this;
+    }
+
     setTime(datetime: Date) {
         this.datetime = datetime;
         return this;

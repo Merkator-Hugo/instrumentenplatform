@@ -20,7 +20,6 @@ export class AnalogClockComponent implements OnInit, OnChanges {
     this.hour = document.getElementById('hour');
     this.min = document.getElementById('min');
     this.sec = document.getElementById('sec');
-    this.diameter = 45;
     this.style = 'height:' + this.diameter + 'px;width:' + this.diameter + 'px';
     this.redraw(this.time);
   }

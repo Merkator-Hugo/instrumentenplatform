@@ -6,3 +6,4 @@ export { ChartData } from './interfaces/chart-data';
 export { ChartInfo } from './interfaces/chart-info';
 export { IWeatherData } from './interfaces/weather-data';
 export { StateData } from './interfaces/state-data';
+export { ListItem } from './interfaces/list-item';

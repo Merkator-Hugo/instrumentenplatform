@@ -26,13 +26,17 @@
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "apexcharts": "^3.26.0",
+    "apollo-angular": "^2.4.0",
     "astronomy-bundle": "^6.0.4",
     "d3": "^6.6.0",
+    "moment": "^2.29.1",
     "ng-apexcharts": "^1.5.9",
     "ngx-scrolltop": "^2.3.1",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
-    "zone.js": "~0.10.3"
+    "zone.js": "~0.10.3",
+    "@apollo/client": "^3.0.0",
+    "graphql": "^15.0.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1000.8",

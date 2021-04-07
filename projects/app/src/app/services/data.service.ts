@@ -5,6 +5,7 @@ import { MockdataService } from './mockdata.service';
 import { map } from 'rxjs/operators';
 import { Observable, from } from 'rxjs';
 import { AirData, AllskyCameraData, PrecipitationData, SunData, TemperatureData, WeatherData } from '../models/classes';
+import { HalleyDataService } from './halley-data.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class DataService {
 
   constructor(private state: StateService,
               private mockdata: MockdataService,
+              private halleydata: HalleyDataService,
               private http: HttpClient) {
     this.stateData = {
       demo: false,
@@ -31,10 +33,12 @@ export class DataService {
     let wd: WeatherData;
     if(this.stateData.demo) {
       wd = this.mockdata.getCurrentData(now);
+      this.currentDataChanged.emit(wd);
     } else {
-      wd = new WeatherData().setTime(now);
+      this.halleydata.getCurrentData(now).subscribe((wd) => {
+        this.currentDataChanged.emit(wd);
+      });
     }
-    this.currentDataChanged.emit(wd);
   }
 
   getAir(fromDate: Date, toDate: Date): Observable<AirData[]> {

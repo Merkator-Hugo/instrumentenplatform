@@ -22,6 +22,14 @@
           <button mat-button>
             <mat-icon class="logo" svgIcon="logo" aria-hidden="false"></mat-icon>
           </button>
+          <button mat-button [matMenuTriggerFor]="menu">
+            <mat-icon class="menu" svgIcon="menu" aria-hidden="false">
+          </mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item routerLink="/dashboard">Dashboard</button>
+            <button mat-menu-item routerLink="/dashboard2">Dashboard 2</button>
+          </mat-menu>
           {{title}}
         </span>
         <span>

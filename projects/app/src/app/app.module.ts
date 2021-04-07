@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MaterialModule } from './material.module';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { Dashboard2Component } from './pages/dashboard2/dashboard2.component';
 import { TimeWidgetComponent } from './widgets/time-widget/time-widget.component';
 import { TemperatureWidgetComponent } from './widgets/temperature-widget/temperature-widget.component';
 import { MoonWidgetComponent } from './widgets/moon-widget/moon-widget.component';
@@ -30,6 +31,10 @@ import { PrecipitationWidgetComponent } from './widgets/precipitation-widget/pre
 import { CameraWidgetComponent } from './widgets/camera/camera-widget.component';
 import { SunWidgetComponent } from './widgets/sun/sun-widget.component';
 import { ForecastWidgetComponent } from './widgets/forecast/forecast-widget.component';
+import { SmallWidgetComponent } from './widgets/small/small-widget/small-widget.component';
+import { SmallTimeWidgetComponent } from './widgets/small/small-time-widget/small-time-widget.component';
+import { ItemListNewComponent } from './components/item-list-new/item-list-new.component';
+import { GraphQLModule } from './graphql.module';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -40,6 +45,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     AppComponent,
     DashboardComponent,
+    Dashboard2Component,
     WidgetComponent,
     TimeWidgetComponent,
     TemperatureWidgetComponent,
@@ -60,6 +66,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     CameraWidgetComponent,
     SunWidgetComponent,
     ForecastWidgetComponent,
+    SmallWidgetComponent,
+    SmallTimeWidgetComponent,
+    ItemListNewComponent,
   ],
   imports: [
     MaterialModule,
@@ -77,6 +86,7 @@ export function HttpLoaderFactory(http: HttpClient) {
           deps: [HttpClient]
       }
   }),
+    GraphQLModule,
   ],
   entryComponents: [],
   providers: [],

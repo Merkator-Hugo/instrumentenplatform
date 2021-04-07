@@ -12,4 +12,19 @@ export class TemperatureData  extends BaseData {
         this.dewpoint = TD;
         return this;
     }
+
+    fromHalleyData(
+        datetime: Date,
+        tempvalue: number,
+        intempvalue: number,
+        feelslike: number,
+        dewpoint: number
+    ) {
+        this.datetime = datetime;
+        this.temperature = tempvalue;
+        this.inside = intempvalue;
+        this.feeling = feelslike;
+        this.dewpoint = dewpoint;
+        return this;
+    }
 }

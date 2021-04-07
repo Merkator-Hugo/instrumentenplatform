@@ -68,7 +68,7 @@ export class AppComponent implements OnInit {
   private registerIcons() {
     this.matIconRegistry.addSvgIcon('logo', this.sanitizer.bypassSecurityTrustResourceUrl('assets/logoHalley_metNaam.svg'));
     this.matIconRegistry.addSvgIcon('weer', this.sanitizer.bypassSecurityTrustResourceUrl('assets/weather-icons/svg/wi-day-showers.svg'));
-    this.matIconRegistry.addSvgIcon('up', this.sanitizer.bypassSecurityTrustResourceUrl('assets/weather-icons/svg/wi-wind-deg.svg'));
+    this.matIconRegistry.addSvgIcon('menu', this.sanitizer.bypassSecurityTrustResourceUrl('assets/fontawesome/svgs/solid/bars.svg'));
   }
 
 }

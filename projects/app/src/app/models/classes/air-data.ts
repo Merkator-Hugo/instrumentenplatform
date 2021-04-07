@@ -16,4 +16,23 @@ export class AirData extends BaseData {
         this.wind_speed = FF;
         return this;
     }
+
+    fromHalleyData(
+        datetime: Date,
+        humidity: number,
+        pressure: number,
+        windspeed: number,
+        cloudheight: number,
+        particulatematter: number,
+        winddirection: number) {
+            this.datetime = datetime;
+            this.humidity = humidity;
+            this.airpressure = pressure;
+            this.wind_speed = windspeed;
+            this.cloud_coverage_height = cloudheight;
+            this.particulate_matter = particulatematter;
+            this.wind_direction = winddirection;
+            return this;
+    }
+
 }
