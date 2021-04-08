@@ -1,0 +1,23 @@
+table {
+    width: 100%;
+}
+.value-big {
+    font-size: 50px;
+    line-height: 50px;
+}
+.value-small {
+    font-size: 25px;
+    line-height: 25px;
+}
+.label {
+    font-size: 15px;
+    line-height: 25px;
+    text-align:left;
+    padding-right:25px;
+}
+td:empty::after{
+    content: "\00a0";
+}
+.align-right {
+    text-align:right;
+}

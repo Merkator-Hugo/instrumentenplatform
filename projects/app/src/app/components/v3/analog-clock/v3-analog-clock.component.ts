@@ -1,14 +1,14 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 @Component({
-  selector: 'app-analog-clock',
-  templateUrl: './analog-clock.component.html',
-  styleUrls: ['./analog-clock.component.scss']
+  selector: 'v3-analog-clock',
+  templateUrl: './v3-analog-clock.component.html',
+  styleUrls: ['./v3-analog-clock.component.scss']
 })
-export class AnalogClockComponent implements OnInit, OnChanges {
+export class V3AnalogClockComponent implements OnInit, OnChanges {
 
   @Input() time: Date;
-  @Input() diameter: number;
+  @Input() height: number;
   public style: string;
   private hour: Element;
   private min: Element;
@@ -20,7 +20,7 @@ export class AnalogClockComponent implements OnInit, OnChanges {
     this.hour = document.getElementById('hour');
     this.min = document.getElementById('min');
     this.sec = document.getElementById('sec');
-    this.style = 'height:' + this.diameter + 'px;width:' + this.diameter + 'px';
+    this.style = 'height:' + this.height + 'px;width:' + this.height + 'px';
     this.redraw(this.time);
   }
 

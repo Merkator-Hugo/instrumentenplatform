@@ -12,9 +12,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     .card-left {
         width: 110px;
         border-right: solid 1px grey;
-        margin-right: 8px;
+        padding-right: 16px;
     }
     .card-right {
+        padding-left: 16px;
         width: 220px;
     }
     mat-card {
@@ -30,10 +31,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     .card-left {
         width: 110px;
         border-right: solid 1px grey;
-        margin-right: 8px;
+        padding-right: 16px;
     }
     .card-right {
         width: 230px;
+        padding-left: 16px;
     }
 }
 

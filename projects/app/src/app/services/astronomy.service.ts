@@ -23,6 +23,10 @@ export class AstronomyService {
     this.toi = createTimeOfInterest.fromDate(datetime);
   }
 
+  getNow(): Date {
+    return this.now;
+  }
+
   getWeekday(long: boolean) {
     if (long) {
       return this.WEEKDAYS_LONG[this.now.getDay()];

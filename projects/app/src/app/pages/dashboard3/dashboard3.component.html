@@ -1,0 +1,10 @@
+<div class="content">
+    <div class="top" fxLayout="row wrap" fxLayoutAlign="space-around center">
+        <v3-widget *ngFor="let widget of widgets"
+            [type]="widget.type"
+            [info]="widget.info"
+            [more]="widget.more"
+            [chartsInfo]="widget.chartsInfo"
+        ></v3-widget>
+    </div>
+</div>

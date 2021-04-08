@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
-import { ForecastWidgetComponent } from '../widgets/forecast/forecast-widget.component';
 
 @Injectable({
   providedIn: 'root'

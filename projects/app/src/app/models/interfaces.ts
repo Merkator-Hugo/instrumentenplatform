@@ -7,3 +7,6 @@ export { ChartInfo } from './interfaces/chart-info';
 export { IWeatherData } from './interfaces/weather-data';
 export { StateData } from './interfaces/state-data';
 export { ListItem } from './interfaces/list-item';
+export { Widget } from './interfaces/widget';
+export { WidgetItem } from './interfaces/widget-item'
+export { WidgetIcon } from './interfaces/widget-icon'

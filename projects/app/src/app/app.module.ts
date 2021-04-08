@@ -12,10 +12,7 @@ import { AppComponent } from './app.component';
 import { MaterialModule } from './material.module';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { Dashboard2Component } from './pages/dashboard2/dashboard2.component';
-import { TimeWidgetComponent } from './widgets/time-widget/time-widget.component';
-import { TemperatureWidgetComponent } from './widgets/temperature-widget/temperature-widget.component';
-import { MoonWidgetComponent } from './widgets/moon-widget/moon-widget.component';
-import { WidgetComponent } from './widgets/widget/widget.component';
+import { Dashboard3Component } from './pages/dashboard3/dashboard3.component';
 import { ItemlistComponent } from './components/itemlist/itemlist.component';
 import { InfoDialogComponent } from './components/info-dialog/info-dialog.component';
 import { ChartDialogComponent } from './components/chart-dialog/chart-dialog.component';
@@ -25,16 +22,26 @@ import { HeatmapChartComponent } from './components/heatmap-chart/heatmap-chart.
 import { LoadingBarComponent } from './components/loading-bar/loading-bar.component';
 import { AnalogClockComponent } from './components/analog-clock/analog-clock.component';
 import { ActionsComponent } from './components/actions/actions.component';
-import { AirWidgetComponent } from './widgets/air-widget/air-widget.component';
-import { WindWidgetComponent } from './widgets/wind-widget/wind-widget.component';
-import { PrecipitationWidgetComponent } from './widgets/precipitation-widget/precipitation-widget.component';
-import { CameraWidgetComponent } from './widgets/camera/camera-widget.component';
-import { SunWidgetComponent } from './widgets/sun/sun-widget.component';
-import { ForecastWidgetComponent } from './widgets/forecast/forecast-widget.component';
-import { SmallWidgetComponent } from './widgets/small/small-widget/small-widget.component';
-import { SmallTimeWidgetComponent } from './widgets/small/small-time-widget/small-time-widget.component';
 import { ItemListNewComponent } from './components/item-list-new/item-list-new.component';
 import { GraphQLModule } from './graphql.module';
+
+import { TimeWidgetComponent } from './widgets/v1/time-widget/time-widget.component';
+import { TemperatureWidgetComponent } from './widgets/v1/temperature-widget/temperature-widget.component';
+import { MoonWidgetComponent } from './widgets/v1/moon-widget/moon-widget.component';
+import { WidgetComponent } from './widgets/v1/widget/widget.component';
+import { AirWidgetComponent } from './widgets/v1/air-widget/air-widget.component';
+import { WindWidgetComponent } from './widgets/v1/wind-widget/wind-widget.component';
+import { PrecipitationWidgetComponent } from './widgets/v1/precipitation-widget/precipitation-widget.component';
+import { CameraWidgetComponent } from './widgets/v1/camera/camera-widget.component';
+import { SunWidgetComponent } from './widgets/v1/sun/sun-widget.component';
+import { ForecastWidgetComponent } from './widgets/v1/forecast/forecast-widget.component';
+import { V2WidgetComponent } from './widgets/v2/widget/v2-widget.component';
+import { V2TimeWidgetComponent } from './widgets/v2/time-widget/v2-time-widget.component';
+import { V3ThermometerComponent } from './components/v3/thermometer/v3-thermometer.component';
+import { V3AnalogClockComponent } from './components/v3/analog-clock/v3-analog-clock.component';
+import { V3ItemListComponent } from './components/v3/item-list/v3-item-list.component';
+import { V3ActionsComponent } from './components/v3/actions/v3-actions.component';
+import { V3WidgetComponent } from './pages/dashboard3/widget/v3-widget.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -46,6 +53,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppComponent,
     DashboardComponent,
     Dashboard2Component,
+    Dashboard3Component,
     WidgetComponent,
     TimeWidgetComponent,
     TemperatureWidgetComponent,
@@ -66,9 +74,14 @@ export function HttpLoaderFactory(http: HttpClient) {
     CameraWidgetComponent,
     SunWidgetComponent,
     ForecastWidgetComponent,
-    SmallWidgetComponent,
-    SmallTimeWidgetComponent,
+    V2WidgetComponent,
+    V2TimeWidgetComponent,
     ItemListNewComponent,
+    V3ThermometerComponent,
+    V3AnalogClockComponent,
+    V3ItemListComponent,
+    V3ActionsComponent,
+    V3WidgetComponent,
   ],
   imports: [
     MaterialModule,

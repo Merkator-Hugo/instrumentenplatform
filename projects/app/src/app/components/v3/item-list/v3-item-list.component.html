@@ -1,0 +1,7 @@
+<table>
+    <tr *ngFor="let item of items; let i = index">
+        <td *ngIf="i == 0" colspan="2" class="value-big align-right">{{item.value}}</td>
+        <td *ngIf="i > 0" class="label" title="{{item.tooltip}}">{{item.label}}</td>
+        <td *ngIf="i > 0" class="value-small align-right">{{item.value}}</td>
+    </tr>
+</table>

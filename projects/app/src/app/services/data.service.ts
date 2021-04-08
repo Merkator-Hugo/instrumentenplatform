@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { Observable, from } from 'rxjs';
 import { AirData, AllskyCameraData, PrecipitationData, SunData, TemperatureData, WeatherData } from '../models/classes';
 import { HalleyDataService } from './halley-data.service';
+import { TimeService } from './time.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class DataService {
   constructor(private state: StateService,
               private mockdata: MockdataService,
               private halleydata: HalleyDataService,
-              private http: HttpClient) {
+              private timeService: TimeService) {
     this.stateData = {
       demo: false,
       title: '',
@@ -26,6 +27,13 @@ export class DataService {
     };
     this.state.changed.subscribe((data) => {
       this.stateData = data;
+    });
+    this.timeService.tick.subscribe((now) => {
+      let wd: WeatherData;
+      if(this.stateData.demo) {
+        wd = this.mockdata.getCurrentData(now);
+        this.currentDataChanged.emit(wd);
+      }
     });
   }
 
