@@ -1,4 +1,5 @@
+import { DataType } from "../enums";
+
 export interface MoreDialogData {
-    content: string;
-    url: string;
+    type: DataType;
 }

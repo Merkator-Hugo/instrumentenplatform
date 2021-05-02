@@ -34,7 +34,7 @@ export class ActionsComponent implements OnInit {
   openMoreDialog() {
     this.dialog.open(MoreDialogComponent, {
       data: {
-        content: ''
+        type: this.type
       }
     });
   }

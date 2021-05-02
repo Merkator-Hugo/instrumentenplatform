@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from 'projects/app/src/app/services/data.service';
+
 
 @Component({
   selector: 'app-more-time',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MoreTimeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dataservice: DataService) { }
 
   ngOnInit(): void {
+    this.dataservice.currentDataChanged.subscribe((data) => {
+      
+    });
   }
 
 }

@@ -47,6 +47,9 @@ import { SunComponent } from './pages/dashboard/widget-left/sun/sun.component';
 import { MoonComponent } from './pages/dashboard/widget-left/moon/moon.component';
 import { AirComponent } from './pages/dashboard/widget-left/air/air.component';
 import { ForecastComponent } from './pages/dashboard/widget-left/forecast/forecast.component';
+import { MoreCameraComponent } from './pages/dashboard/widget-more/more-camera/more-camera.component';
+import { MoreMoonComponent } from './pages/dashboard/widget-more/more-moon/more-moon.component';
+import { MoreSunComponent } from './pages/dashboard/widget-more/more-sun/more-sun.component';
 import { MoreTimeComponent } from './pages/dashboard/widget-more/more-time/more-time.component';
 
 // AoT requires an exported function for factories
@@ -90,6 +93,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     ForecastComponent,
     PanelTitleComponent,
     TameteoComponent,
+    MoreCameraComponent,
+    MoreMoonComponent,
+    MoreSunComponent,
     MoreTimeComponent,
   ],
   imports: [

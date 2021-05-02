@@ -93,19 +93,19 @@ export class DashboardComponent implements OnInit {
     this.widgets.push({
       type: DataType.CAMERA,
       info: true,
-      more: false,
+      more: true,
       chartsInfo: []
     });
     this.widgets.push({
       type: DataType.MOON,
       info: true,
-      more: false,
+      more: true,
       chartsInfo: []
     });
     this.widgets.push({
       type: DataType.SUN,
       info: true,
-      more: false,
+      more: true,
       chartsInfo: [
         {
           charttype: 'line',
