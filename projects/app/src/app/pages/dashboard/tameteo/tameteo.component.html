@@ -1,0 +1,13 @@
+<div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="2px" class="viewport">
+    <div *ngFor="let item of items" fxLayout="column" fxLayoutAlign="start center">
+        <div class="small">{{item.name | slice:0:2}}</div>
+        <div class="small">{{item.date | slice:6:8}}</div>
+        <img src="/assets/tameteo/weather/galeria2/{{item.symbol}}.png" width="30px" />
+        <div class="smaller">{{item.humidity}}%</div>
+        <div class="smaller">{{item.rain}} {{item.rainunit}}</div>
+        <div class="small">{{item.tempmin}}°-{{item.tempmax}}°</div>
+        <img src="/assets/tameteo/wind/galeria2/{{item.windsymbol}}.png" width="30px" />
+        <div class="smaller">{{item.windspeed}}-{{item.windgusts}}</div>
+        <div class="smaller">{{item.windunit}}</div>
+    </div>
+</div>

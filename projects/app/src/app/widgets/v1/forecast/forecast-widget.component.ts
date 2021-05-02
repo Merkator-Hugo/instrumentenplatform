@@ -37,7 +37,7 @@ export class ForecastWidgetComponent implements OnInit {
     })
     this.info = this.getInfo();
     this.items = [];
-    this.tameteo.getData();
+    // this.tameteo.getData();
     this.tameteo.forecastChanged.subscribe((data) => {
       this.items = [
         { key: data[0].description, value: '' },

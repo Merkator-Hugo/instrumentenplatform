@@ -1,0 +1,23 @@
+@media screen and (max-width: 400px) {
+    .card-left {
+        width: 110px;
+        border-right: solid 1px grey;
+        padding-right: 16px;
+    }
+    .card-right {
+        padding-left: 16px;
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 401px) {
+    .card-left {
+        width: 110px;
+        border-right: solid 1px grey;
+        padding-right: 16px;
+    }
+    .card-right {
+        width: 230px;
+        padding-left: 16px;
+    }
+}

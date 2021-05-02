@@ -1,5 +1,28 @@
-.content {
-    padding: 16px;
+small {
+    font-size: x-large;
+}
+
+@media screen and (max-width: 400px) {
+    mat-card {
+        margin: 5px 0px 0px 0px !important;
+        padding: 5px !important;
+        min-height: 150px !important;
+        min-width: 100vw;
+    }
+    .content {
+        padding: 0px !important;
+    }
+}
+
+@media screen and (min-width: 401px) {
+    mat-card {
+        margin: 5px 0px 5px 0px !important;
+        padding: 5px !important;
+        min-height: 150px !important;
+    }
+    .content {
+        padding: 16px;
+    }
 }
 
 button {

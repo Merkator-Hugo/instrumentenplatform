@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Card } from '../../models/interfaces';
-import { WeatherData, TemperatureData, AirData, AllskyCameraData, MagnetometerData, MeteorData, PrecipitationData, SatelliteImageData, SunData, WeatherForcastData } from '../../models/classes';
+import { Card, Widget } from '../../models/interfaces';
+import { WeatherData } from '../../models/classes';
 import { DataType } from '../../models/enums';
-import { DataService, StateService, LoadingService, TimeService } from '../../services/services';
+import { DataService, StateService, LoadingService, TimeService, AstronomyService, TameteoService } from '../../services/services';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,40 +12,104 @@ import { DataService, StateService, LoadingService, TimeService } from '../../se
 export class DashboardComponent implements OnInit {
 
   title = 'Dashboard';
+  widgets: Widget[];
   gridColumns = 3;
   cards: Card[] = [];
   currentData: WeatherData;
   now: Date;
+  mobile: boolean = false;
+  public activeWidget = -1;
 
   constructor(
     private dataService: DataService,
     public state: StateService,
     public loading: LoadingService,
-    private timeService: TimeService) {
-      this.state.setTitle(this.title);
-    }
-
-  ngOnInit(): void {
-    this.currentData = new WeatherData();
-    this.loadCards();
-    this.timeService.tick.subscribe((now) => {
-      this.now = now;
-      this.dataService.refreshCurrentData(now);
-    });
+    private timeService: TimeService,
+    private astronomy: AstronomyService,
+    private tameteo: TameteoService) {
+    this.state.setTitle(this.title);
   }
 
-  private loadCards() {
-    this.cards = [];
-    this.cards.push({ type: DataType.TEMPERATURE });
-    this.cards.push({ type: DataType.TIME });
-    this.cards.push({ type: DataType.MOON });
-    this.cards.push({ type: DataType.WIND });
-    this.cards.push({ type: DataType.PRECIPITATION });
-    this.cards.push({ type: DataType.AIR });
-    this.cards.push({ type: DataType.SUN });
-    this.cards.push({ type: DataType.CAMERA });
-    this.cards.push({ type: DataType.FORECAST });
-    // this.cards.push({ type: DataType.WIDGET, title: 'Webcam', icon: 'fa-camera' });
+  ngOnInit(): void {
+    if (window.screen.width < 781) { // 768px portrait
+      this.mobile = true;
+    }
+  
+    this.currentData = new WeatherData();
+    // this.tameteo.getData();
+    this.timeService.tick.subscribe((now) => {
+      this.astronomy.setDateTime(now);
+      this.dataService.refreshCurrentData(now);
+    });
+    this.createWidgets();
+  }
+
+  setOpened(itemIndex) {
+    this.activeWidget = itemIndex;
+  }
+
+  setClosed(itemIndex) {
+    if(this.activeWidget === itemIndex) {
+      this.activeWidget = -1;
+    }
+  }
+
+  private createWidgets() {
+    this.widgets = [];
+    this.widgets.push({
+      type: DataType.TIME,
+      info: '',
+      more: '',
+      chartsInfo: []
+    });
+    this.widgets.push({
+      type: DataType.TEMPERATURE,
+      info: '',
+      more: '',
+      chartsInfo: []
+    });
+    this.widgets.push({
+      type: DataType.WIND,
+      info: '',
+      more: '',
+      chartsInfo: []
+    });
+    this.widgets.push({
+      type: DataType.CAMERA,
+      info: '',
+      more: '',
+      chartsInfo: []
+    });
+    this.widgets.push({
+      type: DataType.MOON,
+      info: '',
+      more: '',
+      chartsInfo: []
+    });
+    this.widgets.push({
+      type: DataType.SUN,
+      info: '',
+      more: '',
+      chartsInfo: []
+    });
+    this.widgets.push({
+      type: DataType.AIR,
+      info: '',
+      more: '',
+      chartsInfo: []
+    });
+    this.widgets.push({
+      type: DataType.PRECIPITATION,
+      info: '',
+      more: '',
+      chartsInfo: []
+    });
+    this.widgets.push({
+      type: DataType.FORECAST,
+      info: '',
+      more: '',
+      chartsInfo: []
+    });
   }
 
 }

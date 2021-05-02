@@ -1,8 +1,0 @@
-<div class="content">
-    <div class="top" fxLayout="row wrap" fxLayoutAlign="space-around center">
-        <div *ngFor="let small of smallWidgets">
-            <v2-widget *ngIf="small.type != 'TIME'" [icon]="small.icon" [items]="small.items"></v2-widget>
-            <v2-time-widget *ngIf="small.type == 'TIME'" [items]="small.items"></v2-time-widget>
-        </div>
-    </div>
-</div>

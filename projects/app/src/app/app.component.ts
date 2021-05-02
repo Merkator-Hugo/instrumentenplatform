@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
       this.title = data.title;
       this.translate.use(data.language);
       this.speed = data.speed;
-    })
+    });
   }
 
   close() {
@@ -47,10 +47,8 @@ export class AppComponent implements OnInit {
   setDemo(e) {
     this.demo = e.checked;
     this.state.setDemo(this.demo);
-    // if (!this.demo) {
-      this.time.resetTime();
-    // }
-    this.sidenav.close();
+    this.time.resetTime();
+    // this.sidenav.close();
   }
 
   setSpeed(speed) {
@@ -61,9 +59,9 @@ export class AppComponent implements OnInit {
     window.scrollTo(0, 0);
   }
 
-  getWeer() {
-    this.tameteo.getData();
-  }
+  // getWeer() {
+  //   this.tameteo.getData();
+  // }
 
   private registerIcons() {
     this.matIconRegistry.addSvgIcon('logo', this.sanitizer.bypassSecurityTrustResourceUrl('assets/logoHalley_metNaam.svg'));

@@ -1,0 +1,11 @@
+<mat-icon *ngIf="type=='TIME'" svgIcon="time" aria-hidden="false"></mat-icon>
+<mat-icon *ngIf="type=='TEMPERATURE'" svgIcon="temperature" aria-hidden="false"></mat-icon>
+<mat-icon *ngIf="type=='WIND'" svgIcon="wind" aria-hidden="false"></mat-icon>
+<mat-icon *ngIf="type=='CAMERA'" svgIcon="camera" aria-hidden="false"></mat-icon>
+<mat-icon *ngIf="type=='AIR'" svgIcon="air" aria-hidden="false"></mat-icon>
+<mat-icon *ngIf="type=='PRECIPITATION'" svgIcon="precipitation" aria-hidden="false"></mat-icon>
+<mat-icon *ngIf="type=='SUN'" svgIcon="sun" aria-hidden="false"></mat-icon>
+<mat-icon *ngIf="type=='MOON'" svgIcon="moon" aria-hidden="false"></mat-icon>
+<mat-icon *ngIf="type=='FORECAST'" svgIcon="forecast" aria-hidden="false"></mat-icon>
+
+<span class="normal">{{items[0].value}}<small>{{items[0].unit}}</small></span>

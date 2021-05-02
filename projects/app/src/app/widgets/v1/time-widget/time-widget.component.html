@@ -2,12 +2,12 @@
     <div fxLayout="row">
         <div class="card-left" fxLayout="column" fxLayoutAlign="space-between center">
             <!-- <mat-icon class="logo" mat-card-avatar fontIcon="{{icon}}" aria-hidden="true"></mat-icon> -->
-            <app-analog-clock [time]="now" [diameter]="45"></app-analog-clock>
+            <!-- <app-analog-clock [time]="now" [diameter]="45"></app-analog-clock> -->
             <div>
                 <div class="weekday">{{weekday}}</div>
                 <div class="date">{{date}}</div>
                 <div class="time">{{time}}</div>
-                <app-actions [more]="more" [info]="info" [chartsInfo]="chartsInfo"></app-actions>
+                <!-- <app-actions [more]="more" [info]="info" [chartsInfo]="chartsInfo"></app-actions> -->
             </div>
         </div>
         <div class="card-right">
@@ -15,7 +15,7 @@
                 {{title}}
             </mat-card-title>
             <mat-card-content>
-                <app-itemlist [items]="items"></app-itemlist>
+                <!-- <app-item-list [items]="items"></app-item-list> -->
             </mat-card-content>
         </div>
     </div>

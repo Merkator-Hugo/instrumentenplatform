@@ -1,16 +1,35 @@
-<div class="content">
-    <div fxLayout="row wrap" fxLayoutAlign="space-around center">
-        <div *ngFor="let card of cards">
-            <app-widget *ngIf="card.type=='WIDGET'" [icon]="card.icon" [title]="card.title"></app-widget>
-            <app-time-widget *ngIf="card.type=='TIME'"></app-time-widget>
-            <app-temperature-widget *ngIf="card.type=='TEMPERATURE'"></app-temperature-widget>
-            <app-moon-widget *ngIf="card.type=='MOON'"></app-moon-widget>
-            <app-wind-widget *ngIf="card.type=='WIND'"></app-wind-widget>
-            <app-precipitation-widget *ngIf="card.type=='PRECIPITATION'"></app-precipitation-widget>
-            <app-sun-widget *ngIf="card.type=='SUN'"></app-sun-widget>
-            <app-forecast-widget *ngIf="card.type=='FORECAST'"></app-forecast-widget>
-            <app-camera-widget *ngIf="card.type=='CAMERA'"></app-camera-widget>
-            <app-air-widget *ngIf="card.type=='AIR'"></app-air-widget>
-        </div>
+<div class="content" *ngIf="mobile">
+    <mat-accordion>
+        <mat-expansion-panel *ngFor="let widget of widgets; let i = index"
+        (opened)="setOpened(i)"
+        (closed)="setClosed(i)">
+            <mat-expansion-panel-header>
+                <mat-panel-title *ngIf="activeWidget !== i">
+                    <app-panel-title [type]="widget.type"></app-panel-title>
+                </mat-panel-title>
+                <mat-panel-title *ngIf="activeWidget === i">
+                    <small>{{widget.type + '.TITLE' | translate}}</small>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-widget ngClass="{ 'hide': activeWidget !== i }"
+                [type]="widget.type"
+                [info]="widget.info"
+                [more]="widget.more"
+                [chartsInfo]="widget.chartsInfo"
+            ></app-widget>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>
+
+<div class="content" *ngIf="!mobile">
+    <div class="top" fxLayout="row wrap" fxLayoutAlign="space-around center">
+        <mat-card class="mat-elevation-z4" *ngFor="let widget of widgets">
+            <app-widget
+                [type]="widget.type"
+                [info]="widget.info"
+                [more]="widget.more"
+                [chartsInfo]="widget.chartsInfo"
+            ></app-widget>
+        </mat-card>
     </div>
 </div>

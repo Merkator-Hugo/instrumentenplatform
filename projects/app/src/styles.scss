@@ -8,35 +8,39 @@ $fa-fort-path: "~@fontawesome/fontawesome-free/webfonts";
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-@media screen and (max-width: 400px) {
-    .card-left {
-        width: 110px;
-        border-right: solid 1px grey;
-        padding-right: 16px;
-    }
-    .card-right {
-        padding-left: 16px;
-        width: 220px;
-    }
-    mat-card {
-        margin: 5px 0px 0px 0px !important;
-        padding: 5px !important;
-    }
-    .content {
-        padding: 0px !important;
-    }
-}
+// @media screen and (max-width: 400px) {
+//     .card-left {
+//         width: 110px;
+//         border-right: solid 1px grey;
+//         padding-right: 16px;
+//     }
+//     .card-right {
+//         padding-left: 16px;
+//         width: 220px;
+//     }
+//     mat-card {
+//         margin: 5px 0px 0px 0px !important;
+//         padding: 5px !important;
+//     }
+//     .content {
+//         padding: 0px !important;
+//     }
+// }
 
-@media screen and (min-width: 401px) {
-    .card-left {
-        width: 110px;
-        border-right: solid 1px grey;
-        padding-right: 16px;
-    }
-    .card-right {
-        width: 230px;
-        padding-left: 16px;
-    }
+// @media screen and (min-width: 401px) {
+//     .card-left {
+//         width: 110px;
+//         border-right: solid 1px grey;
+//         padding-right: 16px;
+//     }
+//     .card-right {
+//         width: 230px;
+//         padding-left: 16px;
+//     }
+// }
+
+.mat-expansion-panel-body {
+    padding: 0 10px 16px !important;
 }
 
 .error {
