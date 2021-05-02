@@ -2,7 +2,7 @@
     <button mat-icon-button (click)="openGraphDialog()" *ngIf="chartsInfo.length > 0">
         <mat-icon class="action" fontIcon="{{chartIcon}}" aria-hidden="true"></mat-icon>
     </button>
-    <button mat-icon-button (click)="openInfoDialog()">
+    <button mat-icon-button (click)="openInfoDialog()" *ngIf="info">
         <mat-icon class="action" fontIcon="{{infoIcon}}" aria-hidden="true"></mat-icon>
     </button>
     <button mat-icon-button (click)="openMoreDialog()" *ngIf="more">

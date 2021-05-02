@@ -1,3 +1,3 @@
 export interface InfoDialogData {
-    content: string;
+    url: string;
 }

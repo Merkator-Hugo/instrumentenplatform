@@ -1,19 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { InfoDialogData } from '../../models/interfaces';
+import { MoreDialogData } from '../../models/interfaces';
 
 @Component({
-  selector: 'app-info-dialog',
-  templateUrl: './info-dialog.component.html',
-  styleUrls: ['./info-dialog.component.scss']
+  selector: 'app-more-dialog',
+  templateUrl: './more-dialog.component.html',
+  styleUrls: ['./more-dialog.component.scss']
 })
-export class InfoDialogComponent implements OnInit {
+export class MoreDialogComponent implements OnInit {
 
   public content = '';
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: InfoDialogData,
+    @Inject(MAT_DIALOG_DATA) public data: MoreDialogData,
     private http: HttpClient) {
     this.http.get(data.url, {responseType: 'text'})
         .subscribe((data) => {

@@ -11,7 +11,7 @@ import { ChartInfo } from '../../../models/interfaces';
 export class WidgetComponent implements OnInit {
 
   @Input() type: DataType;
-  @Input() info: string = '';
+  @Input() info: boolean = true;
   @Input() more: boolean = true;
   @Input() chartsInfo: ChartInfo[] = [];
 

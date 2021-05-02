@@ -25,29 +25,39 @@ export class DataService {
       title: '',
       speed: 1,
     };
-    this.state.changed.subscribe((data) => {
-      this.stateData = data;
-    });
     this.timeService.tick.subscribe((now) => {
       let wd: WeatherData;
       if(this.stateData.demo) {
+        this.halleydata.dataChanged.unsubscribe();
         wd = this.mockdata.getCurrentData(now);
         this.currentDataChanged.emit(wd);
+      } else {
+        this.halleydata.getCurrentData(now);
+      }
+    });
+    this.state.changed.subscribe((data) => {
+      this.stateData = data;
+      if (this.stateData.demo) {
+        this.halleydata.dataChanged.unsubscribe();
+      } else {
+        this.halleydata.dataChanged.subscribe((wd) => {
+          this.currentDataChanged.emit(wd);
+        });
       }
     });
   }
 
-  refreshCurrentData(now: Date): void {
-    let wd: WeatherData;
-    if(this.stateData.demo) {
-      wd = this.mockdata.getCurrentData(now);
-      this.currentDataChanged.emit(wd);
-    } else {
-      this.halleydata.getCurrentData(now).subscribe((wd) => {
-        this.currentDataChanged.emit(wd);
-      });
-    }
-  }
+  // refreshCurrentData(now: Date): void {
+  //   let wd: WeatherData;
+  //   if(this.stateData.demo) {
+  //     wd = this.mockdata.getCurrentData(now);
+  //     this.currentDataChanged.emit(wd);
+  //   } else {
+  //     this.halleydata.getCurrentData(now).subscribe((wd) => {
+  //       this.currentDataChanged.emit(wd);
+  //     });
+  //   }
+  // }
 
   getAir(fromDate: Date, toDate: Date): Observable<AirData[]> {
     if(this.stateData.demo) {

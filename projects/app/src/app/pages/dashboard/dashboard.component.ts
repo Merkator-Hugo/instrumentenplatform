@@ -36,10 +36,9 @@ export class DashboardComponent implements OnInit {
     }
   
     this.currentData = new WeatherData();
-    // this.tameteo.getData();
     this.timeService.tick.subscribe((now) => {
       this.astronomy.setDateTime(now);
-      this.dataService.refreshCurrentData(now);
+      // this.dataService.refreshCurrentData(now);
     });
     this.createWidgets();
   }
@@ -58,56 +57,101 @@ export class DashboardComponent implements OnInit {
     this.widgets = [];
     this.widgets.push({
       type: DataType.TIME,
-      info: '',
-      more: '',
+      info: true,
+      more: true,
       chartsInfo: []
     });
     this.widgets.push({
       type: DataType.TEMPERATURE,
-      info: '',
-      more: '',
-      chartsInfo: []
+      info: true,
+      more: false,
+      chartsInfo: [
+        {
+          charttype: 'line',
+          datatype: DataType.TEMPERATURE,
+          label: 'Lijn',
+        },
+        {
+          charttype: 'bar',
+          datatype: DataType.TEMPERATURE,
+          label: 'Balk',
+        }
+      ]
     });
     this.widgets.push({
       type: DataType.WIND,
-      info: '',
-      more: '',
-      chartsInfo: []
+      info: true,
+      more: false,
+      chartsInfo: [
+        {
+          charttype: 'heatmap',
+          datatype: DataType.WIND,
+          label: 'Heatmap',
+        }
+      ]
     });
     this.widgets.push({
       type: DataType.CAMERA,
-      info: '',
-      more: '',
+      info: true,
+      more: false,
       chartsInfo: []
     });
     this.widgets.push({
       type: DataType.MOON,
-      info: '',
-      more: '',
+      info: true,
+      more: false,
       chartsInfo: []
     });
     this.widgets.push({
       type: DataType.SUN,
-      info: '',
-      more: '',
-      chartsInfo: []
+      info: true,
+      more: false,
+      chartsInfo: [
+        {
+          charttype: 'line',
+          datatype: DataType.SUN,
+          label: 'Lijn',
+        },
+        {
+          charttype: 'bar',
+          datatype: DataType.SUN,
+          label: 'Balk',
+        }
+      ]
     });
     this.widgets.push({
       type: DataType.AIR,
-      info: '',
-      more: '',
-      chartsInfo: []
+      info: true,
+      more: false,
+      chartsInfo: [
+        {
+          charttype: 'line',
+          datatype: DataType.AIR,
+          label: 'Lijn',
+        },
+        {
+          charttype: 'bar',
+          datatype: DataType.AIR,
+          label: 'Balk',
+        }
+      ]
     });
     this.widgets.push({
       type: DataType.PRECIPITATION,
-      info: '',
-      more: '',
-      chartsInfo: []
+      info: true,
+      more: false,
+      chartsInfo: [
+        {
+          charttype: 'bar',
+          datatype: DataType.PRECIPITATION,
+          label: 'Balk',
+        }
+      ]
     });
     this.widgets.push({
       type: DataType.FORECAST,
-      info: '',
-      more: '',
+      info: true,
+      more: false,
       chartsInfo: []
     });
   }

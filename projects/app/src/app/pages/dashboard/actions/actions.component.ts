@@ -5,6 +5,7 @@ import { DataType } from '../../../models/enums';
 import { DataService, LoadingService, TimeService } from '../../../services/services';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ChartInfo } from '../../../models/interfaces';
+import { MoreDialogComponent } from '../../../components/more-dialog/more-dialog.component';
 
 @Component({
   selector: 'app-actions',
@@ -20,8 +21,9 @@ export class ActionsComponent implements OnInit {
   NODATA = 'Geen data beschikbaar';
   ERROR = 'Fout bij ophalen data';
 
+  @Input() type: DataType;
   @Input() more: boolean;
-  @Input() info: string;
+  @Input() info: boolean;
   @Input() chartsInfo: ChartInfo[];
   @Input() now: Date;
 
@@ -30,7 +32,7 @@ export class ActionsComponent implements OnInit {
   ngOnInit(): void {}
 
   openMoreDialog() {
-    this.dialog.open(InfoDialogComponent, {
+    this.dialog.open(MoreDialogComponent, {
       data: {
         content: ''
       }
@@ -40,7 +42,7 @@ export class ActionsComponent implements OnInit {
   openInfoDialog() {
     this.dialog.open(InfoDialogComponent, {
       data: {
-        content: this.info
+        url: 'assets/info/' + this.type + '.html'
       }
     });
   }

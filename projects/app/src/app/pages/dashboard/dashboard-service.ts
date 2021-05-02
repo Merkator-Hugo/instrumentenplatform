@@ -147,6 +147,18 @@ export class DashboardService {
         { label: '', tooltip: '', value: '-', unit: '' },
         { label: 'Hoeveelheid', tooltip: 'Hoeveelheid neerslag in laatste uur', value: neerslag, unit: ' mm/u' }
       ]
+    });
+    const url = (wd.camera.url != null) ? wd.camera.url : '';
+    const datetime = (wd.camera.datetime != null) ? wd.camera.datetime : wd.datetime;
+    widgetInfos.push({
+      type: DataType.CAMERA,
+      values: [url, datetime],
+      items: [
+        { label: '', tooltip: '', value: '-', unit: '' },
+        { label: '', tooltip: '', value: '-', unit: '' },
+        { label: '', tooltip: '', value: '-', unit: '' },
+        { label: '', tooltip: '', value: '-', unit: '' }
+      ]
     });    
     widgetInfos.push(this.tameteo.getForecast());
     widgetInfos.push(this.astronomy.getMoonData());
