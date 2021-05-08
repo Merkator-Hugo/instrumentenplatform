@@ -8,4 +8,14 @@ export class PrecipitationData extends BaseData {
         this.value = RH;
         return this;
     }
+
+    fromHalleyData(
+        datetime: Date,
+        value: number
+    ) {
+        this.datetime = datetime;
+        this.value = value;
+        return this;
+    }
+
 }

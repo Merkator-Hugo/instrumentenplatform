@@ -9,4 +9,14 @@ export class SunData  extends BaseData {
         this.value = SQ;
         return this;
     }
+
+    fromHalleyData(
+        datetime: Date,
+        value: number
+    ) {
+        this.datetime = datetime;
+        this.value = value;
+        return this;
+    }
+
 }

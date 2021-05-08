@@ -23,4 +23,5 @@ import {
     series?: ApexAxisChartSeries | ApexNonAxisChartSeries;
     chart?: ApexChart;
     yaxis?: ApexYAxis | ApexYAxis[];
+    responsive?: ApexResponsive;
 }

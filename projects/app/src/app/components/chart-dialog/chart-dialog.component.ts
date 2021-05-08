@@ -15,14 +15,15 @@ export class ChartDialogComponent implements OnInit {
   public screen: { width: any, height: any };
   @HostListener('window:resize', ['$event']) onResize(event) {
     this.screen = {
-      width: window.innerWidth,
-      height: window.innerHeight
+      width: event.target.innerWidth,
+      height: event.target.innerHeight
     };
   };
   public timespans: TimeSpan[] = [];
   public selectedTimespan: TimeSpan;
   public selectedChart: ChartInfo;
   public data: ChartData = {};
+  public dataLoaded: boolean = false;
   NODATA = 'Geen data beschikbaar';
   ERROR = 'Fout bij ophalen data';
 
@@ -35,6 +36,7 @@ export class ChartDialogComponent implements OnInit {
     private time: TimeService) { }
 
   ngOnInit(): void {
+    this.dataLoaded = false;
     this.screen = {
       width: window.innerWidth,
       height: window.innerHeight
@@ -117,8 +119,8 @@ export class ChartDialogComponent implements OnInit {
         }
         this.data = {
           chart: {
-            width: this.screen.width - (this.settings.getMargins().left + this.settings.getMargins().right),
-            height: this.screen.height - (this.settings.getMargins().top + this.settings.getMargins().bottom),
+            width: '100%', // this.screen.width - (this.settings.getMargins().left + this.settings.getMargins().right),
+            height: '100%', // this.screen.height - (this.settings.getMargins().top + this.settings.getMargins().bottom),
             type: null,
           },
           yaxis: [
@@ -148,6 +150,7 @@ export class ChartDialogComponent implements OnInit {
           ]
         };
         this.loading.setLoadingStatus(false);
+        this.dataLoaded = true;
       },
       (error) => {
         this.loading.setLoadingStatus(false);
@@ -175,8 +178,8 @@ export class ChartDialogComponent implements OnInit {
         }
         this.data = {
           chart: {
-            width: this.screen.width - (this.settings.getMargins().left + this.settings.getMargins().right),
-            height: this.screen.height - (this.settings.getMargins().top + this.settings.getMargins().bottom),
+            width: '100%', // this.screen.width - (this.settings.getMargins().left + this.settings.getMargins().right),
+            height: '100%', // this.screen.height - (this.settings.getMargins().top + this.settings.getMargins().bottom),
             type: null,
           },
           series: [
@@ -187,6 +190,7 @@ export class ChartDialogComponent implements OnInit {
           ]
         };
         this.loading.setLoadingStatus(false);
+        this.dataLoaded = true;
       },
       (error) => {
         this.loading.setLoadingStatus(false);
@@ -215,8 +219,8 @@ export class ChartDialogComponent implements OnInit {
         }
         this.data = {
           chart: {
-            width: this.screen.width - (this.settings.getMargins().left + this.settings.getMargins().right),
-            height: this.screen.height - (this.settings.getMargins().top + this.settings.getMargins().bottom),
+            width: '100%', // this.screen.width - (this.settings.getMargins().left + this.settings.getMargins().right),
+            height: '100%', // this.screen.height - (this.settings.getMargins().top + this.settings.getMargins().bottom),
             type: null,
           },
           series: [
@@ -227,6 +231,7 @@ export class ChartDialogComponent implements OnInit {
           ]
         };
         this.loading.setLoadingStatus(false);
+        this.dataLoaded = true;
       },
       (error) => {
         this.loading.setLoadingStatus(false);
@@ -248,17 +253,20 @@ export class ChartDialogComponent implements OnInit {
         }
         let s0 = [];
         let s1 = [];
+        let s2 = [];
         for (let t of ts) {
           const time: number = Number(t.datetime.getTime());
           const temp: number = t.temperature;
           const dauw: number = t.dewpoint;
+          const binnen: number = t.inside;
           s0.push([time, temp]);
           s1.push([time, dauw]);
+          s2.push([time, binnen]);
         }
         this.data = {
           chart: {
-            width: this.screen.width - (this.settings.getMargins().left + this.settings.getMargins().right),
-            height: this.screen.height - (this.settings.getMargins().top + this.settings.getMargins().bottom),
+            width: '100%', // this.screen.width - (this.settings.getMargins().left + this.settings.getMargins().right),
+            height: '100%', // this.screen.height - (this.settings.getMargins().top + this.settings.getMargins().bottom),
             type: null,
           },
           series: [
@@ -269,10 +277,15 @@ export class ChartDialogComponent implements OnInit {
             {
               name: 'gevoel',
               data: s1
+            },
+            {
+              name: 'binnen',
+              data: s2
             }
           ]
         };
         this.loading.setLoadingStatus(false);
+        this.dataLoaded = true;
       },
       (error) => {
         this.loading.setLoadingStatus(false);
@@ -304,8 +317,8 @@ export class ChartDialogComponent implements OnInit {
           }
           this.data = {
             chart: {
-              width: this.screen.width - (this.settings.getMargins().left + this.settings.getMargins().right),
-              height: this.screen.height - (this.settings.getMargins().top + this.settings.getMargins().bottom),
+              width: '100%', // this.screen.width - (this.settings.getMargins().left + this.settings.getMargins().right),
+              height: '100%', // this.screen.height - (this.settings.getMargins().top + this.settings.getMargins().bottom),
               type: null,
             },
             yaxis: [
@@ -347,7 +360,7 @@ export class ChartDialogComponent implements OnInit {
           }
           const windrichtingen = ['N','NNO', 'NO', 'ONO','O','OZO', 'ZO', 'ZZO','Z','ZZW', 'ZW', 'WZW','W','WNW', 'NW', 'NNW'];
           let series = [];
-          const keys = [...sAll.keys()];
+          const keys = Object.keys(sAll); // [...sAll.keys()];
           for (let key of keys) {
             let s = [];
             let row = sAll[key];
@@ -366,8 +379,8 @@ export class ChartDialogComponent implements OnInit {
           }
           this.data = {
             chart: {
-              width: this.screen.width - (this.settings.getMargins().left + this.settings.getMargins().right),
-              height: this.screen.height - (this.settings.getMargins().top + this.settings.getMargins().bottom),
+              width: '100%', // this.screen.width - (this.settings.getMargins().left + this.settings.getMargins().right),
+              height: '100%', // this.screen.height - (this.settings.getMargins().top + this.settings.getMargins().bottom),
               type: null,
             },
             yaxis: [
@@ -381,6 +394,7 @@ export class ChartDialogComponent implements OnInit {
           };
         }
         this.loading.setLoadingStatus(false);
+        this.dataLoaded = true;
       },
       (error) => {
         this.loading.setLoadingStatus(false);

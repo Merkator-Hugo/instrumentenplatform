@@ -32,7 +32,7 @@ export class DataService {
         wd = this.mockdata.getCurrentData(now);
         this.currentDataChanged.emit(wd);
       } else {
-        this.halleydata.getCurrentData(now);
+        // this.halleydata.getCurrentData(now);
       }
     });
     this.state.changed.subscribe((data) => {
@@ -53,7 +53,11 @@ export class DataService {
         map((t) => t)
       )
     } else {
-      return from([]);
+      return this.halleydata.getAir(fromDate, toDate).pipe(
+        map((t) => {
+          return t;
+        })
+      )
     }
   }
 
@@ -63,7 +67,11 @@ export class DataService {
         map((t) => t)
       )
     } else {
-      return from([]);
+      return this.halleydata.getPrecipitation(fromDate, toDate).pipe(
+        map((t) => {
+          return t;
+        })
+      )
     }
   }
 
@@ -73,7 +81,11 @@ export class DataService {
         map((t) => t)
       )
     } else {
-      return from([]);
+      return this.halleydata.getSun(fromDate, toDate).pipe(
+        map((t) => {
+          return t;
+        })
+      )
     }
   }
 
@@ -84,9 +96,10 @@ export class DataService {
       )
     } else {
       return this.halleydata.getTemperature(fromDate, toDate).pipe(
-        map((t) => t)
+        map((t) => {
+          return t;
+        })
       )
-      // return from([]);
     }
   }
 

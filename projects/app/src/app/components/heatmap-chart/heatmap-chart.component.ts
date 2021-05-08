@@ -60,13 +60,16 @@ export class HeatmapChartComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    const buttonsHeight = document.getElementById('chartButtons').clientHeight;
+    const dialogHeight = document.getElementsByClassName('mat-dialog-container')[0].clientHeight;
+    const height = dialogHeight - buttonsHeight - (2 * 37);
     this.chartOptions = {
       series: this.data.series,
       chart: {
         id: 'heatmap',
         type: 'heatmap',
         width: this.data.chart.width,
-        height: this.data.chart.height,
+        height: height,
         zoom: {
           autoScaleYaxis: true,
         },

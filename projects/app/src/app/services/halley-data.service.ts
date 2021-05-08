@@ -2,7 +2,7 @@ import { Apollo } from "apollo-angular";
 import gql from "graphql-tag";
 import { EventEmitter } from '@angular/core';
 import { Injectable } from '@angular/core';
-import { AirData, TemperatureData, WeatherData } from "../models/classes";
+import { AirData, PrecipitationData, SunData, TemperatureData, WeatherData } from "../models/classes";
 import { Observable } from "rxjs";
 
 @Injectable({
@@ -236,71 +236,79 @@ export class HalleyDataService {
     return obs;
   }
 
-  // getCurrentData(toDate: Date): Observable<WeatherData> {
-  //   const FROM = toDate.getTime() - (10 * 60 * 1000);
-  //   const TO = toDate.getTime();
-  //   const QUERY = gql`
-  //     query getData($from: Date!, $to: Date!)
-  //       {
-  //         airRange(from: $from, to: $to) {
-  //           datetime
-  //           humidity
-  //           pressure
-  //           windspeed
-  //           cloudheight
-  //           particulatematter
-  //           winddirection
-  //         },
-  //         temperatureRange(from: $from, to: $to) {
-  //           datetime
-  //           tempvalue
-  //           intempvalue
-  //           feelslike
-  //           dewpoint
-  //         }          
-  //       }`;
-  //   const obs: Observable<WeatherData> = new Observable((observer) => {
-  //     this.apollo
-  //       .query<any>({
-  //         query: QUERY,
-  //         variables: {
-  //           from: FROM,
-  //           to: TO,
-  //         },
-  //       })
-  //       .subscribe(
-  //         ({ data, loading }) => {
-  //           let d = data;
-  //           let air = data.airRange.reduce(function(prev, curr) {
-  //             return (curr.datetime < prev.datetime ? curr : prev);
-  //           });
-  //           let temp = data.temperatureRange.reduce(function(prev, curr) {
-  //             return (curr.datetime < prev.datetime ? curr : prev);
-  //           });
-  //           let airData = new AirData().fromHalleyData(
-  //             new Date(air.datetime),
-  //             air.humidity,
-  //             air.pressure,
-  //             air.windspeed,
-  //             air.cloudheight,
-  //             air.particulatematter,
-  //             air.winddirection
-  //           );
-  //           let tempData = new TemperatureData().fromHalleyData(
-  //             new Date(temp.datetime),
-  //             temp.tempvalue,
-  //             temp.intempvalue,
-  //             temp.feelslike,
-  //             temp.dewpoint
-  //           );
-  //           let weatherData = new WeatherData().fromHalleyData(airData, tempData);
-  //           observer.next(weatherData);
-  //           // let d = data && data.books;
-  //           // this.loading = loading;
-  //         }
-  //       );
-  //   });
-  //   return obs;
-  // }
+  getPrecipitation(fromDate: Date, toDate: Date): Observable<PrecipitationData[]> {
+    const obs: Observable<PrecipitationData[]> = new Observable((observer) => {
+      const FROM = fromDate.getTime();
+      const TO = toDate.getTime();
+      const QUERY = gql`
+        query getData($from: Date!, $to: Date!)
+          {
+            precipitationRange(from: $from, to: $to) {
+              datetime
+              value
+            }     
+          }`;
+      this.apollo
+        .query<any>({
+          query: QUERY,
+          variables: {
+            from: FROM,
+            to: TO,
+          },
+        })
+        .subscribe(
+          ({ data, loading }) => {
+            let d = data;
+            let precipitationRangeData: PrecipitationData[] = [];
+            for (let precipitation of data.precipitationRange) {
+              const precipitationData = new PrecipitationData().fromHalleyData(
+                new Date(precipitation.datetime),
+                precipitation.value
+              );
+              precipitationRangeData.push(precipitationData);
+            }
+            observer.next(precipitationRangeData);
+        });
+      });
+    return obs;
+  }
+
+  getSun(fromDate: Date, toDate: Date): Observable<SunData[]> {
+    const obs: Observable<SunData[]> = new Observable((observer) => {
+      const FROM = fromDate.getTime();
+      const TO = toDate.getTime();
+      const QUERY = gql`
+        query getData($from: Date!, $to: Date!)
+          {
+            sunRange(from: $from, to: $to) {
+              datetime
+              value
+            }     
+          }`;
+      this.apollo
+        .query<any>({
+          query: QUERY,
+          variables: {
+            from: FROM,
+            to: TO,
+          },
+        })
+        .subscribe(
+          ({ data, loading }) => {
+            let d = data;
+            let sunRangeData: SunData[] = [];
+            for (let sun of data.sunRange) {
+              const sunData = new SunData().fromHalleyData(
+                new Date(sun.datetime),
+                sun.value
+              );
+              sunRangeData.push(sunData);
+            }
+            observer.next(sunRangeData);
+        });
+      });
+    return obs;
+  }
+
 
 }

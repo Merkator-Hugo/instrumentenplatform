@@ -43,6 +43,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     padding: 0 10px 16px !important;
 }
 
+.mat-dialog-container {
+    width: calc( 100vw - 20px) !important;
+    height: calc( 100vh - 20px) !important;
+}
+
 .error {
     background-color: rgba(255,0,0,0.8);
     color: black;
