@@ -146,6 +146,96 @@ export class HalleyDataService {
       );
   }
 
+  getTemperature(fromDate: Date, toDate: Date): Observable<TemperatureData[]> {
+    const obs: Observable<TemperatureData[]> = new Observable((observer) => {
+      const FROM = fromDate.getTime();
+      const TO = toDate.getTime();
+      const QUERY = gql`
+        query getData($from: Date!, $to: Date!)
+          {
+            temperatureRange(from: $from, to: $to) {
+              datetime
+              tempvalue
+              intempvalue
+              feelslike
+              dewpoint
+            }          
+          }`;
+      this.apollo
+        .query<any>({
+          query: QUERY,
+          variables: {
+            from: FROM,
+            to: TO,
+          },
+        })
+        .subscribe(
+          ({ data, loading }) => {
+            let d = data;
+            let tempRangeData: TemperatureData[] = [];
+            for (let temp of data.temperatureRange) {
+              const tempData = new TemperatureData().fromHalleyData(
+                new Date(temp.datetime),
+                temp.tempvalue,
+                temp.intempvalue,
+                temp.feelslike,
+                temp.dewpoint
+              );
+              tempRangeData.push(tempData);
+            }
+            observer.next(tempRangeData);
+        });
+      });
+    return obs;
+  }
+
+  getAir(fromDate: Date, toDate: Date): Observable<AirData[]> {
+    const obs: Observable<AirData[]> = new Observable((observer) => {
+      const FROM = fromDate.getTime();
+      const TO = toDate.getTime();
+      const QUERY = gql`
+        query getData($from: Date!, $to: Date!)
+          {
+            airRange(from: $from, to: $to) {
+              datetime
+              humidity
+              pressure
+              windspeed
+              cloudheight
+              particulatematter
+              winddirection
+            }     
+          }`;
+      this.apollo
+        .query<any>({
+          query: QUERY,
+          variables: {
+            from: FROM,
+            to: TO,
+          },
+        })
+        .subscribe(
+          ({ data, loading }) => {
+            let d = data;
+            let airRangeData: AirData[] = [];
+            for (let air of data.airRange) {
+              const airData = new AirData().fromHalleyData(
+                new Date(air.datetime),
+                air.humidity,
+                air.pressure,
+                air.windspeed,
+                air.cloudheight,
+                air.particulatematter,
+                air.winddirection
+              );
+              airRangeData.push(airData);
+            }
+            observer.next(airRangeData);
+        });
+      });
+    return obs;
+  }
+
   // getCurrentData(toDate: Date): Observable<WeatherData> {
   //   const FROM = toDate.getTime() - (10 * 60 * 1000);
   //   const TO = toDate.getTime();

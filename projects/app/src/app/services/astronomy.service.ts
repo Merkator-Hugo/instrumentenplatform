@@ -34,7 +34,8 @@ export class AstronomyService {
       { label: '', tooltip: '', value: '-', unit: '' },
       { label: '', tooltip: '', value: '-', unit: '' },
       { label: '', tooltip: '', value: '-', unit: '' }
-    ]
+    ],
+    moreitems: []
   };
 
   private moonData = {
@@ -115,19 +116,42 @@ export class AstronomyService {
     Promise.all([
           sun.getRise(this.location),
           sun.getSet(this.location),
+          sun.getAngularDiameter(),
+          sun.getApparentDistanceToEarth(),
+          sun.getApparentGeocentricEclipticRectangularCoordinates(),
+          sun.getApparentGeocentricEquatorialSphericalCoordinates(),
+          sun.getApparentMagnitude(),
+          sun.getApparentTopocentricHorizontalCoordinates(this.location),
+          sun.getDistanceToEarth()
       ])
       .then((res) => {
         const rise = this.ShowLocaleTime(res[0]);
         const set = this.ShowLocaleTime(res[1]);
-        const items = [];
-        items.push({ label: '', tooltip: '', value: '-', unit: '' })
-        items.push({ label: '', tooltip: '', value: '-', unit: '' })
-        items.push({ label: 'Op', tooltip: 'Zon op om', value: rise, unit: '' })
-        items.push({ label: 'Onder', tooltip: 'Zon onder om', value: set, unit: '' })
+        let items = [];
+        items.push({ label: '', tooltip: '', value: '-', unit: '' });
+        items.push({ label: '', tooltip: '', value: '-', unit: '' });
+        items.push({ label: 'Op', tooltip: 'Zon op om', value: rise, unit: '' });
+        items.push({ label: 'Onder', tooltip: 'Zon onder om', value: set, unit: '' });
+        const angularDiameter = res[2];
+        const apparentDistanceToEarth = res[3];
+        const apparentGeocentricEclipticRectangularCoordinates = res[4];
+        const apparentGeocentricEquatorialSphericalCoordinates = res[5];
+        const apparentMagnitude = res[6];
+        const apparentTopocentricHorizontalCoordinates = res[7];
+        const distanceToEarth = res[8];
+        let moreitems = [];
+        moreitems.push({ label: 'angularDiameter', tooltip: '', value: angularDiameter, unit: '' });
+        moreitems.push({ label: 'apparentDistanceToEarth', tooltip: '', value: apparentDistanceToEarth, unit: '' });
+        moreitems.push({ label: 'apparentGeocentricEclipticRectangularCoordinates', tooltip: '', value: apparentGeocentricEclipticRectangularCoordinates, unit: '' });
+        moreitems.push({ label: 'apparentGeocentricEquatorialSphericalCoordinates', tooltip: '', value: apparentGeocentricEquatorialSphericalCoordinates, unit: '' });
+        moreitems.push({ label: 'apparentMagnitude', tooltip: '', value: apparentMagnitude, unit: '' });
+        moreitems.push({ label: 'apparentTopocentricHorizontalCoordinates', tooltip: '', value: apparentTopocentricHorizontalCoordinates, unit: '' });
+        moreitems.push({ label: 'distanceToEarth', tooltip: '', value: distanceToEarth, unit: '' });
         this.sunData = {
           type: DataType.SUN,
           values: [0],
-          items: items
+          items: items,
+          moreitems: moreitems
         };
       });
     }

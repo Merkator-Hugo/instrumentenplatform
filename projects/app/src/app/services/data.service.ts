@@ -47,18 +47,6 @@ export class DataService {
     });
   }
 
-  // refreshCurrentData(now: Date): void {
-  //   let wd: WeatherData;
-  //   if(this.stateData.demo) {
-  //     wd = this.mockdata.getCurrentData(now);
-  //     this.currentDataChanged.emit(wd);
-  //   } else {
-  //     this.halleydata.getCurrentData(now).subscribe((wd) => {
-  //       this.currentDataChanged.emit(wd);
-  //     });
-  //   }
-  // }
-
   getAir(fromDate: Date, toDate: Date): Observable<AirData[]> {
     if(this.stateData.demo) {
       return this.mockdata.getAir(fromDate, toDate).pipe(
@@ -95,7 +83,10 @@ export class DataService {
         map((t) => t)
       )
     } else {
-      return from([]);
+      return this.halleydata.getTemperature(fromDate, toDate).pipe(
+        map((t) => t)
+      )
+      // return from([]);
     }
   }
 
