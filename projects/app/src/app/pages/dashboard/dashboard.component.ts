@@ -38,7 +38,6 @@ export class DashboardComponent implements OnInit {
     this.currentData = new WeatherData();
     this.timeService.tick.subscribe((now) => {
       this.astronomy.setDateTime(now);
-      // this.dataService.refreshCurrentData(now);
     });
     this.createWidgets();
   }

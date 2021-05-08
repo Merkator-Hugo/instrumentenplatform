@@ -32,7 +32,7 @@ export class DataService {
         wd = this.mockdata.getCurrentData(now);
         this.currentDataChanged.emit(wd);
       } else {
-        // this.halleydata.getCurrentData(now);
+        this.halleydata.getCurrentData(now);
       }
     });
     this.state.changed.subscribe((data) => {
