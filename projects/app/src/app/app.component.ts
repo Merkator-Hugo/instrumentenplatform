@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { SettingsService, StateService, TimeService, TameteoService } from './services/services';
+import { SettingsService, StateService, TimeService, TameteoService, DataService } from './services/services';
 import { TranslateService } from '@ngx-translate/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { IconType } from './models/enums';
@@ -15,7 +15,10 @@ export class AppComponent implements OnInit {
   title: string = '';
   demo: boolean = false;
   speed: number;
-  icons: { clock: string; menu: string; } = { clock: 'fa-clock', menu: 'fa-bars'};
+  icons: {[k: string]: string} = { clock: 'fa-clock', menu: 'fa-bars', wifi: 'fa-smile', nowifi: 'fa-frown', loading: 'fa-cloud-download-alt'};
+
+  public loading = false;
+  public connection = 'OK';
 
   @ViewChild('sidenav') sidenav: MatSidenav;
 
@@ -23,6 +26,7 @@ export class AppComponent implements OnInit {
     private matIconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
     public state: StateService,
+    public data: DataService,
     private translate: TranslateService,
     public settings: SettingsService,
     private time: TimeService,
@@ -37,6 +41,12 @@ export class AppComponent implements OnInit {
       this.title = data.title;
       this.translate.use(data.language);
       this.speed = data.speed;
+    });
+    this.data.loading.subscribe((loading) => {
+      this.loading = loading.state;
+      if (loading.message !== null) {
+        this.connection = loading.message
+      }
     });
   }
 

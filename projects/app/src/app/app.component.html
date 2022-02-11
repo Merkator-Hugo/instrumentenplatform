@@ -32,10 +32,15 @@
           <!-- {{title}} -->
         </span>
         <span>
-          <mat-slide-toggle [checked]="demo" (change)="setDemo($event)">
-            Demo
-            <span *ngIf="demo" style="margin-right:5px;">:</span>
-          </mat-slide-toggle>
+          <mat-icon *ngIf="loading" fontIcon="{{icons.loading}}" aria-hidden="true" style="margin-right:5px;"></mat-icon>
+          <span *ngIf="!demo">
+            <mat-icon *ngIf="connection === 'OK'" fontIcon="{{icons.wifi}}" aria-hidden="true"></mat-icon>
+            <mat-icon *ngIf="connection === 'ERROR'" fontIcon="{{icons.nowifi}}" aria-hidden="true"></mat-icon>
+          </span>
+          Real
+          <mat-slide-toggle [checked]="demo" (change)="setDemo($event)"></mat-slide-toggle>
+          Demo
+          <span *ngIf="demo" style="margin-right:5px;">:</span>
           <span *ngIf="demo">
             <span [matMenuTriggerFor]="clockmenu">
               <mat-icon fontIcon="{{icons.clock}}" aria-hidden="true"></mat-icon>

@@ -3,13 +3,12 @@ import gql from "graphql-tag";
 import { EventEmitter } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { AirData, PrecipitationData, SunData, TemperatureData, WeatherData } from "../models/classes";
-import { Observable, throwError } from "rxjs";
-import { map } from "rxjs/operators";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
-export class HalleyDataService {
+export class HalleyDataOldService {
 
   // private URL = 'http://10.0.10.13:4000/graphql';
   private isFetching: boolean = false;
@@ -21,13 +20,11 @@ export class HalleyDataService {
     // this.getData(new Date(2021,3,7), new Date());
   }
 
-  getCurrentData(toDate: Date): Observable<WeatherData> {
+  getCurrentData(toDate: Date): void {
     this.loading.emit({state: true, result: null})
     console.log("GetCurrentData");
-    // if (this.isFetching) {
-    //   throwError(() => new Error('still fetching data'));
-    // }
-    // this.isFetching = true;
+    if (this.isFetching) { return; }
+    this.isFetching = true;
     const FROM = toDate.getTime() - (10 * 60 * 1000);
     const TO = toDate.getTime();
     const QUERY = gql`
@@ -50,7 +47,7 @@ export class HalleyDataService {
             dewpoint
           }          
         }`;
-    return this.apollo
+    this.apollo
       .query<any>({
         query: QUERY,
         variables: {
@@ -59,94 +56,50 @@ export class HalleyDataService {
         },
         errorPolicy: 'all'
       })
-      .pipe(
-        map(
-          (result) => {
-            let data = result.data;
-            let airData = new AirData();
-            if (data.airRange.length > 0) {
-              let air = data.airRange.reduce(function(prev, curr) {
-                return (curr.datetime < prev.datetime ? curr : prev);
-              });
-              airData = new AirData().fromHalleyData(
-                new Date(air.datetime),
-                air.humidity,
-                air.pressure,
-                air.windspeed,
-                air.cloudheight,
-                air.particulatematter,
-                air.winddirection
-              );
-            }
-            let tempData = new TemperatureData();
-            if (data.temperatureRange.length > 0) {
-              let temp = data.temperatureRange.reduce(function(prev, curr) {
-                return (curr.datetime < prev.datetime ? curr : prev);
-              });
-              tempData = new TemperatureData().fromHalleyData(
-                new Date(temp.datetime),
-                temp.tempvalue,
-                temp.intempvalue,
-                temp.feelslike,
-                temp.dewpoint
-              );
-            }
-            // this.isFetching = false;
-            return new WeatherData().fromHalleyData(airData, tempData);
-            // this.dataChanged.emit(weatherData);
-            // this.loading.emit({state: false, result: 'OK'})
-          },
-          (error) => {
-            // this.isFetching = false;
-            throwError(() => new Error('No connection'));
-            // this.loading.emit({state: false, result: 'NO_CONNECTION'})
+      .subscribe(
+        ({ data, loading }) => {
+          // let d = data;
+          let airData = new AirData();
+          if (data.airRange.length > 0) {
+            let air = data.airRange.reduce(function(prev, curr) {
+              return (curr.datetime < prev.datetime ? curr : prev);
+            });
+            airData = new AirData().fromHalleyData(
+              new Date(air.datetime),
+              air.humidity,
+              air.pressure,
+              air.windspeed,
+              air.cloudheight,
+              air.particulatematter,
+              air.winddirection
+            );
           }
-        )
-      );
-      // .subscribe(
-      //   ({ data, loading }) => {
-      //     // let d = data;
-      //     let airData = new AirData();
-      //     if (data.airRange.length > 0) {
-      //       let air = data.airRange.reduce(function(prev, curr) {
-      //         return (curr.datetime < prev.datetime ? curr : prev);
-      //       });
-      //       airData = new AirData().fromHalleyData(
-      //         new Date(air.datetime),
-      //         air.humidity,
-      //         air.pressure,
-      //         air.windspeed,
-      //         air.cloudheight,
-      //         air.particulatematter,
-      //         air.winddirection
-      //       );
-      //     }
-      //     let tempData = new TemperatureData();
-      //     if (data.temperatureRange.length > 0) {
-      //       let temp = data.temperatureRange.reduce(function(prev, curr) {
-      //         return (curr.datetime < prev.datetime ? curr : prev);
-      //       });
-      //       tempData = new TemperatureData().fromHalleyData(
-      //         new Date(temp.datetime),
-      //         temp.tempvalue,
-      //         temp.intempvalue,
-      //         temp.feelslike,
-      //         temp.dewpoint
-      //       );
-      //     } else {
+          let tempData = new TemperatureData();
+          if (data.temperatureRange.length > 0) {
+            let temp = data.temperatureRange.reduce(function(prev, curr) {
+              return (curr.datetime < prev.datetime ? curr : prev);
+            });
+            tempData = new TemperatureData().fromHalleyData(
+              new Date(temp.datetime),
+              temp.tempvalue,
+              temp.intempvalue,
+              temp.feelslike,
+              temp.dewpoint
+            );
+          } else {
 
-      //     }
-      //     let weatherData = new WeatherData().fromHalleyData(airData, tempData);
-      //     this.isFetching = false;
-      //     this.dataChanged.emit(weatherData);
-      //     this.loading.emit({state: false, result: 'OK'})
-      //   },
-      //   (error) => {
-      //     console.log("No data connection", error);
-      //     this.isFetching = false;
-      //     this.loading.emit({state: false, result: 'NO_CONNECTION'})
-      //   }
-      // );
+          }
+          let weatherData = new WeatherData().fromHalleyData(airData, tempData);
+          this.isFetching = false;
+          this.dataChanged.emit(weatherData);
+          this.loading.emit({state: false, result: 'OK'})
+        },
+        (error) => {
+          console.log("No data connection", error);
+          this.isFetching = false;
+          this.loading.emit({state: false, result: 'NO_CONNECTION'})
+        }
+      );
   }
 
   getChangedData(toDate: Date): void {

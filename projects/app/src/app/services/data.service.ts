@@ -14,7 +14,9 @@ import { TimeService } from './time.service';
 export class DataService {
 
   private stateData: any;
+  private isFetching = false;
   currentDataChanged: EventEmitter<WeatherData> = new EventEmitter();
+  loading: EventEmitter<{state: boolean, message: string}> = new EventEmitter();
 
   constructor(private state: StateService,
               private mockdata: MockdataService,
@@ -27,12 +29,29 @@ export class DataService {
     };
     this.timeService.tick.subscribe((now) => {
       let wd: WeatherData;
-      if(this.stateData.demo) {
-        this.halleydata.dataChanged.unsubscribe();
-        wd = this.mockdata.getCurrentData(now);
-        this.currentDataChanged.emit(wd);
-      } else {
-        this.halleydata.getCurrentData(now);
+      if (!this.isFetching) {
+        this.isFetching = true;
+        this.loading.emit({state: true, message: null});
+        if(this.stateData.demo) {
+          this.halleydata.dataChanged.unsubscribe();
+          wd = this.mockdata.getCurrentData(now);
+          this.isFetching = false;
+          this.loading.emit({state: false, message: 'OK'});
+          this.currentDataChanged.emit(wd);
+        } else {
+          this.halleydata.getCurrentData(now).subscribe(
+            (data) => {
+              this.currentDataChanged.emit(data);
+              this.isFetching = false;
+              this.loading.emit({state: false, message: 'OK'});
+            },
+            (error) => {
+              console.log('ERROR', error);
+              this.isFetching = false;
+              this.loading.emit({state: false, message: 'ERROR'});
+            }
+          );
+        }
       }
     });
     this.state.changed.subscribe((data) => {
