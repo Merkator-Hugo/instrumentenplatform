@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { IconType } from './models/enums';
 import { DomSanitizer } from '@angular/platform-browser';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
@@ -17,14 +18,16 @@ export class AppComponent implements OnInit {
   speed: number;
   icons: {[k: string]: string} = { clock: 'fa-clock', menu: 'fa-bars', wifi: 'fa-smile', nowifi: 'fa-frown', loading: 'fa-cloud-download-alt'};
 
-  public loading = false;
-  public connection = 'OK';
+  public loading = true;
+  public connection: { status: string, message: string} = { status: 'OK', message: '' };
+  public showError = false;
 
   @ViewChild('sidenav') sidenav: MatSidenav;
 
   constructor(
     private matIconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
+    private snackBar: MatSnackBar,
     public state: StateService,
     public data: DataService,
     private translate: TranslateService,
@@ -42,11 +45,9 @@ export class AppComponent implements OnInit {
       this.translate.use(data.language);
       this.speed = data.speed;
     });
-    this.data.loading.subscribe((loading) => {
-      this.loading = loading.state;
-      if (loading.message !== null) {
-        this.connection = loading.message
-      }
+    this.data.currentDataChanged.subscribe((eventinfo) => {
+      this.loading = false;
+      this.connection = { status: eventinfo.status, message: eventinfo.data };
     });
   }
 
@@ -67,6 +68,16 @@ export class AppComponent implements OnInit {
 
   toTop() {
     window.scrollTo(0, 0);
+  }
+
+  openSnackBar() {
+    this.snackBar.open(
+      this.connection.message,
+      null,
+      {
+        duration: 3000,
+        verticalPosition: 'top'
+      });
   }
 
   // getWeer() {

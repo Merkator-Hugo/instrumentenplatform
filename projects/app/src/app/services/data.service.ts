@@ -4,7 +4,7 @@ import { StateService } from './state.service';
 import { MockdataService } from './mockdata.service';
 import { map } from 'rxjs/operators';
 import { Observable, from } from 'rxjs';
-import { AirData, AllskyCameraData, PrecipitationData, SunData, TemperatureData, WeatherData } from '../models/classes';
+import { AirData, AllskyCameraData, PrecipitationData, SunData, TemperatureData, WeatherData, DataEventinfo } from '../models/classes';
 import { HalleyDataService } from './halley-data.service';
 import { TimeService } from './time.service';
 
@@ -15,8 +15,7 @@ export class DataService {
 
   private stateData: any;
   private isFetching = false;
-  currentDataChanged: EventEmitter<WeatherData> = new EventEmitter();
-  loading: EventEmitter<{state: boolean, message: string}> = new EventEmitter();
+  currentDataChanged: EventEmitter<DataEventinfo> = new EventEmitter();
 
   constructor(private state: StateService,
               private mockdata: MockdataService,
@@ -26,29 +25,30 @@ export class DataService {
       demo: false,
       title: '',
       speed: 1,
+      language: 'nl'
     };
     this.timeService.tick.subscribe((now) => {
       let wd: WeatherData;
       if (!this.isFetching) {
         this.isFetching = true;
-        this.loading.emit({state: true, message: null});
         if(this.stateData.demo) {
           this.halleydata.dataChanged.unsubscribe();
           wd = this.mockdata.getCurrentData(now);
           this.isFetching = false;
-          this.loading.emit({state: false, message: 'OK'});
-          this.currentDataChanged.emit(wd);
+          this.currentDataChanged.emit(new DataEventinfo('OK', wd));
         } else {
           this.halleydata.getCurrentData(now).subscribe(
             (data) => {
-              this.currentDataChanged.emit(data);
-              this.isFetching = false;
-              this.loading.emit({state: false, message: 'OK'});
+              if(!this.stateData.demo) {
+                this.isFetching = false;
+                this.currentDataChanged.emit(new DataEventinfo('OK', data));
+              }
             },
             (error) => {
-              console.log('ERROR', error);
-              this.isFetching = false;
-              this.loading.emit({state: false, message: 'ERROR'});
+              if(!this.stateData.demo) {
+                this.isFetching = false;
+                this.currentDataChanged.emit(new DataEventinfo('ERROR', error));
+              }
             }
           );
         }
@@ -56,13 +56,7 @@ export class DataService {
     });
     this.state.changed.subscribe((data) => {
       this.stateData = data;
-      if (this.stateData.demo) {
-        this.halleydata.dataChanged.unsubscribe();
-      } else {
-        this.halleydata.dataChanged.subscribe((wd) => {
-          this.currentDataChanged.emit(wd);
-        });
-      }
+      this.isFetching = false;
     });
   }
 

@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { WeatherData } from '../../models/classes';
+import { DataEventinfo, WeatherData } from '../../models/classes';
 import { DataType } from '../../models/enums';
 import { AstronomyService, DataService, CalculationService, TameteoService } from '../../services/services';
 import { UnitsConverorService } from 'ngx-units-converter';
@@ -18,8 +18,8 @@ export class DashboardService {
     private astronomy: AstronomyService,
     private tameteo: TameteoService) {
       this.initWidgets();
-      this.data.currentDataChanged.subscribe((wd: WeatherData) => {
-        this.updateWidgets(wd);
+      this.data.currentDataChanged.subscribe((wd: DataEventinfo) => {
+        this.updateWidgets(wd.data);
       });
   }
 

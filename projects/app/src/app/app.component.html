@@ -32,10 +32,9 @@
           <!-- {{title}} -->
         </span>
         <span>
-          <mat-icon *ngIf="loading" fontIcon="{{icons.loading}}" aria-hidden="true" style="margin-right:5px;"></mat-icon>
           <span *ngIf="!demo">
-            <mat-icon *ngIf="connection === 'OK'" fontIcon="{{icons.wifi}}" aria-hidden="true"></mat-icon>
-            <mat-icon *ngIf="connection === 'ERROR'" fontIcon="{{icons.nowifi}}" aria-hidden="true"></mat-icon>
+            <mat-icon *ngIf="connection.status !== 'OK'" fontIcon="{{icons.nowifi}}" aria-hidden="true"
+            (click)="openSnackBar(connection)"></mat-icon>
           </span>
           Real
           <mat-slide-toggle [checked]="demo" (change)="setDemo($event)"></mat-slide-toggle>
@@ -49,11 +48,16 @@
           </span>
         </span>
       </mat-toolbar-row>
+      <mat-toolbar-row *ngIf="showError">
+        {{connection}}
+      </mat-toolbar-row>
       <mat-menu #clockmenu="matMenu">
         <button mat-menu-item *ngFor="let sp of settings.getSpeeds()" (click)="setSpeed(sp.value)">{{sp.label}}</button>
       </mat-menu>
     </mat-toolbar>
-    <app-loading-bar></app-loading-bar>
+    <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar *ngIf="!loading" mode="determinate" value="100"></mat-progress-bar>
+
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 
