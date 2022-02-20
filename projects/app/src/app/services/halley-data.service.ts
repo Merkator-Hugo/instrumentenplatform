@@ -28,6 +28,7 @@ export class HalleyDataService {
           airRange(from: $from, to: $to) {
             datetime
             humidity
+            insidehumidity
             pressure
             windspeed
             cloudheight
@@ -36,8 +37,8 @@ export class HalleyDataService {
           },
           temperatureRange(from: $from, to: $to) {
             datetime
-            tempvalue
-            intempvalue
+            temperature
+            insidetemperature
             feelslike
             dewpoint
           }          
@@ -77,8 +78,8 @@ export class HalleyDataService {
               });
               tempData = new TemperatureData().fromHalleyData(
                 new Date(temp.datetime),
-                temp.tempvalue,
-                temp.intempvalue,
+                temp.temperature,
+                temp.insidetemperature,
                 temp.feelslike,
                 temp.dewpoint
               );
@@ -119,8 +120,8 @@ export class HalleyDataService {
           },
           temperatureRange(from: $from, to: $to) {
             datetime
-            tempvalue
-            intempvalue
+            temperature
+            insidetemperature
             feelslike
             dewpoint
           }          
@@ -153,8 +154,8 @@ export class HalleyDataService {
           );
           let tempData = new TemperatureData().fromHalleyData(
             new Date(temp.datetime),
-            temp.tempvalue,
-            temp.intempvalue,
+            temp.temperature,
+            temp.insidetemperature,
             temp.feelslike,
             temp.dewpoint
           );
@@ -176,8 +177,8 @@ export class HalleyDataService {
           {
             temperatureRange(from: $from, to: $to) {
               datetime
-              tempvalue
-              intempvalue
+              temperature
+              insidetemperature
               feelslike
               dewpoint
             }          
@@ -197,8 +198,8 @@ export class HalleyDataService {
             for (let temp of data.temperatureRange) {
               const tempData = new TemperatureData().fromHalleyData(
                 new Date(temp.datetime),
-                temp.tempvalue,
-                temp.intempvalue,
+                temp.temperature,
+                temp.insidetemperature,
                 temp.feelslike,
                 temp.dewpoint
               );

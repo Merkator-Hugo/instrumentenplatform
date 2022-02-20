@@ -3,6 +3,7 @@ docker build -t halley .
 
 # Then run ...
 docker run --rm -it -p 8083:80 halley
+(terminate with ctrl+C)
 
 # ... and open it
 http://localhost:8083
@@ -11,7 +12,7 @@ http://localhost:8083
 # Find image-id
 docker image ls
 # Tag and push to docker hub
-docker build -f dockerfile-prod -t instrumentenplatform:<tag> .
+### docker build -f dockerfile-prod -t instrumentenplatform:<tag> . # niet nodig !?
 docker tag <image-id> hugozalm/instrumentenplatform:<tag>
 docker push hugozalm/instrumentenplatform:<tag>
 
