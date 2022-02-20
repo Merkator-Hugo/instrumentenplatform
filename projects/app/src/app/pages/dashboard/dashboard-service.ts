@@ -163,9 +163,13 @@ export class DashboardService {
     widgetInfos.push(this.tameteo.getForecast());
     widgetInfos.push(this.astronomy.getMoonData());
     let sun = this.astronomy.getSunData();
-    const value = (wd.sun.value != null) ? wd.sun.value : 0;
-    sun.values = [value];
-    sun.items[0] = { label: 'helderheid', tooltip: '', value: value.toString(), unit: '' };
+    const radiation = (wd.sun.radiation != null) ? wd.sun.radiation : 0;
+    const uvindex = (wd.sun.uvindex != null) ? wd.sun.uvindex : 0;
+    sun.values = [radiation];
+    sun.items = [
+        { label: 'straling', tooltip: '', value: radiation.toString(), unit: '' },
+        { label: 'uvindex', tooltip: '', value: uvindex.toString(), unit: '' }
+    ];
     widgetInfos.push(sun);
     this.widgetdataChanged.emit(widgetInfos);
   }

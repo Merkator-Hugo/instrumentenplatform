@@ -32,7 +32,7 @@ export class MockdataService {
           now,
           new AirData().fromMockData(nn.Date, Number(nn.DD), Number(nn.FF) / 10, Number(nn.P) / 10, Number(nn.U)),
           new PrecipitationData().fromMockData(nn.Date, Number(nn.RH) / 10),
-          new SunData().fromMockData(nn.Date, Number(nn.SQ) / 10),
+          new SunData().fromMockData(nn.Date, Number(nn.Q) / 10),
           new TemperatureData().fromMockData(nn.Date, Number(nn.T) / 10, Number(nn.TD) / 10),
           this.getCameraData(now)
         )

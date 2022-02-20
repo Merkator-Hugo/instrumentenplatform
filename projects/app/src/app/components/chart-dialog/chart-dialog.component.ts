@@ -214,8 +214,10 @@ export class ChartDialogComponent implements OnInit {
         let s1 = [];
         for (let s of ss) {
           const time: number = Number(s.datetime.getTime());
-          const value: number = s.value;
-          s0.push([time, value]);
+          const radiation: number = s.radiation;
+          const uvindex: number = s.uvindex;
+          s0.push([time, radiation]);
+          s1.push([time, uvindex]);
         }
         this.data = {
           chart: {
@@ -225,8 +227,12 @@ export class ChartDialogComponent implements OnInit {
           },
           series: [
             {
-              name: 'zonneschijn',
+              name: 'straling',
               data: s0
+            },
+            {
+              name: 'uvindex',
+              data: s1
             }
           ]
         };

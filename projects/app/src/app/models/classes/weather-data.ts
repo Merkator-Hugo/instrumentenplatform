@@ -43,9 +43,11 @@ export class WeatherData {
         return this;
     }
 
-    fromHalleyData(air: AirData, temperature: TemperatureData) {
+    fromHalleyData(air: AirData, temperature: TemperatureData, rain: PrecipitationData, sun: SunData) {
         this.air = air;
         this.temperature = temperature;
+        this.precipitation = rain;
+        this.sun = sun;
         return this;
     }
 
