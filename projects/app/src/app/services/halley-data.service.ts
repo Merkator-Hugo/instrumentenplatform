@@ -198,14 +198,15 @@ export class HalleyDataService {
   //     );
   // }
 
-  getTemperature(fromDate: Date, toDate: Date): Observable<TemperatureData[]> {
+  getTemperature(fromDate: Date, toDate: Date, interval: number): Observable<TemperatureData[]> {
     const obs: Observable<TemperatureData[]> = new Observable((observer) => {
       const FROM = fromDate.getTime();
       const TO = toDate.getTime();
+      const INTERVAL = interval;
       const QUERY = gql`
-        query getData($from: Date!, $to: Date!)
+        query getData($from: Date!, $to: Date!, $interval: Int)
           {
-            temperatureRange(from: $from, to: $to) {
+            temperatureRangeInterval(from: $from, to: $to, interval: $interval) {
               datetime
               temperature
               insidetemperature
@@ -219,13 +220,14 @@ export class HalleyDataService {
           variables: {
             from: FROM,
             to: TO,
+            interval: INTERVAL
           },
         })
         .subscribe(
           ({ data, loading }) => {
             let d = data;
             let tempRangeData: TemperatureData[] = [];
-            for (let temp of data.temperatureRange) {
+            for (let temp of data.temperatureRangeInterval) {
               const tempData = new TemperatureData().fromHalleyData(
                 new Date(temp.datetime),
                 temp.temperature,
@@ -241,14 +243,15 @@ export class HalleyDataService {
     return obs;
   }
 
-  getAir(fromDate: Date, toDate: Date): Observable<AirData[]> {
+  getAir(fromDate: Date, toDate: Date, interval: number): Observable<AirData[]> {
     const obs: Observable<AirData[]> = new Observable((observer) => {
       const FROM = fromDate.getTime();
       const TO = toDate.getTime();
+      const INTERVAL = interval;
       const QUERY = gql`
-        query getData($from: Date!, $to: Date!)
+        query getData($from: Date!, $to: Date!, $interval: Int)
           {
-            airRange(from: $from, to: $to) {
+            airRangeInterval(from: $from, to: $to, interval: $interval) {
               datetime
               humidity
               pressure
@@ -264,13 +267,14 @@ export class HalleyDataService {
           variables: {
             from: FROM,
             to: TO,
+            interval: INTERVAL
           },
         })
         .subscribe(
           ({ data, loading }) => {
             let d = data;
             let airRangeData: AirData[] = [];
-            for (let air of data.airRange) {
+            for (let air of data.airRangeInterval) {
               const airData = new AirData().fromHalleyData(
                 new Date(air.datetime),
                 air.humidity,
@@ -288,14 +292,15 @@ export class HalleyDataService {
     return obs;
   }
 
-  getPrecipitation(fromDate: Date, toDate: Date): Observable<PrecipitationData[]> {
+  getPrecipitation(fromDate: Date, toDate: Date, interval: number): Observable<PrecipitationData[]> {
     const obs: Observable<PrecipitationData[]> = new Observable((observer) => {
       const FROM = fromDate.getTime();
       const TO = toDate.getTime();
+      const INTERVAL = interval;
       const QUERY = gql`
-        query getData($from: Date!, $to: Date!)
+        query getData($from: Date!, $to: Date!, $interval: Int)
           {
-            precipitationRange(from: $from, to: $to) {
+            rainRangeInterval(from: $from, to: $to, interval: $interval) {
               datetime
               rate
             }     
@@ -306,13 +311,14 @@ export class HalleyDataService {
           variables: {
             from: FROM,
             to: TO,
+            interval: INTERVAL
           },
         })
         .subscribe(
           ({ data, loading }) => {
             let d = data;
             let precipitationRangeData: PrecipitationData[] = [];
-            for (let precipitation of data.precipitationRange) {
+            for (let precipitation of data.rainRangeInterval) {
               const precipitationData = new PrecipitationData().fromHalleyData(
                 new Date(precipitation.datetime),
                 precipitation.rate
@@ -325,14 +331,15 @@ export class HalleyDataService {
     return obs;
   }
 
-  getSun(fromDate: Date, toDate: Date): Observable<SunData[]> {
+  getSun(fromDate: Date, toDate: Date, interval: number): Observable<SunData[]> {
     const obs: Observable<SunData[]> = new Observable((observer) => {
       const FROM = fromDate.getTime();
       const TO = toDate.getTime();
+      const INTERVAL = interval;
       const QUERY = gql`
-        query getData($from: Date!, $to: Date!)
+        query getData($from: Date!, $to: Date!, $interval: Int)
           {
-            sunRange(from: $from, to: $to) {
+            sunRangeInterval(from: $from, to: $to, interval: $interval) {
               datetime
               radiation
               uvindex
@@ -344,13 +351,14 @@ export class HalleyDataService {
           variables: {
             from: FROM,
             to: TO,
+            interval: INTERVAL
           },
         })
         .subscribe(
           ({ data, loading }) => {
             let d = data;
             let sunRangeData: SunData[] = [];
-            for (let sun of data.sunRange) {
+            for (let sun of data.sunRangeInterval) {
               const sunData = new SunData().fromHalleyData(
                 new Date(sun.datetime),
                 sun.radiation,

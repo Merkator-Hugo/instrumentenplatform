@@ -1,7 +1,7 @@
 <div class="buttons" id="chartButtons">
   <span>Periode: </span>
-  <mat-button-toggle-group name="timespan" aria-label="chart timespan">
-    <mat-button-toggle value="selectedTimespan" *ngFor="let timespan of timespans" (click)="selectTimespan(timespan)">
+  <mat-button-toggle-group name="timespan" aria-label="chart timespan" [value]="selectedTimespan">
+    <mat-button-toggle value="timespan" *ngFor="let timespan of timespans" (click)="selectTimespan(timespan)">
       {{timespan}}
     </mat-button-toggle>
   </mat-button-toggle-group>
@@ -11,6 +11,7 @@
       {{chart.label}}
     </mat-button-toggle>
   </mat-button-toggle-group>
+  <app-loading-bar></app-loading-bar>
 </div>
 
 <div *ngIf="dataLoaded">

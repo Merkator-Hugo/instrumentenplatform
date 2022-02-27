@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ChartData } from '../../models/interfaces';
 import { TimeSpan } from '../../models/enums';
+import { UtilService } from '../../services/utils.service';
 
 import {
   ChartComponent,
@@ -45,6 +46,14 @@ export type ChartOptions = {
   theme?: ApexTheme;
 };
 
+export interface Grid {
+  y: {
+    min: number;
+    max: number;
+    interval: number;
+  }
+}
+
 @Component({
   selector: 'app-line-chart',
   templateUrl: './line-chart.component.html',
@@ -57,12 +66,13 @@ export class LineChartComponent implements OnInit {
   @Input() selection: TimeSpan;
   public chartOptions: ChartOptions;
 
-  constructor() { }
+  constructor(private utils: UtilService) { }
 
   ngOnInit(): void {
     const buttonsHeight = document.getElementById('chartButtons').clientHeight;
     const dialogHeight = document.getElementsByClassName('mat-dialog-container')[0].clientHeight;
     const height = dialogHeight - buttonsHeight - (2 * 37);
+    let grid: Grid = this.initGrid(this.data.series);
     this.chartOptions = {
       series: this.data.series,
       chart: {
@@ -71,7 +81,7 @@ export class LineChartComponent implements OnInit {
         width: this.data.chart.width,
         height: height,
         zoom: {
-          autoScaleYaxis: true,
+          autoScaleYaxis: false,
         },
       },
       dataLabels: {
@@ -86,17 +96,48 @@ export class LineChartComponent implements OnInit {
           format: 'dd MMM yyyy',
         },
       },
+      yaxis: {
+        show: true,
+        min: grid.y.min,
+        max: grid.y.max,
+        // min: function(min) { return this.utils.charts.axis.min(min,5) },
+        // max: function(max) { return this.utils.charts.axis.max(max,5) },
+        tickAmount: grid.y.interval
+        // labels: {
+        //   formatter: function(val, index) {
+        //     let label = (val%5 === 0) ? val.toFixed(0) : "";
+        //     return label;
+        //   }
+        // }
+      },
       fill: {
-        type: 'gradient',
-        gradient: {
-          shadeIntensity: 1,
-          opacityFrom: 0.7,
-          opacityTo: 0.9,
-          stops: [0, 100],
-        },
+        type: 'solid',
+        // gradient: {
+        //   shadeIntensity: 1,
+        //   opacityFrom: 0.7,
+        //   opacityTo: 0.9,
+        //   stops: [0, 100],
+        // },
       },
     };
     if(this.data.yaxis) {
+      // if(Array.isArray(this.data.yaxis)) {
+      //   this.data.yaxis.forEach((y) => {
+      //     y.labels = {
+      //       formatter: function(val, index) {
+      //         let label = (val%3 === 0) ? val.toFixed(0) : "";
+      //         return label;
+      //       }
+      //     }
+      //   })
+      // } else {
+      //   this.data.yaxis.labels = {
+      //     formatter: function(val, index) {
+      //       let label = (val%5 === 0) ? val.toFixed(0) : "";
+      //       return label;
+      //     }
+      //   }
+      // }
       this.chartOptions.yaxis = this.data.yaxis;
     }
   }
@@ -130,6 +171,22 @@ export class LineChartComponent implements OnInit {
         );
         break;
     }
+  }
+
+  private initGrid(series): Grid {
+    let maxArray = [];
+    let minArray = [];
+    series.forEach((serie) => {
+      const minmax = this.utils.math.minmax(serie.data);
+      maxArray.push(minmax.max);
+      minArray.push(minmax.min);
+    })
+    const max = Math.max(...maxArray);
+    const min = Math.min(...minArray);
+    let grid = {
+      y: this.utils.charts.axis(min, max, 5)
+    };
+    return grid;
   }
 
 }

@@ -60,13 +60,13 @@ export class DataService {
     });
   }
 
-  getAir(fromDate: Date, toDate: Date): Observable<AirData[]> {
+  getAir(fromDate: Date, toDate: Date, interval: number): Observable<AirData[]> {
     if(this.stateData.demo) {
       return this.mockdata.getAir(fromDate, toDate).pipe(
         map((t) => t)
       )
     } else {
-      return this.halleydata.getAir(fromDate, toDate).pipe(
+      return this.halleydata.getAir(fromDate, toDate, interval).pipe(
         map((t) => {
           return t;
         })
@@ -74,13 +74,13 @@ export class DataService {
     }
   }
 
-  getPrecipitation(fromDate: Date, toDate: Date): Observable<PrecipitationData[]> {
+  getPrecipitation(fromDate: Date, toDate: Date, interval: number): Observable<PrecipitationData[]> {
     if(this.stateData.demo) {
       return this.mockdata.getPrecipitation(fromDate, toDate).pipe(
         map((t) => t)
       )
     } else {
-      return this.halleydata.getPrecipitation(fromDate, toDate).pipe(
+      return this.halleydata.getPrecipitation(fromDate, toDate, interval).pipe(
         map((t) => {
           return t;
         })
@@ -88,13 +88,13 @@ export class DataService {
     }
   }
 
-  getSun(fromDate: Date, toDate: Date): Observable<SunData[]> {
+  getSun(fromDate: Date, toDate: Date, interval: number): Observable<SunData[]> {
     if(this.stateData.demo) {
       return this.mockdata.getSun(fromDate, toDate).pipe(
         map((t) => t)
       )
     } else {
-      return this.halleydata.getSun(fromDate, toDate).pipe(
+      return this.halleydata.getSun(fromDate, toDate, interval).pipe(
         map((t) => {
           return t;
         })
@@ -102,13 +102,13 @@ export class DataService {
     }
   }
 
-  getTemperature(fromDate: Date, toDate: Date): Observable<TemperatureData[]> {
+  getTemperature(fromDate: Date, toDate: Date, interval: number): Observable<TemperatureData[]> {
     if(this.stateData.demo) {
       return this.mockdata.getTemperature(fromDate, toDate).pipe(
         map((t) => t)
       )
     } else {
-      return this.halleydata.getTemperature(fromDate, toDate).pipe(
+      return this.halleydata.getTemperature(fromDate, toDate, interval).pipe(
         map((t) => {
           return t;
         })

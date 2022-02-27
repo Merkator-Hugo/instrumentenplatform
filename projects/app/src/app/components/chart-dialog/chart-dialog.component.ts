@@ -33,7 +33,15 @@ export class ChartDialogComponent implements OnInit {
     public loading: LoadingService,
     private snackbar: MatSnackBar,
     private dataService: DataService,
-    private time: TimeService) { }
+    private time: TimeService) {
+      this.timespans = [
+        TimeSpan.DAY,
+        TimeSpan.WEEK,
+        TimeSpan.MONTH,
+        TimeSpan.YEAR,
+      ];
+      this.selectedTimespan = TimeSpan.WEEK;
+    }
 
   ngOnInit(): void {
     this.dataLoaded = false;
@@ -41,13 +49,13 @@ export class ChartDialogComponent implements OnInit {
       width: window.innerWidth,
       height: window.innerHeight
     };
-    this.timespans = [
-      TimeSpan.DAY,
-      TimeSpan.WEEK,
-      TimeSpan.MONTH,
-      TimeSpan.YEAR,
-    ];
-    this.selectedTimespan = TimeSpan.WEEK;
+    // this.timespans = [
+    //   TimeSpan.DAY,
+    //   TimeSpan.WEEK,
+    //   TimeSpan.MONTH,
+    //   TimeSpan.YEAR,
+    // ];
+    // this.selectedTimespan = TimeSpan.WEEK;
     this.selectedChart = this.chartsInfo[0];
     this.getData();
   }
@@ -66,43 +74,48 @@ export class ChartDialogComponent implements OnInit {
     this.loading.setLoadingStatus(true);
     let to = this.time.getNow();
     let from;
+    let interval;
     switch (this.selectedTimespan) {
       case TimeSpan.YEAR:
         from = new Date(to.getFullYear() - 1, to.getMonth(), to.getDate(), to.getHours(), to.getMinutes(), to.getSeconds());
+        interval = 59;
         break;
       case TimeSpan.MONTH:
         from = new Date(to.getFullYear(), to.getMonth() - 1, to.getDate(), to.getHours(), to.getMinutes(), to.getSeconds());
+        interval = 30;
         break;
       case TimeSpan.WEEK:
         from = new Date(to.getFullYear(), to.getMonth(), to.getDate() - 7, to.getHours(), to.getMinutes(), to.getSeconds());
+        interval = 10;
         break;
       case TimeSpan.DAY:
       default:
         from = new Date(to.getFullYear(), to.getMonth(), to.getDate() - 1, to.getHours(), to.getMinutes(), to.getSeconds());
+        interval = 5;
         break;
     }
     switch (this.selectedChart.datatype) {
       case DataType.AIR:
-        this.processAir(from, to);
+        this.processAir(from, to, interval);
         break;
       case DataType.PRECIPITATION:
-        this.processPrecipitation(from, to);
+        this.processPrecipitation(from, to, interval);
         break;
       case DataType.SUN:
-        this.processSun(from, to);
+        this.processSun(from, to, interval);
         break;
       case DataType.TEMPERATURE:
-        this.processTemperature(from, to);
+        this.processTemperature(from, to, interval);
         break;
       case DataType.WIND:
-        this.processWind(from, to);
+        this.processWind(from, to, interval);
         break;
       }
 
   }
 
-  private processAir(from: Date, to: Date) {
-    this.dataService.getAir(from, to).subscribe(
+  private processAir(from: Date, to: Date, interval: number) {
+    this.dataService.getAir(from, to, interval).subscribe(
       (as) => {
         if (as.length < 1) {
           this.loading.setLoadingStatus(false);
@@ -163,8 +176,8 @@ export class ChartDialogComponent implements OnInit {
     );
   }
 
-  private processPrecipitation(from: Date, to: Date) {
-    this.dataService.getPrecipitation(from, to).subscribe(
+  private processPrecipitation(from: Date, to: Date, interval: number) {
+    this.dataService.getPrecipitation(from, to, interval).subscribe(
       (ps) => {
         if (ps.length < 1) {
           this.loading.setLoadingStatus(false);
@@ -203,8 +216,8 @@ export class ChartDialogComponent implements OnInit {
     );
   }
 
-  private processSun(from: Date, to: Date) {
-    this.dataService.getSun(from, to).subscribe(
+  private processSun(from: Date, to: Date, interval: number) {
+    this.dataService.getSun(from, to, interval).subscribe(
       (ss) => {
         if (ss.length < 1) {
           this.loading.setLoadingStatus(false);
@@ -250,8 +263,8 @@ export class ChartDialogComponent implements OnInit {
     );
   }
 
-  private processTemperature(from: Date, to: Date) {
-    this.dataService.getTemperature(from, to).subscribe(
+  private processTemperature(from: Date, to: Date, interval: number) {
+    this.dataService.getTemperature(from, to, interval).subscribe(
       (ts) => {
         if (ts.length < 1) {
           this.loading.setLoadingStatus(false);
@@ -304,8 +317,8 @@ export class ChartDialogComponent implements OnInit {
     );
   }
 
-  private processWind(from: Date, to: Date) {
-    this.dataService.getAir(from, to).subscribe(
+  private processWind(from: Date, to: Date, interval: number) {
+    this.dataService.getAir(from, to, interval).subscribe(
       (as) => {
         if (as.length < 1) {
           this.loading.setLoadingStatus(false);
