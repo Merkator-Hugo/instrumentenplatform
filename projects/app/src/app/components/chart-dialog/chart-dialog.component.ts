@@ -4,6 +4,15 @@ import { ChartData, ChartInfo } from '../../models/interfaces';
 import { DataType, TimeSpan } from '../../models/enums';
 import { DataService, LoadingService, SettingsService, TimeService } from '../../services/services';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UtilService } from '../../services/utils.service';
+
+export interface Grid {
+  y: {
+    min: number;
+    max: number;
+    interval: number;
+  }
+}
 
 @Component({
   selector: 'app-chart-dialog',
@@ -33,6 +42,7 @@ export class ChartDialogComponent implements OnInit {
     public loading: LoadingService,
     private snackbar: MatSnackBar,
     private dataService: DataService,
+    private utils: UtilService,
     private time: TimeService) {
       this.timespans = [
         TimeSpan.DAY,
@@ -130,6 +140,8 @@ export class ChartDialogComponent implements OnInit {
           s0.push([time, pressure]);
           s1.push([time, humidity]);
         }
+        let grid1: Grid = this.initGrid([s0]);
+        let grid2: Grid = this.initGrid([s1]);
         this.data = {
           chart: {
             width: '100%', // this.screen.width - (this.settings.getMargins().left + this.settings.getMargins().right),
@@ -138,13 +150,20 @@ export class ChartDialogComponent implements OnInit {
           },
           yaxis: [
             {
-              min: 800,
-              max: 1200,
+              // min: 800,
+              // max: 1200,
+              // tickAmount: 4,
+              min: grid1.y.min,
+              max: grid1.y.max,
+              tickAmount: grid1.y.interval,
               title: {
                 text: "luchtdruk (hPa)"
               },
             },
             {
+              min: grid2.y.min,
+              max: grid2.y.max,
+              tickAmount: grid2.y.interval,
               opposite: true,
               title: {
                 text: "luchtvochtigheid (%)"
@@ -195,6 +214,13 @@ export class ChartDialogComponent implements OnInit {
             height: '100%', // this.screen.height - (this.settings.getMargins().top + this.settings.getMargins().bottom),
             type: null,
           },
+          yaxis: [
+            {
+              title: {
+                text: "neerslag"
+              },
+            }
+          ],
           series: [
             {
               name: 'neerslag',
@@ -232,12 +258,33 @@ export class ChartDialogComponent implements OnInit {
           s0.push([time, radiation]);
           s1.push([time, uvindex]);
         }
+        let grid1: Grid = this.initGrid([s0]);
+        let grid2: Grid = this.initGrid([s1]);
         this.data = {
           chart: {
             width: '100%', // this.screen.width - (this.settings.getMargins().left + this.settings.getMargins().right),
             height: '100%', // this.screen.height - (this.settings.getMargins().top + this.settings.getMargins().bottom),
             type: null,
           },
+          yaxis: [
+            {
+              min: grid1.y.min,
+              max: grid1.y.max,
+              tickAmount: grid1.y.interval,
+              title: {
+                text: "straling"
+              },
+            },
+            {
+              min: grid2.y.min,
+              max: grid2.y.max,
+              tickAmount: grid2.y.interval,
+              opposite: true,
+              title: {
+                text: "uvindex"
+              }
+            }
+          ],
           series: [
             {
               name: 'straling',
@@ -282,12 +329,23 @@ export class ChartDialogComponent implements OnInit {
           s1.push([time, dauw]);
           s2.push([time, binnen]);
         }
+        let grid: Grid = this.initGrid([s0, s1, s2]);
         this.data = {
           chart: {
             width: '100%', // this.screen.width - (this.settings.getMargins().left + this.settings.getMargins().right),
             height: '100%', // this.screen.height - (this.settings.getMargins().top + this.settings.getMargins().bottom),
             type: null,
           },
+          yaxis: [
+            {
+              min: grid.y.min,
+              max: grid.y.max,
+              tickAmount: grid.y.interval,
+              title: {
+                text: "temperatuur"
+              },
+            }
+          ],
           series: [
             {
               name: 'werkelijk',
@@ -424,6 +482,22 @@ export class ChartDialogComponent implements OnInit {
         this.snackbar.open(this.NODATA, '', { duration: 3000, panelClass: 'warn' });
       }
     );
+  }
+
+  private initGrid(series): Grid {
+    let maxArray = [];
+    let minArray = [];
+    for (let serie of series) {
+      const minmax = this.utils.math.minmax(serie);
+      maxArray.push(minmax.max);
+      minArray.push(minmax.min);
+    }
+    const max = Math.max(...maxArray);
+    const min = Math.min(...minArray);
+    let grid = {
+      y: this.utils.charts.axis(min, max)
+    };
+    return grid;
   }
 
 }

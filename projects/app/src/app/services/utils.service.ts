@@ -6,10 +6,37 @@ import { Injectable } from '@angular/core';
 export class UtilService {
 
   charts = {
-    axis: (minIn: number, maxIn: number, intervalIn: number): { min: number, max: number, interval: number } => {
+    interval: (minIn: number, maxIn: number): number => {
+      const range = Math.abs(minIn - maxIn);
+      let interval = 0.1;
+      if (range <= 0.5) {
+        interval = 0.1;
+      } else if (range <= 1) {
+        interval = 0.2;
+      } else if (range <= 2.5 ) {
+        interval = 0.5;
+      } else if (range <= 5) {
+        interval = 1;
+      } else if (range <= 10 ) {
+        interval = 2;
+      } else if (range <= 25 ) {
+        interval = 5;
+      } else if (range <= 50 ) {
+        interval = 10;
+      } else if (range <= 100 ) {
+        interval = 20;
+      } else if (range <= 250 ) {
+        interval = 50;
+      } else if (range > 500 ) {
+        interval = 100;
+      }
+      return interval;
+    },
+    axis: (minIn: number, maxIn: number): { min: number, max: number, interval: number } => {
+      const intervalIn = this.charts.interval(minIn, maxIn);
       const max = Math.ceil(maxIn / intervalIn) * intervalIn;
       const min = Math.floor(minIn / intervalIn) * intervalIn;
-      const interval = (Math.abs(min) + Math.abs(max)) / intervalIn;
+      const interval = Math.abs(min - max) / intervalIn;
       return {
         min: min,
         max: max,
