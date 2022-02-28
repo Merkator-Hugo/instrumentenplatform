@@ -32,6 +32,10 @@
           <!-- {{title}} -->
         </span>
         <span>
+          BETA-versie
+          <button class="toolbarbutton" (click)="showDisclaimer()">Disclaimer</button>
+        </span>
+        <span>
           <span *ngIf="!demo">
             <mat-icon *ngIf="connection.status !== 'OK'" fontIcon="{{icons.nowifi}}" aria-hidden="true"
             (click)="openSnackBar(connection)"></mat-icon>

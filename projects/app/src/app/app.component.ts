@@ -6,6 +6,8 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { IconType } from './models/enums';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { InfoDialogComponent } from './components/components';
 
 @Component({
   selector: 'app-root',
@@ -33,7 +35,7 @@ export class AppComponent implements OnInit {
     private translate: TranslateService,
     public settings: SettingsService,
     private time: TimeService,
-    private tameteo: TameteoService) {
+    public dialog: MatDialog) {
       this.matIconRegistry.setDefaultFontSetClass(IconType.SOLID);
       this.registerIcons();
     }
@@ -78,6 +80,14 @@ export class AppComponent implements OnInit {
         duration: 3000,
         verticalPosition: 'top'
       });
+  }
+
+  showDisclaimer() {
+    this.dialog.open(InfoDialogComponent, {
+      data: {
+        url: 'assets/info/disclaimer.html'
+      }
+    });
   }
 
   // getWeer() {
