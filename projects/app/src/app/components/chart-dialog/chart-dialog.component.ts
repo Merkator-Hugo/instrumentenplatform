@@ -150,9 +150,6 @@ export class ChartDialogComponent implements OnInit {
           },
           yaxis: [
             {
-              // min: 800,
-              // max: 1200,
-              // tickAmount: 4,
               min: grid1.y.min,
               max: grid1.y.max,
               tickAmount: grid1.y.interval,
@@ -161,6 +158,8 @@ export class ChartDialogComponent implements OnInit {
               },
             },
             {
+              show: true,
+              showForNullSeries: false,
               min: grid2.y.min,
               max: grid2.y.max,
               tickAmount: grid2.y.interval,
@@ -338,11 +337,12 @@ export class ChartDialogComponent implements OnInit {
           },
           yaxis: [
             {
+              show: true,
               min: grid.y.min,
               max: grid.y.max,
               tickAmount: grid.y.interval,
               title: {
-                text: "temperatuur"
+                text: "temperatuur (°C)"
               },
             }
           ],
