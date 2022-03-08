@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  serverUri: 'http://10.0.10.13:4000/graphql'
+  serverUri: '/graphql'
 };
 
 /*
